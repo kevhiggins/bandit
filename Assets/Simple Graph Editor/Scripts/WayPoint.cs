@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 
 [ExecuteInEditMode]
 
@@ -112,7 +113,12 @@ public class WayPoint : MonoBehaviour {
 	}
 
 	public virtual void OnDrawGizmosSelected() {
-		Gizmos.color = Color.yellow;
+	    if (!Selection.Contains(transform.gameObject))
+	    {
+	        return;
+	    }
+
+        Gizmos.color = Color.yellow;
 		Gizmos.DrawCube(transform.position, new Vector3(1.5f,1.5f,1.5f));
 		for (int i = 0; i < outs.Count; ++i) {
 			Vector3 direction = outs[i].waypoint.transform.position-transform.position;
