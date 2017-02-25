@@ -118,7 +118,11 @@ public class WaypointClusterEditor : Editor {
 	*	The cluster object is referenced in the waypoint.
 	*/
 	private WayPoint createPoint(RaycastHit hitinfo) {
-		if (clusterobject.cluster == null) clusterobject.cluster = new GameObject("Waypoint Cluster");
+	    if (clusterobject.cluster == null)
+	    {
+	        clusterobject.cluster = clusterobject.gameObject;
+	    }
+
 		GameObject waypointAux;
 		Undo.RecordObject(clusterobject, "Created waypoint");
 		waypointAux = Resources.Load("Waypoint")  as GameObject;
