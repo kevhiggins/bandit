@@ -22,23 +22,23 @@ class WaypointEditor : Editor {
 		if(GUILayout.Button("Same probabilities for all edges")) waypoint.setSame();
 		DrawDefaultInspector ();
 
-        if (Event.current.type == EventType.keyDown && Event.current.keyCode == KeyCode.Delete) handleDestruction();
-    }
+		if (Event.current.type == EventType.keyDown && Event.current.keyCode == KeyCode.Delete) handleDestruction();
+	}
 
-    void OnSceneGUI()
-    {
-        
-        if (Event.current.type == EventType.keyDown && Event.current.keyCode == KeyCode.Delete) handleDestruction();
-    }
+	void OnSceneGUI()
+	{
+		
+		if (Event.current.type == EventType.keyDown && Event.current.keyCode == KeyCode.Delete) handleDestruction();
+	}
 
-    /*	Destruction handling code.
+	/*	Destruction handling code.
 	*	For each linked waypoint in any way
 	*		Its state is saved to be able to undo.
 	*		The link is removed.
 	*	The reference at the cluster it pertains is removed.
 	*	Then the current waypoint is destroyed and won't leave null references.
 	*/
-    private void handleDestruction() {
+	private void handleDestruction() {
 		Event.current.Use();
 		for (int i = 0; i < waypoint.outs.Count; ++i) {
 			Undo.RecordObject(waypoint.outs[i].waypoint, "destroyed");
