@@ -16,7 +16,7 @@ namespace Bandit
 
 
         private Town[] towns;
-        private List<Route> routes;
+        private List<Merchant> activeMerchants;
         private int score = 0;
 
         void Awake()
@@ -35,44 +35,28 @@ namespace Bandit
 
         void Update()
         {
-            var endedRoutes = new List<Route>();
-            foreach (var route in routes)
-            {
-                route.Update();
-                if (route.HasReachedDestination())
-                {
-                    endedRoutes.Add(route);
-                }
-            }
-
-            foreach (var endedRoute in endedRoutes)
-            {
-                Destroy(endedRoute.GetMerchant().gameObject);
-                routes.Remove(endedRoute);
-            }
-
             if (Input.GetMouseButtonDown(0))
             {
+                var scoredMerchants = new List<Merchant>();
                 var mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-                var scoredRoutes = new List<Route>();
 
-                foreach (var route in routes)
+                foreach (var activeMerchant in activeMerchants)
                 {
-
-                    var merchantSpriteRenderer = route.GetMerchant().GetComponent<SpriteRenderer>();
-
+                    var merchantSpriteRenderer = activeMerchant.GetComponent<SpriteRenderer>();
+                    
                     if (merchantSpriteRenderer.bounds.IntersectRay(mouseRay))
                     {
-                        scoredRoutes.Add(route);
-                    }
+                        scoredMerchants.Add(activeMerchant);
+                    }       
                 }
 
-                foreach (var scoredRoute in scoredRoutes)
+                foreach (var scoredMerchant in scoredMerchants)
                 {
-                    Destroy(scoredRoute.GetMerchant().gameObject);
-                    routes.Remove(scoredRoute);
+                    activeMerchants.Remove(scoredMerchant);
                     score += 10;
+                    Destroy(scoredMerchant.gameObject);
                 }
+
             }
 
             scoreText.text = score.ToString();
@@ -94,7 +78,7 @@ namespace Bandit
 
         void InitGame()
         {
-            routes = new List<Route>();
+            activeMerchants = new List<Merchant>();
             towns = FindObjectsOfType<Town>();
 
             // TODO use a coroutine instead
@@ -106,23 +90,30 @@ namespace Bandit
 
         void SpawnMerchants()
         {
-            var index = 0;
             foreach (var town in towns)
             {
                 var townPosition = town.transform.position;
-
-                // Create a map of merchants with their vectors and target city
+                var townWaypoint = town.gameObject.GetComponent<WayPoint>();
 
                 var merchantInstance = Instantiate(merchantGameObject, townPosition, Quaternion.identity);
                 var merchant = merchantInstance.GetComponent<Merchant>();
+                var merchantWaypoint = merchantInstance.GetComponent<WaypointTraverser>();
+                merchantWaypoint.target = townWaypoint;
 
-                var destinationTown = towns[(index + 1)%towns.Length];
-                var route = new Route(merchant, destinationTown);
+                // When a merchant reaches a new town, despawn them.
+                merchant.OnTownReached += (successfulMerchant, endTown) =>
+                {;
+                    activeMerchants.Remove(successfulMerchant);
+                    Destroy(successfulMerchant.gameObject);
+                };
 
-                routes.Add(route);
-
-                index++;
+                activeMerchants.Add(merchant);
             }
+        }
+
+        public Town[] GetTowns()
+        {
+            return towns;
         }
     }
 }

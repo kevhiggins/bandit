@@ -23,7 +23,7 @@ namespace Bandit
 
         public void Update()
         {
-            merchant.transform.position += direction*merchant.speed;
+//            merchant.transform.position += direction*merchant.speed;
         }
 
         public bool HasReachedDestination()
