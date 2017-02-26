@@ -89,24 +89,13 @@ public class WayPoint : MonoBehaviour {
 		this.color = color;
 	}
 
-	private static void ForGizmo(Vector3 pos, Vector3 direction, Color c, float arrowHeadLength = 0.25f, float arrowHeadAngle = 20.0f) {
-		Gizmos.color = c;
-		Gizmos.DrawRay(pos, direction);
-
-        Vector3 right = Quaternion.LookRotation(direction) * Quaternion.Euler(180 + arrowHeadAngle, 0, 0) * new Vector3(0,0,1);
-        Vector3 left = Quaternion.LookRotation(direction) * Quaternion.Euler(180 - arrowHeadAngle, 0, 0) * new Vector3(0,0,1);
-
-        Gizmos.DrawRay(pos + direction, right * arrowHeadLength);
-		Gizmos.DrawRay(pos + direction, left * arrowHeadLength);
-	}
-
 	public virtual void OnDrawGizmos() {
 		
 		Gizmos.color = color;
 		Gizmos.DrawCube(transform.position, new Vector3(1.5f,1.5f,1.5f));
 		for (int i = 0; i < outs.Count; ++i) {
 			Vector3 direction = outs[i].waypoint.transform.position -transform.position;
-			ForGizmo(transform.position+direction.normalized, direction -direction.normalized*2f, Color.red, 2f);
+            DrawArrow.ForGizmo(transform.position + direction.normalized, direction - direction.normalized * 2f, Color.red);
 		}
 		
 		if (color.Equals(Color.green) || color.Equals(Color.white)) color = mainColor();
@@ -122,7 +111,8 @@ public class WayPoint : MonoBehaviour {
 		Gizmos.DrawCube(transform.position, new Vector3(1.5f,1.5f,1.5f));
 		for (int i = 0; i < outs.Count; ++i) {
 			Vector3 direction = outs[i].waypoint.transform.position-transform.position;
-			ForGizmo(transform.position+direction.normalized, direction -direction.normalized*2f, Color.magenta, 2f);
+//			ForGizmo(transform.position+direction.normalized, direction -direction.normalized*2f, Color.magenta);
+            DrawArrow.ForGizmo(transform.position + direction.normalized, direction - direction.normalized * 2f, Color.magenta);
 		}
 		
 		//Gizmos.color = Color.green;
