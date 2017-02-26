@@ -81,6 +81,9 @@ public class WaypointClusterEditor : Editor
 
     void OnSceneGUI()
     {
+        // Clear the previously calculated mouseRayHit, since it's a new "frame".
+        mouseRayHit.Clear();
+
         Event current = Event.current;
         //note: current.button == 0 works only the frame you press it.
         if (state != EditingState.None)
@@ -155,11 +158,11 @@ public class WaypointClusterEditor : Editor
 	*/
 
     private WayPoint CreatePoint(Vector3 point)
-    {
+    {       
         if (clusterobject.cluster == null)
         {
             clusterobject.cluster = clusterobject.gameObject;
-        }
+        }       
 
         GameObject waypointAux;
         Undo.RecordObject(clusterobject, "Created waypoint");
@@ -181,10 +184,24 @@ public class WaypointClusterEditor : Editor
 
     private void CreateLink(Vector3 point)
     {
+        Debug.Log(waypointClicked);
+        Debug.Log(waypointDestiny);
+
+        // If we started by clicking a waypoint, and the end mouse position on release was a different waypoint, then link them together.
         if (waypointClicked != null && waypointDestiny != null && waypointClicked != waypointDestiny)
-            link(waypointClicked, waypointDestiny);
-        else if (waypointClicked != null && waypointDestiny == null) link(waypointClicked, CreatePoint(point));
-        else if (waypointClicked == null && waypointDestiny == null) CreatePoint(point);
+        {
+            Link(waypointClicked, waypointDestiny);
+        }
+        // If we started by clicking a waypoint, and did not select another waypoint to link, then create a new waypoint instead.
+        else if (waypointClicked != null && waypointDestiny == null)
+        {
+            Link(waypointClicked, CreatePoint(point));
+        }
+        // If we did not click an initial waypoint, and there is not destination waypoint, then create a new waypoint.
+        else if (waypointClicked == null && waypointDestiny == null)
+        {
+            CreatePoint(point);
+        }
     }
 
     /**	a)Removes a link between two existing waypoints.
@@ -198,7 +215,7 @@ public class WaypointClusterEditor : Editor
 
     /* Creates a link between source and destiny */
 
-    private static void link(WayPoint source, WayPoint destiny)
+    private static void Link(WayPoint source, WayPoint destiny)
     {
         Undo.RecordObject(source, "waypointadd");
         Undo.RecordObject(destiny, "waypointadd");
@@ -274,6 +291,10 @@ public class WaypointClusterEditor : Editor
                         (state == EditingState.Adding ? Color.red : Color.blue));
                 }
             }
+        }
+        else
+        {
+            waypointDestiny = null;
         }
     }
 }
