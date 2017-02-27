@@ -93,7 +93,7 @@ namespace Bandit
             foreach (var town in towns)
             {
                 var townPosition = town.transform.position;
-                var townWaypoint = town.gameObject.GetComponent<WayPoint>();
+                var townWaypoint = town.gameObject.transform.parent.gameObject.GetComponent<WayPoint>();
 
                 var merchantInstance = Instantiate(merchantGameObject, townPosition, Quaternion.identity);
                 var merchant = merchantInstance.GetComponent<Merchant>();
