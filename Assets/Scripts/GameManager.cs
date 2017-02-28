@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Bandit.Graph;
 using MapEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,12 +13,16 @@ namespace Bandit
 
         public GameObject merchantGameObject;
         public GameObject scoreBoard;
+        public Material lineMaterial;
+
         private Text scoreText;
 
 
         private Town[] towns;
         private List<Merchant> activeMerchants;
         private int score = 0;
+        private WaypointGraph graph;
+
 
         void Awake()
         {
@@ -86,6 +91,15 @@ namespace Bandit
 
             var scoreBoardInstance = Instantiate(scoreBoard);
             scoreText = FindChildByName(scoreBoardInstance, "Score").GetComponent<Text>();
+
+            // Get a single waypoint, and create a waypoint graph.
+
+            var startWaypoint = FindObjectOfType<WayPoint>();
+            graph = new WaypointGraph(startWaypoint);
+
+            var graphIllustration = new GameObject("GraphIllustration");
+            var illustrator = graphIllustration.AddComponent<GraphIllustrator>();
+            illustrator.Draw(graph, startWaypoint, lineMaterial);
         }
 
         void SpawnMerchants()

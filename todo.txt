@@ -1,0 +1,7 @@
+Add more nodes between existing nodes
+Draw brown lines between nodes in game view
+Draw red circle where nodes are
+Add bandit to a starting node
+leverage A* to move bandit on node click
+If bandit intersects a merchant, then eat the merchant and increase score.
+Remove ability to click merchants to increase score.
