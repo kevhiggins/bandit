@@ -97,8 +97,8 @@ namespace Bandit
             var startWaypoint = FindObjectOfType<WayPoint>();
             graph = new WaypointGraph(startWaypoint);
 
-            var graphIllustration = new GameObject("GraphIllustration");
-            var illustrator = graphIllustration.AddComponent<GraphIllustrator>();
+//            var illustrator = Camera.main.gameObject.AddComponent<GraphIllustrator>();
+            var illustrator = new GraphIllustrator();
             illustrator.Draw(graph, startWaypoint, lineMaterial);
         }
 
