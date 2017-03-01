@@ -1,6 +1,7 @@
 Add more nodes between existing nodes
-Draw brown lines between nodes in game view
-Draw red circle where nodes are
+X - Draw brown lines between nodes in game view
+Draw red circle where nodes are - Should we just do that magically, or should it be configured per game object, OR should it be added by the editor on placement?
+
 Add bandit to a starting node
 leverage A* to move bandit on node click
 If bandit intersects a merchant, then eat the merchant and increase score.

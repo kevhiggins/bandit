@@ -167,12 +167,21 @@ public class WaypointClusterEditor : Editor
         GameObject waypointAux;
         Undo.RecordObject(clusterobject, "Created waypoint");
         waypointAux = Resources.Load("Waypoint") as GameObject;
+        
         GameObject waypointInstance = Instantiate(waypointAux) as GameObject;
+
         waypointInstance.transform.position = point;
         waypointInstance.transform.parent = clusterobject.cluster.transform;
         waypointInstance.name = clusterobject.waypoints.Count.ToString();
         clusterobject.waypoints.Add(waypointInstance.GetComponent<WayPoint>());
         waypointInstance.GetComponent<WayPoint>().setParent(clusterobject);
+
+        var nodePrefab = Resources.Load("Node") as GameObject;
+        var nodeVisual = Instantiate(nodePrefab);
+        nodeVisual.transform.parent = waypointInstance.transform;
+        nodeVisual.transform.localPosition = Vector3.zero;
+        
+
         Undo.RegisterCreatedObjectUndo(waypointInstance, "Created waypoint");
         return waypointInstance.GetComponent<WayPoint>();
     }
