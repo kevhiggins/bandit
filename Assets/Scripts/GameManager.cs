@@ -13,7 +13,7 @@ namespace Bandit
 
         public GameObject merchantGameObject;
         public GameObject scoreBoard;
-        public Material lineMaterial;
+        public GameObject graphIllustratorChild;
 
         private Text scoreText;
 
@@ -99,7 +99,7 @@ namespace Bandit
 
 //            var illustrator = Camera.main.gameObject.AddComponent<GraphIllustrator>();
             var illustrator = new GraphIllustrator();
-            illustrator.Draw(graph, startWaypoint, lineMaterial);
+            illustrator.Draw(graph, startWaypoint, graphIllustratorChild);
         }
 
         void SpawnMerchants()

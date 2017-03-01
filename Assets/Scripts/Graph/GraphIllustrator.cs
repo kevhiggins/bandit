@@ -8,32 +8,26 @@ namespace Bandit.Graph
     {
         private GameObject graphIllustration;
         private HashSet<GraphEdge> edges = new HashSet<GraphEdge>();
-        private Material material;
+        private GameObject illustratorChild;
 
-        public void Draw(WaypointGraph graph, WayPoint start, Material material)
+        public void Draw(WaypointGraph graph, WayPoint start, GameObject illustratorChild)
         {
             var startNode = graph.FindAdapter(start);
+            this.illustratorChild = illustratorChild;
             Traverse(startNode);
-            material.color = Color.white;
-            this.material = material;
-
 
             graphIllustration = new GameObject("GraphIllustrator");
 
             foreach (var edge in edges)
             {
-                var child = new GameObject("Line");
-                var lineRenderer = child.AddComponent<LineRenderer>();
-                lineRenderer.material = this.material;
-                lineRenderer.startColor = new Color(222f/255f, 184f/255f, 135f/255f);
-                lineRenderer.endColor = new Color(222f/255f, 184f/255f, 135f/255f);
-                lineRenderer.startWidth = .1f;
-                lineRenderer.endWidth = .1f;
+                var child = Object.Instantiate(illustratorChild);
+                var lineRenderer = child.GetComponent<LineRenderer>();
 
                 var vectors = new Vector3[2];
                 vectors[0] = new Vector3(edge.NodeA.X, edge.NodeA.Y);
                 vectors[1] = new Vector3(edge.NodeB.X, edge.NodeB.Y);
                 lineRenderer.SetPositions(vectors);
+                lineRenderer.sortingOrder = -1;
                 child.transform.parent = graphIllustration.transform;
             }
         }
