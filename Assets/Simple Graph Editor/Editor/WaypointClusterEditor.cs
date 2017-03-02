@@ -180,7 +180,12 @@ public class WaypointClusterEditor : Editor
         var nodeVisual = Instantiate(nodePrefab);
         nodeVisual.transform.parent = waypointInstance.transform;
         nodeVisual.transform.localPosition = Vector3.zero;
-        
+
+        var clickColliderPrefab = Resources.Load("NodeClickCollider") as GameObject;
+        var clickCollider = Instantiate(clickColliderPrefab);
+        clickCollider.transform.parent = waypointInstance.transform;
+        clickCollider.transform.localPosition = Vector3.zero;
+
 
         Undo.RegisterCreatedObjectUndo(waypointInstance, "Created waypoint");
         return waypointInstance.GetComponent<WayPoint>();

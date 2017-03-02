@@ -21,7 +21,7 @@ namespace Bandit
         private Town[] towns;
         private List<Merchant> activeMerchants;
         private int score = 0;
-        private WaypointGraph graph;
+        public WaypointGraph graph;
 
 
         void Awake()
@@ -93,13 +93,15 @@ namespace Bandit
             scoreText = FindChildByName(scoreBoardInstance, "Score").GetComponent<Text>();
 
             // Get a single waypoint, and create a waypoint graph.
-
             var startWaypoint = FindObjectOfType<WayPoint>();
             graph = new WaypointGraph(startWaypoint);
 
-//            var illustrator = Camera.main.gameObject.AddComponent<GraphIllustrator>();
+            // Draw the lines of the graph.
             var illustrator = new GraphIllustrator();
             illustrator.Draw(graph, startWaypoint, graphIllustratorChild);
+
+            var bandit = FindObjectOfType<Bandit>();
+            bandit.Init();
         }
 
         void SpawnMerchants()
