@@ -1,5 +1,12 @@
+-Only allow bandit gobbling when stationary
+
+Next Phase:
+Multiple moving bandits
+Merchants using A*
+
 -Fix hitbox on towns/merchants, so that they don't disappear as quickly as they do?
 -Instead of modifying the waypoint code directly, consider creating an observer class that automatically looks through waypoints, and configures the click collider and node visual
+-Allow disabling squares for waypointcluster editor
 
 Add bandit to a starting node
 leverage A* to move bandit on node click
