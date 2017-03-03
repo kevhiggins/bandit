@@ -15,13 +15,16 @@ namespace Bandit
         public GameObject scoreBoard;
         public GameObject graphIllustratorChild;
 
+        [HideInInspector]
+        public WaypointGraph graph;
+
+        [HideInInspector]
+        public Bandit bandit;
+
         private Text scoreText;
-
-
         private Town[] towns;
         private List<Merchant> activeMerchants;
         private int score = 0;
-        public WaypointGraph graph;
 
 
         void Awake()
@@ -61,7 +64,27 @@ namespace Bandit
                     score += 10;
                     Destroy(scoredMerchant.gameObject);
                 }
+            }
+            // On left click, try to move the bandit.
+            else if (Input.GetMouseButtonDown(1))
+            {
+                var mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+                var mouseClickLayerMask = Layers.GetLayerBitMask(Layers.MouseClicks);
+                var hit = Physics2D.GetRayIntersection(mouseRay, Mathf.Infinity, mouseClickLayerMask);
 
+                // If a clickable node was clicked, then attempt to move to bandit to it.
+                if (hit.collider != null)
+                {
+                    var targetGameObject = hit.collider.gameObject;
+                    if (targetGameObject.transform.parent != null)
+                    {
+                        var waypoint = targetGameObject.transform.parent.GetComponent<WayPoint>();
+                        if (waypoint != null)
+                        {
+                            bandit.MoveToNode(graph.FindAdapter(waypoint));
+                        }
+                    }
+                }
             }
 
             scoreText.text = score.ToString();
@@ -100,7 +123,7 @@ namespace Bandit
             var illustrator = new GraphIllustrator();
             illustrator.Draw(graph, startWaypoint, graphIllustratorChild);
 
-            var bandit = FindObjectOfType<Bandit>();
+            bandit = FindObjectOfType<Bandit>();
             bandit.Init();
         }
 

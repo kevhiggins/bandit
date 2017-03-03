@@ -12,7 +12,6 @@ namespace GraphPathfinding
 
     public delegate bool FoundNodeValidFunction(IGraphNode sourceNode, IGraphNode destinationNode);
 
-    // TODO decouple this from Unity A* pathfinder
     public class AStarPathfinder
     {
         public MovementCostFunction movementCost = ManhattanDistance;

@@ -3,33 +3,18 @@ using GraphPathfinding;
 
 namespace Bandit.Graph
 {
-    public class WaypointGraphNodeAdapter : IGraphNode
+    public class WaypointGraphNodeAdapter : AbstractGameObjectGraphNode
     {
         private WaypointGraph graph;
         private WayPoint waypoint;
 
-        public WaypointGraphNodeAdapter(WaypointGraph graph, WayPoint waypoint)
+        public WaypointGraphNodeAdapter(WaypointGraph graph, WayPoint waypoint) : base(waypoint.gameObject)
         {
             this.waypoint = waypoint;
             this.graph = graph;
         }
 
-        public int Id
-        {
-            get { return waypoint.GetInstanceID(); }
-        }
-
-        public float X
-        {
-            get { return waypoint.transform.position.x; }
-        }
-
-        public float Y
-        {
-            get { return waypoint.transform.position.y; }
-        }
-
-        public List<IGraphNode> FindNeighbors()
+        public override List<IGraphNode> FindNeighbors()
         {
             var neighbors = new List<IGraphNode>();
 
