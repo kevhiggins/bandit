@@ -80,5 +80,24 @@ namespace Bandit
 
             return new GameObjectGraphNode(gameObject, neighbors);
         }
+
+        void OnCollisionEnter2D(Collision2D collision)
+        {
+            // Only look for collisions while the bandit is stationary.
+            if (!hasReachedTarget)
+            {
+                return;
+            }
+
+            var traveler = collision.gameObject.GetComponent<Traveler>();
+
+            // If we did not collide with a traveler, then return.
+            if (traveler == null)
+            {
+                return;
+            }
+
+            traveler.Rob();
+        }
     }
 }

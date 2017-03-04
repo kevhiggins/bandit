@@ -11,9 +11,10 @@ namespace Bandit
     {
         public static GameManager instance;
 
-        public GameObject merchantGameObject;
+        public GameObject travelerGameObject;
         public GameObject scoreBoard;
         public GameObject graphIllustratorChild;
+        public float travelerSpawnRate = 5f;
 
         [HideInInspector]
         public WaypointGraph graph;
@@ -21,9 +22,13 @@ namespace Bandit
         [HideInInspector]
         public Bandit bandit;
 
+        // TODO find a better home for this.
+        [HideInInspector]
+        public List<Traveler> activeTravelers;
+
         private Text scoreText;
         private Town[] towns;
-        private List<Merchant> activeMerchants;
+        
         private int score = 0;
 
 
@@ -45,14 +50,14 @@ namespace Bandit
         {
             if (Input.GetMouseButtonDown(0))
             {
-                var scoredMerchants = new List<Merchant>();
+                var scoredMerchants = new List<Traveler>();
                 var mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                foreach (var activeMerchant in activeMerchants)
+                foreach (var activeMerchant in activeTravelers)
                 {
-                    var merchantSpriteRenderer = activeMerchant.GetComponent<SpriteRenderer>();
+                    var travelerSpriteRenderer = activeMerchant.GetComponent<SpriteRenderer>();
                     
-                    if (merchantSpriteRenderer.bounds.IntersectRay(mouseRay))
+                    if (travelerSpriteRenderer.bounds.IntersectRay(mouseRay))
                     {
                         scoredMerchants.Add(activeMerchant);
                     }       
@@ -60,9 +65,7 @@ namespace Bandit
 
                 foreach (var scoredMerchant in scoredMerchants)
                 {
-                    activeMerchants.Remove(scoredMerchant);
-                    score += 10;
-                    Destroy(scoredMerchant.gameObject);
+                    scoredMerchant.Rob();
                 }
             }
             // On left click, try to move the bandit.
@@ -90,6 +93,11 @@ namespace Bandit
             scoreText.text = score.ToString();
         }
 
+        public void IncreaseScore(int value)
+        {
+            score += value;
+        }
+
         public static GameObject FindChildByName(GameObject parent, string name)
         {
             foreach (Transform transform in parent.transform)
@@ -106,11 +114,11 @@ namespace Bandit
 
         void InitGame()
         {
-            activeMerchants = new List<Merchant>();
+            activeTravelers = new List<Traveler>();
             towns = FindObjectsOfType<Town>();
 
             // TODO use a coroutine instead
-            InvokeRepeating("SpawnMerchants", 0f, 5f);
+            InvokeRepeating("SpawnMerchants", 0f, travelerSpawnRate);
 
             var scoreBoardInstance = Instantiate(scoreBoard);
             scoreText = FindChildByName(scoreBoardInstance, "Score").GetComponent<Text>();
@@ -134,19 +142,13 @@ namespace Bandit
                 var townPosition = town.transform.position;
                 var townWaypoint = town.gameObject.transform.parent.gameObject.GetComponent<WayPoint>();
 
-                var merchantInstance = Instantiate(merchantGameObject, townPosition, Quaternion.identity);
-                var merchant = merchantInstance.GetComponent<Merchant>();
-                var merchantWaypoint = merchantInstance.GetComponent<WaypointTraverser>();
-                merchantWaypoint.target = townWaypoint;
+                // Spawn the traveler, and point them towards their starting town. They will continue to randomly move through the graph.
+                var travelerInstance = Instantiate(travelerGameObject, townPosition, Quaternion.identity);
+                var traveler = travelerInstance.GetComponent<Traveler>();
+                var travelerWaypoint = travelerInstance.GetComponent<WaypointTraverser>();
+                travelerWaypoint.target = townWaypoint;
 
-                // When a merchant reaches a new town, despawn them.
-                merchant.OnTownReached += (successfulMerchant, endTown) =>
-                {;
-                    activeMerchants.Remove(successfulMerchant);
-                    Destroy(successfulMerchant.gameObject);
-                };
-
-                activeMerchants.Add(merchant);
+                activeTravelers.Add(traveler);
             }
         }
 
