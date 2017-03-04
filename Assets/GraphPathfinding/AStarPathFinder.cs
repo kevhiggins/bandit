@@ -69,13 +69,10 @@ namespace GraphPathfinding
 
             openNodes[sourceNode] = 0;
             SetNodeCost(sourceNode, 0);
-            var currentNode = sourceNode;
-
-            var pathFound = false;
 
             while (openNodes.Any())
             {
-                currentNode = DequeueNextItem(openNodes);
+                var currentNode = DequeueNextItem(openNodes);
 
                 var currentNodeCost = GetNodeCost(currentNode);
 

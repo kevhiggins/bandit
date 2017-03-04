@@ -1,4 +1,4 @@
-﻿using MapEditor;
+﻿using Bandit;
 using UnityEngine;
 
 namespace Bandit

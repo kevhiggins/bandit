@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MapEditor
+namespace Bandit
 {
     public class Town : MonoBehaviour
     {

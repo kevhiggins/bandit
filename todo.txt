@@ -1,10 +1,18 @@
 https://www.nuget.org
 
-
+-Fix editor so prefabs aren't broken when cloning
 
 Next Phase:
-Multiple moving bandits
-Merchants using A*
+X-Multiple moving bandits
+-Merchants using A*
+	-On spawn, roll dice between towns that aren't the one they spawned from, and go there.
+-Allow the three different flavors of traveler
+
+-Town prefab with spawn controls
+	-spawn rate
+	-List of destination towns
+=How much gold traveler is worth?
+
 
 X-Abstract merchatns to travelers
 X-Only allow bandit gobbling when stationary

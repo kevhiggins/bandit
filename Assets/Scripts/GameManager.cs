@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Bandit.Graph;
-using MapEditor;
+using Bandit;
 using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,9 +12,9 @@ namespace Bandit
     {
         public static GameManager instance;
 
-        public GameObject travelerGameObject;
-        public GameObject scoreBoard;
-        public GameObject graphIllustratorChild;
+        public GameObject travelerGameObject = null;
+        public GameObject scoreBoard = null;
+        public GameObject graphIllustratorChild = null;
         public float travelerSpawnRate = 5f;
 
         [HideInInspector]
