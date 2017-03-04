@@ -1,17 +1,15 @@
--Only allow bandit gobbling when stationary
+https://www.nuget.org
+
+
 
 Next Phase:
-Abstract merchatns to travelers
 Multiple moving bandits
 Merchants using A*
 
--Fix hitbox on towns/merchants, so that they don't disappear as quickly as they do?
+X-Abstract merchatns to travelers
+X-Only allow bandit gobbling when stationary
+X-Fix hitbox on towns/merchants, so that they don't disappear as quickly as they do?
 -Instead of modifying the waypoint code directly, consider creating an observer class that automatically looks through waypoints, and configures the click collider and node visual
 -Allow disabling squares for waypointcluster editor
-
-Add bandit to a starting node
-leverage A* to move bandit on node click
-If bandit intersects a merchant, then eat the merchant and increase score.
-Remove ability to click merchants to increase score.
 
 -Pull pathfinding library into nuget package

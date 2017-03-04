@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Bandit.Graph;
 using MapEditor;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,9 +20,6 @@ namespace Bandit
         [HideInInspector]
         public WaypointGraph graph;
 
-        [HideInInspector]
-        public Bandit bandit;
-
         // TODO find a better home for this.
         [HideInInspector]
         public List<Traveler> activeTravelers;
@@ -30,6 +28,8 @@ namespace Bandit
         private Town[] towns;
         
         private int score = 0;
+
+        private List<Bandit> selectedBandits = new List<Bandit>();
 
 
         void Awake()
@@ -50,22 +50,32 @@ namespace Bandit
         {
             if (Input.GetMouseButtonDown(0))
             {
-                var scoredMerchants = new List<Traveler>();
                 var mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-                foreach (var activeMerchant in activeTravelers)
+                var mouseClickLayerMask = Layers.GetLayerBitMask(Layers.BanditClicks);
+                var hit = Physics2D.GetRayIntersection(mouseRay, Mathf.Infinity, mouseClickLayerMask);
+                if (hit.collider != null)
                 {
-                    var travelerSpriteRenderer = activeMerchant.GetComponent<SpriteRenderer>();
-                    
-                    if (travelerSpriteRenderer.bounds.IntersectRay(mouseRay))
+                    var targetGameObject = hit.collider.gameObject;
+                    if (targetGameObject.transform.parent != null)
                     {
-                        scoredMerchants.Add(activeMerchant);
-                    }       
-                }
+                        var clickedBandit = targetGameObject.transform.parent.GetComponent<Bandit>();
+                        if (clickedBandit != null)
+                        {
+                            var selectionAnimationObject = FindChildByName(clickedBandit.gameObject, "SelectionAnimator");
+                            var animator = selectionAnimationObject.GetComponent<Animator>();
 
-                foreach (var scoredMerchant in scoredMerchants)
-                {
-                    scoredMerchant.Rob();
+                            if (selectedBandits.Contains(clickedBandit))
+                            {
+                                animator.SetBool("IsSelected", false);
+                                selectedBandits.Remove(clickedBandit);
+                            }
+                            else
+                            {
+                                selectedBandits.Add(clickedBandit);
+                                animator.SetBool("IsSelected", true);
+                            }
+                        }
+                    }
                 }
             }
             // On left click, try to move the bandit.
@@ -84,18 +94,21 @@ namespace Bandit
                         var waypoint = targetGameObject.transform.parent.GetComponent<WayPoint>();
                         if (waypoint != null)
                         {
-                            bandit.MoveToNode(graph.FindAdapter(waypoint));
+                            foreach (var selectedBandit in selectedBandits)
+                            {
+                                selectedBandit.MoveToNode(graph.FindAdapter(waypoint));                                
+                            }
+
                         }
                     }
                 }
-            }
-
-            scoreText.text = score.ToString();
+            }         
         }
 
         public void IncreaseScore(int value)
         {
             score += value;
+            scoreText.text = score.ToString();
         }
 
         public static GameObject FindChildByName(GameObject parent, string name)
@@ -131,8 +144,10 @@ namespace Bandit
             var illustrator = new GraphIllustrator();
             illustrator.Draw(graph, startWaypoint, graphIllustratorChild);
 
-            bandit = FindObjectOfType<Bandit>();
-            bandit.Init();
+            foreach (var bandit in FindObjectsOfType<Bandit>())
+            {
+                bandit.Init();
+            }
         }
 
         void SpawnMerchants()
