@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using Bandit.Graph;
-using Bandit;
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,24 +9,19 @@ namespace Bandit
     {
         public static GameManager instance;
 
-        public GameObject travelerGameObject = null;
         public GameObject scoreBoard = null;
         public GameObject graphIllustratorChild = null;
-        public float travelerSpawnRate = 5f;
 
         [HideInInspector]
         public WaypointGraph graph;
 
-        // TODO find a better home for this.
-        [HideInInspector]
-        public List<Traveler> activeTravelers;
-
         private Text scoreText;
-        private Town[] towns;
         
         private int score = 0;
 
         private Bandit selectedBandit;
+
+        public TownManager TownManager { get; private set; }
 
 
         void Awake()
@@ -138,11 +130,7 @@ namespace Bandit
 
         void InitGame()
         {
-            activeTravelers = new List<Traveler>();
-            towns = FindObjectsOfType<Town>();
-
-            // TODO use a coroutine instead
-            InvokeRepeating("SpawnMerchants", 0f, travelerSpawnRate);
+            TownManager = new TownManager();            
 
             var scoreBoardInstance = Instantiate(scoreBoard);
             scoreText = FindChildByName(scoreBoardInstance, "Score").GetComponent<Text>();
@@ -159,28 +147,10 @@ namespace Bandit
             {
                 bandit.Init();
             }
+
+
         }
 
-        void SpawnMerchants()
-        {
-            foreach (var town in towns)
-            {
-                var townPosition = town.transform.position;
-                var townWaypoint = town.gameObject.transform.parent.gameObject.GetComponent<WayPoint>();
 
-                // Spawn the traveler, and point them towards their starting town. They will continue to randomly move through the graph.
-                var travelerInstance = Instantiate(travelerGameObject, townPosition, Quaternion.identity);
-                var traveler = travelerInstance.GetComponent<Traveler>();
-                var travelerWaypoint = travelerInstance.GetComponent<WaypointTraverser>();
-                travelerWaypoint.target = townWaypoint;
-
-                activeTravelers.Add(traveler);
-            }
-        }
-
-        public Town[] GetTowns()
-        {
-            return towns;
-        }
     }
 }

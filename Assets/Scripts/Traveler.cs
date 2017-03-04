@@ -1,48 +1,21 @@
 ﻿using Bandit;
+using Bandit.Graph;
 using UnityEngine;
 
 namespace Bandit
 {
-    public delegate void TownReached(Traveler traveler, Town town);
-
     public class Traveler : MonoBehaviour
     {
-        public event TownReached OnTownReached = (traveler, town) => { };
-        private bool hasLeftTown = false;
+        private Town destinationTown;
 
         // TODO use collisions with town hitboxes
         void Update()
         {
-            // If a Traveler enters a town after leaving their start town, then trigger the OnTownReached event.
-            var travelerBounds = gameObject.GetComponent<SpriteRenderer>().bounds;
-            var inAnyTown = false;
-            foreach(var town in GameManager.instance.GetTowns())
-            {
-                var townBounds = town.GetComponent<SpriteRenderer>().bounds;
-                if (travelerBounds.Intersects(townBounds))
-                {
-                    inAnyTown = true;
-                    if (hasLeftTown)
-                    {
-                        OnTownReached(this, town);
-                        break;
-                    }
-                }
-            }
-            if (!inAnyTown)
-            {
-                hasLeftTown = true;
-            }
+
         }
 
         void OnCollisionEnter2D(Collision2D collision)
         {
-            // Don't worry about collisions if the traveler hasn't left their starting town..
-            if (!hasLeftTown)
-            {
-                return;
-            }
-
             // Break out early, if no town found.
             var town = collision.gameObject.GetComponent<Town>();
             if (town == null)
@@ -51,12 +24,14 @@ namespace Bandit
             }
 
             // If the traveler moves into a town after they've left their spawning town, then despawn them.
-            Despawn();
+            if (town == destinationTown)
+            {
+                Despawn();
+            }
         }
 
         public void Despawn()
         {
-            GameManager.instance.activeTravelers.Remove(this);
             Destroy(gameObject);
         }
 
@@ -64,6 +39,14 @@ namespace Bandit
         {
             GameManager.instance.IncreaseScore(10);
             Despawn();
+        }
+
+        public void MoveToTown(Town town)
+        {
+            destinationTown = town;
+            var destinationWaypoint = destinationTown.gameObject.transform.parent.gameObject.GetComponent<WayPoint>();
+            var endNode = GameManager.instance.graph.FindAdapter(destinationWaypoint);
+            GetComponent<GraphNavigator>().MoveToNode(endNode);
         }
     }
 }

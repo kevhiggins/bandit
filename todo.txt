@@ -8,6 +8,7 @@ X-Multiple moving bandits
 	-On spawn, roll dice between towns that aren't the one they spawned from, and go there.
 -Allow the three different flavors of traveler
 
+
 -Town prefab with spawn controls
 	-spawn rate
 	-List of destination towns
@@ -19,5 +20,8 @@ X-Only allow bandit gobbling when stationary
 X-Fix hitbox on towns/merchants, so that they don't disappear as quickly as they do?
 -Instead of modifying the waypoint code directly, consider creating an observer class that automatically looks through waypoints, and configures the click collider and node visual
 -Allow disabling squares for waypointcluster editor
+-figure out a way to disable graph editor hit boxes while the game is running? They just make things more confusing.
 
 -Pull pathfinding library into nuget package
+
+-TODO Find a good place to put helper method for adapting waypoint to IGraphNode
