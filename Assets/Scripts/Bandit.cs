@@ -99,5 +99,12 @@ namespace Bandit
 
             traveler.Rob();
         }
+
+        public void SetIsSelected(bool value)
+        {
+            var selectionAnimationObject = GameManager.FindChildByName(gameObject, "SelectionAnimator");
+            var animator = selectionAnimationObject.GetComponent<Animator>();
+            animator.SetBool("IsSelected", value);
+        }
     }
 }

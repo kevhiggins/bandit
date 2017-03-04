@@ -29,7 +29,7 @@ namespace Bandit
         
         private int score = 0;
 
-        private List<Bandit> selectedBandits = new List<Bandit>();
+        private Bandit selectedBandit;
 
 
         void Awake()
@@ -53,6 +53,7 @@ namespace Bandit
                 var mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
                 var mouseClickLayerMask = Layers.GetLayerBitMask(Layers.BanditClicks);
                 var hit = Physics2D.GetRayIntersection(mouseRay, Mathf.Infinity, mouseClickLayerMask);
+                var banditClicked = false;
                 if (hit.collider != null)
                 {
                     var targetGameObject = hit.collider.gameObject;
@@ -61,21 +62,32 @@ namespace Bandit
                         var clickedBandit = targetGameObject.transform.parent.GetComponent<Bandit>();
                         if (clickedBandit != null)
                         {
-                            var selectionAnimationObject = FindChildByName(clickedBandit.gameObject, "SelectionAnimator");
-                            var animator = selectionAnimationObject.GetComponent<Animator>();
-
-                            if (selectedBandits.Contains(clickedBandit))
+                            banditClicked = true;
+                            if (selectedBandit == clickedBandit)
                             {
-                                animator.SetBool("IsSelected", false);
-                                selectedBandits.Remove(clickedBandit);
+                                if (selectedBandit != null)
+                                {
+                                    selectedBandit.SetIsSelected(false);
+                                }
+                                selectedBandit = null;
                             }
                             else
                             {
-                                selectedBandits.Add(clickedBandit);
-                                animator.SetBool("IsSelected", true);
+                                if (selectedBandit != null)
+                                {
+                                    selectedBandit.SetIsSelected(false);
+                                }
+                                selectedBandit = clickedBandit;
+                                selectedBandit.SetIsSelected(true);
                             }
                         }
                     }
+                }
+                // TODO abstract out the bandit selection logic
+                if (!banditClicked && selectedBandit != null)
+                {
+                    selectedBandit.SetIsSelected(false);
+                    selectedBandit = null;
                 }
             }
             // On left click, try to move the bandit.
@@ -94,11 +106,10 @@ namespace Bandit
                         var waypoint = targetGameObject.transform.parent.GetComponent<WayPoint>();
                         if (waypoint != null)
                         {
-                            foreach (var selectedBandit in selectedBandits)
+                            if (selectedBandit != null)
                             {
-                                selectedBandit.MoveToNode(graph.FindAdapter(waypoint));                                
+                                selectedBandit.MoveToNode(graph.FindAdapter(waypoint));
                             }
-
                         }
                     }
                 }
