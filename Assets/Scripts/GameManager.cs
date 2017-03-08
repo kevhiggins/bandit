@@ -1,28 +1,31 @@
 ﻿using System;
 using Bandit.Graph;
+using Bandit.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Bandit
 {
+
+    public delegate void AfterInitHandler();
     class GameManager : MonoBehaviour
     {
         public static GameManager instance;
-
-        public GameObject scoreBoard = null;
         public GameObject graphIllustratorChild = null;
 
         [HideInInspector]
         public WaypointGraph graph;
 
-        private Text scoreText;
-        
+       
         private int score = 0;
 
         private Bandit selectedBandit;
 
+        public GameValueRegistry GameValueRegistry { get; private set; }
+
         public TownManager TownManager { get; private set; }
 
+        public static event AfterInitHandler OnAfterInit = () => { };
 
         void Awake()
         {
@@ -34,6 +37,7 @@ namespace Bandit
             {
                 Destroy(gameObject);
             }
+            
 
             InitGame();
         }
@@ -111,7 +115,7 @@ namespace Bandit
         public void IncreaseScore(int value)
         {
             score += value;
-            scoreText.text = score.ToString();
+            GameValueRegistry.SetRegistryValue("total_gold", score.ToString());
         }
 
         public static GameObject FindChildByName(GameObject parent, string name)
@@ -130,10 +134,8 @@ namespace Bandit
 
         void InitGame()
         {
-            TownManager = new TownManager();            
-
-            var scoreBoardInstance = Instantiate(scoreBoard);
-            scoreText = FindChildByName(scoreBoardInstance, "Score").GetComponent<Text>();
+            TownManager = new TownManager();      
+            GameValueRegistry = new GameValueRegistry();      
 
             // Get a single waypoint, and create a waypoint graph.
             var startWaypoint = FindObjectOfType<WayPoint>();
@@ -148,9 +150,9 @@ namespace Bandit
                 bandit.Init();
             }
 
-
+            // TODO REMOVE THIS ASAP
+            GameValueRegistry.SetRegistryValue("total_gold", "0");
+            OnAfterInit();
         }
-
-
     }
 }

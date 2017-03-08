@@ -1,5 +1,31 @@
 https://www.nuget.org
 
+Make it so that we are linking the properties to the registry, instead of just calling a method.
+This will help to ensure that the initial value of the property is always applied to the registry.
+
+-Fix scoreboard
+-scoreboard flashy
+
+-Path to node where bandit was
+
+Crime increments meters evenly for all towns
+Travelers “belong” to a town, and increment their town of origin’s meter
+Once meter fills, a soldier spawns and moves to the location of the node where the triggering crime happened.
+If no bandit is found, path back home
+Reset all gold if bandit is caught
+
+Debug Gizmo for town / heat info
+
+
+
+
+
+coin burst thing?
+
+ParticleManager
+ParticleAnchor for game objects
+
+
 -Fix editor so prefabs aren't broken when cloning
 =How much gold traveler is worth?
 
@@ -9,3 +35,5 @@ https://www.nuget.org
 -Instead of modifying the waypoint code directly, consider creating an observer class that automatically looks through waypoints, and configures the click collider and node visual
 -Allow disabling squares for waypointcluster editor
 -figure out a way to disable graph editor hit boxes while the game is running? They just make things more confusing.
+
+-Look into not needing to find UI gameobject children by name.
