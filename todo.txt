@@ -1,27 +1,11 @@
 https://www.nuget.org
 
 -Fix editor so prefabs aren't broken when cloning
-
-Next Phase:
-X-Multiple moving bandits
--Merchants using A*
-	-On spawn, roll dice between towns that aren't the one they spawned from, and go there.
--Allow the three different flavors of traveler
-
-
--Town prefab with spawn controls
-	-spawn rate
-	-List of destination towns
 =How much gold traveler is worth?
 
+-Setup nuget repo for pathfinding, and use paket
 
-X-Abstract merchatns to travelers
-X-Only allow bandit gobbling when stationary
-X-Fix hitbox on towns/merchants, so that they don't disappear as quickly as they do?
+
 -Instead of modifying the waypoint code directly, consider creating an observer class that automatically looks through waypoints, and configures the click collider and node visual
 -Allow disabling squares for waypointcluster editor
 -figure out a way to disable graph editor hit boxes while the game is running? They just make things more confusing.
-
--Pull pathfinding library into nuget package
-
--TODO Find a good place to put helper method for adapting waypoint to IGraphNode
