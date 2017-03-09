@@ -3,9 +3,11 @@ using UnityEngine.UI;
 
 namespace Bandit.UI
 {
-    class TextHook : MonoBehaviour
+    public class TextHook : MonoBehaviour
     {
+        [HideInInspector]
         public string entryName;
+
         public string replacementText = "{value}";
 
         private string initialText;

@@ -3,12 +3,24 @@ using System.Collections.Generic;
 
 namespace Bandit.UI
 {
-    class GameValueRegistry
+    public class GameValueRegistry
     {
+        // Switch the entries to an object, so we can more easily run queries via linq.
+        // TODO move this into a configuration, so this can become a package.
         public static Dictionary<string, Dictionary<string, string>> registry = new Dictionary
             <string, Dictionary<string, string>>
         {
-            {"General", new Dictionary<string, string> {{"total_gold", "Total Gold"}}}
+            {"General", new Dictionary<string, string>
+                {
+                    {"total_gold", "Total Gold"},
+                    {"total_travelers", "Total Travelers"}
+                }
+            },
+            {"Miscellaneous", new Dictionary<string, string>
+                {
+                    {"total_bandits", "Total Bandits"},
+                }
+            },
         };
 
         private Dictionary<string, GameValueEntry> entries = new Dictionary<string, GameValueEntry>();

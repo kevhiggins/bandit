@@ -16,8 +16,18 @@ namespace Bandit
         [HideInInspector]
         public WaypointGraph graph;
 
-       
-        private int score = 0;
+
+        private int score;
+
+        public int Score
+        {
+            get { return score; }
+            private set
+            {
+                score = value;
+                GameValueRegistry.SetRegistryValue("total_gold", score.ToString());
+            }
+        }
 
         private Bandit selectedBandit;
 
@@ -109,13 +119,20 @@ namespace Bandit
                         }
                     }
                 }
-            }         
+            }
+
+            var bandits = FindObjectsOfType<Bandit>();
+            GameValueRegistry.SetRegistryValue("total_bandits", bandits.Length.ToString());
+
+
+            var travelers = FindObjectsOfType<Traveler>();
+            GameValueRegistry.SetRegistryValue("total_travelers", travelers.Length.ToString());
         }
 
         public void IncreaseScore(int value)
         {
-            score += value;
-            GameValueRegistry.SetRegistryValue("total_gold", score.ToString());
+            Score += value;
+            GameValueRegistry.SetRegistryValue("total_gold", Score.ToString());
         }
 
         public static GameObject FindChildByName(GameObject parent, string name)
@@ -150,8 +167,7 @@ namespace Bandit
                 bandit.Init();
             }
 
-            // TODO REMOVE THIS ASAP
-            GameValueRegistry.SetRegistryValue("total_gold", "0");
+            Score = 0;
             OnAfterInit();
         }
     }
