@@ -13,6 +13,8 @@ namespace Bandit.UI
         private string initialText;
         private Text textScript;
 
+        private string currentValue;
+
         void Awake()
         {
             textScript = gameObject.GetComponent<Text>();
@@ -28,12 +30,25 @@ namespace Bandit.UI
 
         private void ReplaceText(string value)
         {
+            currentValue = value;
             textScript.text = initialText.Replace(replacementText, value);
+
+            var textHooks = GetComponents<TextHook>();
+            foreach (var hook in textHooks)
+            {
+                if (hook != this)
+                {
+                    hook.SyncText();
+                }
+            }
         }
 
-        // Register a list of categories and attributes that can be hooked into
-
-        // Specify string to be replaced
-        // Select the data that will be replacing the replacement string
+        /**
+         * Called when another TextHook script replaces its text.
+         */
+        private void SyncText()
+        {
+            textScript.text = textScript.text.Replace(replacementText, currentValue);
+        }
     }
 }

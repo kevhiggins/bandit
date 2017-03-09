@@ -1,5 +1,9 @@
 https://www.nuget.org
 
+Cannot start/stop particle effects arbitrarily in animator
+
+Allow multiple text hooks
+
 Make it so that we are linking the properties to the registry, instead of just calling a method.
 This will help to ensure that the initial value of the property is always applied to the registry.
 
