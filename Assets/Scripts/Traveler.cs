@@ -6,6 +6,8 @@ namespace Bandit
 {
     public class Traveler : MonoBehaviour
     {
+        public Town SourceTown { get; set; }
+        public int goldValue = 10;
         private Town destinationTown;
 
         // TODO use collisions with town hitboxes
@@ -35,10 +37,11 @@ namespace Bandit
             Destroy(gameObject);
         }
 
-        public void Rob()
+        public int GetRobbed(Bandit bandit)
         {
-            GameManager.instance.IncreaseScore(10);
+            SourceTown.ReportRobbery(this, bandit);
             Despawn();
+            return goldValue;
         }
 
         public void MoveToTown(Town town)

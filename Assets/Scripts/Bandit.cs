@@ -5,9 +5,15 @@ using UnityEngine;
 
 namespace Bandit
 {
-    class Bandit : MonoBehaviour
+    public class Bandit : MonoBehaviour
     {
         public GameObject targetWaypoint;
+
+        public IGraphNode TargetNode
+        {
+            get { return  GetComponent<GraphNavigator>().GetTargetNode(); }
+        }
+
         private GraphNavigator graphNavigator;
 
         public void Init()
@@ -36,7 +42,13 @@ namespace Bandit
                 return;
             }
 
-            traveler.Rob();
+            Rob(traveler);
+        }
+
+        protected void Rob(Traveler traveler)
+        {
+            var goldReceieved = traveler.GetRobbed(this);
+            GameManager.instance.IncreaseScore(goldReceieved);
         }
 
         public void MoveToNode(IGraphNode node)

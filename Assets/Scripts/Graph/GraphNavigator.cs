@@ -66,6 +66,11 @@ namespace Bandit.Graph
             HasReachedTarget = false;
         }
 
+        public IGraphNode GetTargetNode()
+        {
+            return targetNode;
+        }
+
         protected IGraphNode GetTravelingNode()
         {
             // If HasReachedTarget, return the targetNode, since the bandit is sitting on top of it. Otherwise, create an IGraphNode for the bandit with one directional edges to the target node, and previous node

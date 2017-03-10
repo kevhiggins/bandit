@@ -10,8 +10,11 @@ namespace Bandit
     {
         public float spawnOffset = 0f;
         public float spawnRate = 5f;
+        public int robberyThreshold = 2;
 
         public List<GameObject> travelerTypes = new List<GameObject>();
+
+        private Dictionary<IGraphNode, int> robberyMap = new Dictionary<IGraphNode, int>();
 
         void Awake()
         {
@@ -31,7 +34,9 @@ namespace Bandit
 
             // Determine destination town, and tell traveler to go there.
             var destinationTown = GameManager.instance.TownManager.GetDifferentTown(this);
-            travelerGameObject.GetComponent<Traveler>().MoveToTown(destinationTown);
+            var traveler = travelerGameObject.GetComponent<Traveler>();
+            traveler.SourceTown = this;
+            traveler.MoveToTown(destinationTown);
         }
 
         protected GameObject CreateTraveler()
@@ -39,6 +44,33 @@ namespace Bandit
             var travelerIndex = Random.Range(0, travelerTypes.Count);
             var travelerPrefab = travelerTypes.ElementAt(travelerIndex);
             return Instantiate(travelerPrefab, transform.position, Quaternion.identity);
+        }
+
+        private void SpawnSoldier()
+        {
+            Debug.Log("HEWRO");
+        }
+
+        public void ReportRobbery(Traveler traveler, Bandit bandit)
+        {
+            var robberyNode = bandit.TargetNode;
+            if (robberyMap.ContainsKey(robberyNode))
+            {
+                robberyMap[robberyNode]++;
+            }
+            else
+            {
+                robberyMap.Add(robberyNode, 1);
+            }
+
+            var totalRobberyCount = robberyMap.Sum(item => item.Value);
+            Debug.Log(totalRobberyCount);
+            Debug.Log(totalRobberyCount >= robberyThreshold);
+            if (totalRobberyCount >= robberyThreshold)
+            {
+                SpawnSoldier();
+            }
+
         }
     }
 }
