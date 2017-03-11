@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using Bandit.Graph;
+﻿using Bandit.Graph;
 using GraphPathfinding;
 using UnityEngine;
 
-namespace Bandit
+namespace Bandit.Unit
 {
     public class Bandit : MonoBehaviour
     {

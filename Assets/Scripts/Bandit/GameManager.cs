@@ -2,7 +2,6 @@
 using Bandit.Graph;
 using Bandit.UI;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Bandit
 {
@@ -29,7 +28,7 @@ namespace Bandit
             }
         }
 
-        private Bandit selectedBandit;
+        private Unit.Bandit selectedBandit;
 
         public GameValueRegistry GameValueRegistry { get; private set; }
 
@@ -65,7 +64,7 @@ namespace Bandit
                     var targetGameObject = hit.collider.gameObject;
                     if (targetGameObject.transform.parent != null)
                     {
-                        var clickedBandit = targetGameObject.transform.parent.GetComponent<Bandit>();
+                        var clickedBandit = targetGameObject.transform.parent.GetComponent<Unit.Bandit>();
                         if (clickedBandit != null)
                         {
                             banditClicked = true;
@@ -121,7 +120,7 @@ namespace Bandit
                 }
             }
 
-            var bandits = FindObjectsOfType<Bandit>();
+            var bandits = FindObjectsOfType<Unit.Bandit>();
             GameValueRegistry.SetRegistryValue("total_bandits", bandits.Length.ToString());
 
 
@@ -162,7 +161,7 @@ namespace Bandit
             var illustrator = new GraphIllustrator();
             illustrator.Draw(graph, startWaypoint, graphIllustratorChild);
 
-            foreach (var bandit in FindObjectsOfType<Bandit>())
+            foreach (var bandit in FindObjectsOfType<Unit.Bandit>())
             {
                 bandit.Init();
             }

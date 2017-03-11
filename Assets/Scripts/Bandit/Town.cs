@@ -51,7 +51,7 @@ namespace Bandit
             Debug.Log("HEWRO");
         }
 
-        public void ReportRobbery(Traveler traveler, Bandit bandit)
+        public void ReportRobbery(Traveler traveler, Unit.Bandit bandit)
         {
             var robberyNode = bandit.TargetNode;
             if (robberyMap.ContainsKey(robberyNode))

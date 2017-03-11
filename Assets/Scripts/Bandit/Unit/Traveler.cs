@@ -37,7 +37,7 @@ namespace Bandit
             Destroy(gameObject);
         }
 
-        public int GetRobbed(Bandit bandit)
+        public int GetRobbed(Unit.Bandit bandit)
         {
             SourceTown.ReportRobbery(this, bandit);
             Despawn();
