@@ -168,7 +168,7 @@ public class WaypointClusterEditor : Editor
         Undo.RecordObject(clusterobject, "Created waypoint");
         waypointAux = Resources.Load("Waypoint") as GameObject;
         
-        GameObject waypointInstance = Instantiate(waypointAux) as GameObject;
+        GameObject waypointInstance = PrefabUtility.InstantiatePrefab(waypointAux) as GameObject;
 
         waypointInstance.transform.position = point;
         waypointInstance.transform.parent = clusterobject.cluster.transform;
@@ -177,12 +177,12 @@ public class WaypointClusterEditor : Editor
         waypointInstance.GetComponent<WayPoint>().setParent(clusterobject);
 
         var nodePrefab = Resources.Load("Node") as GameObject;
-        var nodeVisual = Instantiate(nodePrefab);
+        var nodeVisual = PrefabUtility.InstantiatePrefab(nodePrefab) as GameObject;
         nodeVisual.transform.parent = waypointInstance.transform;
         nodeVisual.transform.localPosition = Vector3.zero;
 
         var clickColliderPrefab = Resources.Load("NodeClickCollider") as GameObject;
-        var clickCollider = Instantiate(clickColliderPrefab);
+        var clickCollider = PrefabUtility.InstantiatePrefab(clickColliderPrefab) as GameObject;
         clickCollider.transform.parent = waypointInstance.transform;
         clickCollider.transform.localPosition = Vector3.zero;
 
