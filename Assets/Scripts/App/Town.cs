@@ -14,13 +14,22 @@ namespace App
         public int robberyThreshold = 2;
 
         public List<GameObject> travelerTypes = new List<GameObject>();
+        public List<GameObject> soldierTypes = new List<GameObject>();
+
+        public IGraphNode Node { get; private set; }
 
         private Dictionary<IGraphNode, int> robberyMap = new Dictionary<IGraphNode, int>();
 
         void Awake()
         {
-            // TODO use a coroutine instead
-            InvokeRepeating("SpawnTravelers", spawnOffset, spawnRate);
+            GameManager.OnAfterInit += () =>
+            {
+                // TODO use a coroutine instead
+                InvokeRepeating("SpawnTravelers", spawnOffset, spawnRate);
+
+                var townWaypoint = gameObject.transform.parent.gameObject.GetComponent<WayPoint>();
+                Node = GameManager.instance.graph.FindAdapter(townWaypoint);
+            };
         }
 
         void SpawnTravelers()
@@ -29,9 +38,7 @@ namespace App
 
             var graphNavigator = travelerGameObject.GetComponent<GraphNavigator>();
 
-            var townWaypoint = gameObject.transform.parent.gameObject.GetComponent<WayPoint>();
-            var startNode = GameManager.instance.graph.FindAdapter(townWaypoint);
-            graphNavigator.SetTargetNode(startNode);
+            graphNavigator.SetTargetNode(Node);
 
             // Determine destination town, and tell traveler to go there.
             var destinationTown = GameManager.instance.TownManager.GetDifferentTown(this);
@@ -47,9 +54,20 @@ namespace App
             return Instantiate(travelerPrefab, transform.position, Quaternion.identity);
         }
 
-        private void SpawnSoldier()
+        protected Soldier CreateSoldier()
         {
-            Debug.Log("HEWRO");
+            var soldierIndex = Random.Range(0, soldierTypes.Count);
+            var soldierPrefab = soldierTypes.ElementAt(soldierIndex);
+            var soldierGameObject = Instantiate(soldierPrefab);
+            var soldier = soldierGameObject.GetComponent<Soldier>();
+            soldier.PlaceInTown(this);
+            return soldier;
+        }
+
+        private void SpawnSoldier(IGraphNode targetNode)
+        {
+            var soldier = CreateSoldier();
+            soldier.PatrolToNode(targetNode);
         }
 
         public void ReportRobbery(Traveler traveler, Bandit bandit)
@@ -65,11 +83,10 @@ namespace App
             }
 
             var totalRobberyCount = robberyMap.Sum(item => item.Value);
-            Debug.Log(totalRobberyCount);
-            Debug.Log(totalRobberyCount >= robberyThreshold);
             if (totalRobberyCount >= robberyThreshold)
             {
-                SpawnSoldier();
+                robberyMap.Clear();
+                SpawnSoldier(bandit.TargetNode);
             }
 
         }

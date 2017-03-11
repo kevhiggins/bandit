@@ -2,19 +2,13 @@
 using App;
 using UnityEngine;
 
-namespace App
+namespace App.Unit
 {
-    public class Traveler : MonoBehaviour
+    public class Traveler : Unit
     {
         public Town SourceTown { get; set; }
         public int goldValue = 10;
         private Town destinationTown;
-
-        // TODO use collisions with town hitboxes
-        void Update()
-        {
-
-        }
 
         void OnCollisionEnter2D(Collision2D collision)
         {
@@ -32,12 +26,7 @@ namespace App
             }
         }
 
-        public void Despawn()
-        {
-            Destroy(gameObject);
-        }
-
-        public int GetRobbed(Unit.Bandit bandit)
+        public int GetRobbed(Bandit bandit)
         {
             SourceTown.ReportRobbery(this, bandit);
             Despawn();

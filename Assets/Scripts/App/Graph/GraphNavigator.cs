@@ -4,23 +4,27 @@ using UnityEngine;
 
 namespace App.Graph
 {
+    public delegate void TargetReachedHandler();
+
     class GraphNavigator : MonoBehaviour
     {
         public float speed = 1;
         public bool HasReachedTarget { get; private set; }
+
 
         private IGraphNode targetNode;
         private IGraphNode previousNode;
         private Vector3 targetPosition;
         private Path path;
         private IEnumerator<IGraphNode> pathEnumerator;
+        private TargetReachedHandler OnTargetReached;
 
         void Update()
         {
             if (!HasReachedTarget)
             {
                 // Move the bandit towards the target, and prevent over shooting.
-                transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed*Time.deltaTime);
 
                 // If the target position has been reached, then stop moving.
                 if (transform.position == targetPosition)
@@ -34,9 +38,21 @@ namespace App.Graph
                     else
                     {
                         HasReachedTarget = true;
+                        if (OnTargetReached != null)
+                        {
+                            OnTargetReached();
+                            OnTargetReached = null;
+                        }
                     }
                 }
             }
+        }
+
+        // TODO Change to use promises DLL
+        public void MoveToNode(IGraphNode node, TargetReachedHandler callback)
+        {
+            OnTargetReached = callback;
+            MoveToNode(node);
         }
 
         public void MoveToNode(IGraphNode node)
@@ -60,7 +76,7 @@ namespace App.Graph
             {
                 previousNode = targetNode;
             }
-            
+
             targetNode = node;
             targetPosition = new Vector3(targetNode.X, targetNode.Y, 0);
             HasReachedTarget = false;
@@ -79,7 +95,7 @@ namespace App.Graph
                 return targetNode;
             }
 
-            var neighbors = new List<IGraphNode> { targetNode, previousNode };
+            var neighbors = new List<IGraphNode> {targetNode, previousNode};
 
             return new GameObjectGraphNode(gameObject, neighbors);
         }

@@ -44,6 +44,13 @@ namespace App.Unit
             Rob(traveler);
         }
 
+        public int LoseGold()
+        {
+            var goldAmount = GameManager.instance.Score;
+            GameManager.instance.DecreaseScore(goldAmount);
+            return goldAmount;
+        }
+
         protected void Rob(Traveler traveler)
         {
             var goldReceieved = traveler.GetRobbed(this);

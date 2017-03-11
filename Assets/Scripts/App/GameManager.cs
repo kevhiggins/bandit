@@ -132,7 +132,11 @@ namespace App
         public void IncreaseScore(int value)
         {
             Score += value;
-            GameValueRegistry.SetRegistryValue("total_gold", Score.ToString());
+        }
+
+        public void DecreaseScore(int value)
+        {
+            Score -= value;
         }
 
         public static GameObject FindChildByName(GameObject parent, string name)
