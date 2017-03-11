@@ -235,6 +235,9 @@ public class WaypointClusterEditor : Editor
         Undo.RecordObject(destiny, "waypointadd");
         source.addOutWayPoint(destiny);
         destiny.addInWayPoint(source);
+
+        destiny.addOutWayPoint(source);
+        source.addInWayPoint(destiny);
     }
 
     /* Removes a link between source and destiny */
