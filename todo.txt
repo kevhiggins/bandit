@@ -1,3 +1,12 @@
+Waypoint Editor:
+Low Priority - Half size gizmo boxes
+
+
+
+
+
+
+
 https://www.nuget.org
 
 Cannot start/stop particle effects arbitrarily in animator
