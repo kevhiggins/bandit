@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Bandit.UI
+namespace App.UI
 {
     public class GameValueRegistry
     {

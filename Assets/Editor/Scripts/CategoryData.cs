@@ -1,4 +1,4 @@
-﻿namespace Bandit.Editor
+﻿namespace App.Editor
 {
     class CategoryData
     {

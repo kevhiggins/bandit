@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using App.UI;
 using UnityEditor;
-using Bandit.UI;
 using UnityEngine;
 
-namespace Bandit.Editor
+namespace App.Editor
 {
     [CustomEditor(typeof(TextHook), true)]
     public class TextHookEditor : UnityEditor.Editor

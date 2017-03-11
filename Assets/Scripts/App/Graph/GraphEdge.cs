@@ -1,7 +1,7 @@
 ﻿using System;
 using GraphPathfinding;
 
-namespace Bandit.Graph
+namespace App.Graph
 {
     class GraphEdge
     {

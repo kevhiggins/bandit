@@ -1,8 +1,8 @@
-﻿using Bandit;
-using Bandit.Graph;
+﻿using App.Graph;
+using App;
 using UnityEngine;
 
-namespace Bandit
+namespace App
 {
     public class Traveler : MonoBehaviour
     {

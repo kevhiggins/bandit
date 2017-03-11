@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using Bandit.Graph;
+using App.Graph;
+using App.Unit;
 using GraphPathfinding;
 
-namespace Bandit
+namespace App
 {
     public class Town : MonoBehaviour
     {
@@ -51,7 +52,7 @@ namespace Bandit
             Debug.Log("HEWRO");
         }
 
-        public void ReportRobbery(Traveler traveler, Unit.Bandit bandit)
+        public void ReportRobbery(Traveler traveler, Bandit bandit)
         {
             var robberyNode = bandit.TargetNode;
             if (robberyMap.ContainsKey(robberyNode))

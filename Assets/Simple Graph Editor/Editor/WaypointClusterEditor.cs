@@ -8,7 +8,7 @@
 using System;
 using UnityEngine;
 using UnityEditor;
-using Bandit;
+using App;
 
 [CustomEditor(typeof(WaypointCluster))]
 public class WaypointClusterEditor : Editor

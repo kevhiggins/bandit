@@ -2,7 +2,7 @@
 using GraphPathfinding;
 using UnityEngine;
 
-namespace Bandit.Graph
+namespace App.Graph
 {
     class GraphNavigator : MonoBehaviour
     {

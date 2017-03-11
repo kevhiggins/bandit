@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace Bandit
+namespace App
 {
     public class MouseRayHit
     {

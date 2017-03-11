@@ -1,9 +1,10 @@
 ﻿using System;
-using Bandit.Graph;
-using Bandit.UI;
+using App.Graph;
+using App.UI;
 using UnityEngine;
+using App.Unit;
 
-namespace Bandit
+namespace App
 {
 
     public delegate void AfterInitHandler();
@@ -28,7 +29,7 @@ namespace Bandit
             }
         }
 
-        private Unit.Bandit selectedBandit;
+        private Bandit selectedBandit;
 
         public GameValueRegistry GameValueRegistry { get; private set; }
 

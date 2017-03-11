@@ -2,7 +2,7 @@
 using GraphPathfinding;
 using UnityEngine;
 
-namespace Bandit.Graph
+namespace App.Graph
 {
     public abstract class AbstractGameObjectGraphNode : IGraphNode
     {

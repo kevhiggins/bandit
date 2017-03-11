@@ -1,4 +1,4 @@
-﻿namespace Bandit.UI
+﻿namespace App.UI
 {
     public delegate void EntryValueUpdate(string value);
     class GameValueEntry

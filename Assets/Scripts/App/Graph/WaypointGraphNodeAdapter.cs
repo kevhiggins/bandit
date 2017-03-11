@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using GraphPathfinding;
 
-namespace Bandit.Graph
+namespace App.Graph
 {
     public class WaypointGraphNodeAdapter : AbstractGameObjectGraphNode
     {

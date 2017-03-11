@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace Bandit.Graph
+namespace App.Graph
 {
     public class WaypointGraph
     {
