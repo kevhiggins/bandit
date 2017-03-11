@@ -1,6 +1,18 @@
+Creating/Destroying Bandits with our gold.
+Prevent robbing people in town.
+
+Feedback on town when terror rising.
+Coins pop out of bandit.
+Bandits personal coin purse.
+
+
 Waypoint Editor:
 Low Priority - Half size gizmo boxes
 
+
+Fancy Idea:
+Look into the best way to configure particle effects on units. Should they all have them, or do we instantiate them using an anchor.
+Animation/Particle hook thing similar to TextHook
 
 
 
