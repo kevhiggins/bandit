@@ -32,7 +32,7 @@ namespace App.Unit
 
         protected void Punish(Bandit bandit)
         {
-            bandit.LoseGold();
+            bandit.Punished();
         }
 
         public void PlaceInTown(Town town)

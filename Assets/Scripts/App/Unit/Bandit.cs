@@ -1,12 +1,16 @@
-﻿using App.Graph;
+﻿using App.GameEvent;
+using App.Graph;
 using GraphPathfinding;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace App.Unit
 {
     public class Bandit : MonoBehaviour
     {
         public GameObject targetWaypoint;
+        public UnityEvent onPunished;
+        public UnityEvent onRob;
 
         public IGraphNode TargetNode
         {
@@ -44,10 +48,11 @@ namespace App.Unit
             Rob(traveler);
         }
 
-        public int LoseGold()
+        public int Punished()
         {
             var goldAmount = GameManager.instance.Score;
             GameManager.instance.DecreaseScore(goldAmount);
+            onPunished.Invoke();
             return goldAmount;
         }
 
@@ -55,6 +60,8 @@ namespace App.Unit
         {
             var goldReceieved = traveler.GetRobbed(this);
             GameManager.instance.IncreaseScore(goldReceieved);
+            onRob.Invoke();
+            BanditEvents.OnRob();
         }
 
         public void MoveToNode(IGraphNode node)

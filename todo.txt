@@ -1,3 +1,12 @@
+Create Editor for EventHook behavior script
+
+Methods for determining events on GameObject:
+-interace per behavior script
+
+How to store reference to events we are listening to:
+store string name. Probably also need to store the behavior class name as well.
+
+
 Creating/Destroying Bandits with our gold.
 Prevent robbing people in town.
 
