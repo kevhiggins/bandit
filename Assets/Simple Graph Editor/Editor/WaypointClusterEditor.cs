@@ -198,9 +198,6 @@ public class WaypointClusterEditor : Editor
 
     private void CreateLink(Vector3 point)
     {
-        Debug.Log(waypointClicked);
-        Debug.Log(waypointDestiny);
-
         // If we started by clicking a waypoint, and the end mouse position on release was a different waypoint, then link them together.
         if (waypointClicked != null && waypointDestiny != null && waypointClicked != waypointDestiny)
         {
@@ -261,6 +258,7 @@ public class WaypointClusterEditor : Editor
     {
         dragging = true;
         previewSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        previewSphere.transform.localScale = new Vector3(.5f, .5f, .5f);
         DestroyImmediate(previewSphere.GetComponent<SphereCollider>());
 
         var mousePoint = GetMousePoint();
