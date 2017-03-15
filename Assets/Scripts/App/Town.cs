@@ -28,7 +28,7 @@ namespace App
                 InvokeRepeating("SpawnTravelers", spawnOffset, spawnRate);
 
                 var townWaypoint = gameObject.transform.parent.gameObject.GetComponent<WayPoint>();
-                Node = GameManager.instance.graph.FindAdapter(townWaypoint);
+                Node = GameManager.instance.nodeFinder.FindAdapter(townWaypoint);
             };
         }
 

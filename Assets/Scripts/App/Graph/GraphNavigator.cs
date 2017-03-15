@@ -60,9 +60,12 @@ namespace App.Graph
             // Find the shortest route to the destination node, and start moving towards it.
             var pathfinder = new AStarPathfinder();
             path = pathfinder.FindPath(GetTravelingNode(), node);
-            pathEnumerator = path.nodes.GetEnumerator();
-            pathEnumerator.MoveNext();
-            SetTargetNode(pathEnumerator.Current);
+            if (path != null)
+            {
+                pathEnumerator = path.nodes.GetEnumerator();
+                pathEnumerator.MoveNext();
+                SetTargetNode(pathEnumerator.Current);
+            }
         }
 
         public void SetTargetNode(IGraphNode node)

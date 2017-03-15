@@ -5,22 +5,27 @@ namespace App.Graph
 {
     public class WaypointGraphNodeAdapter : AbstractGameObjectGraphNode
     {
-        private WaypointGraph graph;
+        private WaypointNodeFinder nodeFinder;
         private WayPoint waypoint;
+        private List<IGraphNode> neighbors;
 
-        public WaypointGraphNodeAdapter(WaypointGraph graph, WayPoint waypoint) : base(waypoint.gameObject)
+        public WaypointGraphNodeAdapter(WaypointNodeFinder nodeFinder, WayPoint waypoint) : base(waypoint.gameObject)
         {
             this.waypoint = waypoint;
-            this.graph = graph;
+            this.nodeFinder = nodeFinder;
         }
 
         public override List<IGraphNode> FindNeighbors()
         {
-            var neighbors = new List<IGraphNode>();
+            if (neighbors != null)
+            {
+                return neighbors;
+            }
 
+            neighbors = new List<IGraphNode>();
             foreach (var waypointPercent in waypoint.outs)
             {
-                neighbors.Add(graph.FindAdapter(waypointPercent.waypoint));
+                neighbors.Add(nodeFinder.FindAdapter(waypointPercent.waypoint));
             }
             return neighbors;
         }

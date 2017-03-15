@@ -37,7 +37,7 @@ namespace App.Unit
         {
             destinationTown = town;
             var destinationWaypoint = destinationTown.gameObject.transform.parent.gameObject.GetComponent<WayPoint>();
-            var endNode = GameManager.instance.graph.FindAdapter(destinationWaypoint);
+            var endNode = GameManager.instance.nodeFinder.FindAdapter(destinationWaypoint);
             GetComponent<GraphNavigator>().MoveToNode(endNode);
         }
     }

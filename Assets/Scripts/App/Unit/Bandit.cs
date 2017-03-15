@@ -25,7 +25,7 @@ namespace App.Unit
 
             // Deferred to Init method to wait for GameManager to be instantiated.
             var waypoint = targetWaypoint.GetComponent<WayPoint>();
-            var node = GameManager.instance.graph.FindAdapter(waypoint);
+            var node = GameManager.instance.nodeFinder.FindAdapter(waypoint);
             graphNavigator.SetTargetNode(node);
         }
 

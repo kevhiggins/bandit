@@ -14,7 +14,7 @@ namespace App
         public GameObject graphIllustratorChild = null;
 
         [HideInInspector]
-        public WaypointGraph graph;
+        public WaypointNodeFinder nodeFinder;
 
 
         private int score;
@@ -114,7 +114,7 @@ namespace App
                         {
                             if (selectedBandit != null)
                             {
-                                selectedBandit.MoveToNode(graph.FindAdapter(waypoint));
+                                selectedBandit.MoveToNode(nodeFinder.FindAdapter(waypoint));
                             }
                         }
                     }
@@ -158,15 +158,17 @@ namespace App
             TownManager = new TownManager();      
             GameValueRegistry = new GameValueRegistry();      
 
-            // Get a single waypoint, and create a waypoint graph.
-            var startWaypoint = FindObjectOfType<WayPoint>();
-            graph = new WaypointGraph(startWaypoint);
+            var waypoints = FindObjectsOfType<WayPoint>();
+            nodeFinder = new WaypointNodeFinder(waypoints);
 
-            // Draw the lines of the graph.
-            var illustrator = new GraphIllustrator();
-            illustrator.Draw(graph, startWaypoint, graphIllustratorChild);
+            // Draw the lines of the nodeFinder.
 
-            foreach (var bandit in FindObjectsOfType<Unit.Bandit>())
+
+            // Disabled illustrator, since we don't seem to be using it.
+//            var illustrator = new GraphIllustrator();
+//            illustrator.Draw(nodeFinder, waypoints, graphIllustratorChild);
+
+            foreach (var bandit in FindObjectsOfType<Bandit>())
             {
                 bandit.Init();
             }

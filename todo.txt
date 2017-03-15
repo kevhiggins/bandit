@@ -1,11 +1,29 @@
-Create Editor for EventHook behavior script
+Deadline Thursday on Editor fun
 
-Methods for determining events on GameObject:
--interace per behavior script
+-Fix node issue where connectes are getting reverted on play.
+-Deleting nodes doesn't delete connections
+-Fix node editor bright green and issues with errors
 
-How to store reference to events we are listening to:
-store string name. Probably also need to store the behavior class name as well.
+-Add config for soldier linger
 
+Bandit to soldier gold economy button/personal gold
+
+Add more soldier behavior
+Soldiers that kill bandits.
+
+
+-Way to create damage pops without being helpful
+
+
+
+
+-Add scripts for generating Particles/Sound via configuration
+-Soldier OnPunish
+-StartMove StopMove
+-Travelers on Robbed
+-TownThreat
+	Modulus
+	
 
 Creating/Destroying Bandits with our gold.
 Prevent robbing people in town.

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using GraphPathfinding;
 using UnityEngine;
 
@@ -9,11 +10,20 @@ namespace App.Graph
         private GameObject graphIllustration;
         private HashSet<GraphEdge> edges = new HashSet<GraphEdge>();
 
-        public void Draw(WaypointGraph graph, WayPoint start, GameObject illustratorChild)
-        {
-            var startNode = graph.FindAdapter(start);
+        private HashSet<int> visitedIDs;
 
-            Traverse(startNode);
+        public void Draw(WaypointNodeFinder nodeFinder, WayPoint[] waypoints, GameObject illustratorChild)
+        {
+            visitedIDs = new HashSet<int>();
+
+            foreach (var waypoint in waypoints)
+            {
+                if (!visitedIDs.Contains(waypoint.gameObject.GetInstanceID()))
+                {
+                    var node = nodeFinder.FindAdapter(waypoint);
+                    Traverse(node);
+                }
+            }
 
             graphIllustration = new GameObject("GraphIllustrator");
 
@@ -33,6 +43,7 @@ namespace App.Graph
 
         private void Traverse(IGraphNode node)
         {
+            visitedIDs.Add(node.Id);
             foreach (var neighbor in node.FindNeighbors())
             {
                 var edge = new GraphEdge(node, neighbor);
