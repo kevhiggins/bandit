@@ -13,6 +13,7 @@ public class WayPoint : MonoBehaviour {
     public List<WayPoint> ins = new List<WayPoint>();					//Refeences to waypoints that have this one as a principal choice.
 
     const float boxWidth = .5f;
+    const float arrowLengthMultiplier = 1.3f;
 
 		/**************************FUNCTIONS***********************************/
 
@@ -97,7 +98,7 @@ public class WayPoint : MonoBehaviour {
 		Gizmos.DrawCube(transform.position, new Vector3(boxWidth, boxWidth, boxWidth));
 		for (int i = 0; i < outs.Count; ++i) {
 			Vector3 direction = outs[i].waypoint.transform.position -transform.position;
-            DrawArrow.ForGizmo(transform.position + direction.normalized, direction - direction.normalized * 2f, Color.red);
+            DrawArrow.ForGizmo(transform.position + direction.normalized, direction - direction.normalized * arrowLengthMultiplier, Color.red);
 		}
 		
 		if (color.Equals(Color.green) || color.Equals(Color.white)) color = mainColor();
@@ -114,7 +115,7 @@ public class WayPoint : MonoBehaviour {
 		for (int i = 0; i < outs.Count; ++i) {
 			Vector3 direction = outs[i].waypoint.transform.position-transform.position;
 //			ForGizmo(transform.position+direction.normalized, direction -direction.normalized*2f, Color.magenta);
-            DrawArrow.ForGizmo(transform.position + direction.normalized, direction - direction.normalized * 2f, Color.magenta);
+            DrawArrow.ForGizmo(transform.position + direction.normalized, direction - direction.normalized * arrowLengthMultiplier, Color.magenta);
 		}
 		
 		//Gizmos.color = Color.green;
