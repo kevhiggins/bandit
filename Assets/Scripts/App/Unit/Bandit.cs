@@ -9,7 +9,7 @@ namespace App.Unit
     public class Bandit : MonoBehaviour
     {
         public GameObject targetWaypoint;
-        public UnityEvent onPunished;
+        public StringUnityEvent onPunished;
         public StringUnityEvent onRob;
 
         public IGraphNode TargetNode
@@ -52,7 +52,12 @@ namespace App.Unit
         {
             var goldAmount = GameManager.instance.Score;
             GameManager.instance.DecreaseScore(goldAmount);
-            onPunished.Invoke();
+            if (onPunished != null)
+            {
+                onPunished.Invoke(goldAmount.ToString());
+            }
+            BanditEvents.OnPunished(goldAmount.ToString());
+
             return goldAmount;
         }
 
@@ -60,19 +65,13 @@ namespace App.Unit
         {
             var goldReceieved = traveler.GetRobbed(this);
             GameManager.instance.IncreaseScore(goldReceieved);
-            var test = goldReceieved.ToString();
 
             if (onRob != null)
             {
-                onRob.Invoke(test);
+                onRob.Invoke(goldReceieved.ToString());
             }
             
-            BanditEvents.OnRob();
-        }
-
-        public void Testing(string hi)
-        {
-            
+            BanditEvents.OnRob(goldReceieved.ToString());
         }
 
         public void MoveToNode(IGraphNode node)

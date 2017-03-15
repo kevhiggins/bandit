@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,16 +6,45 @@ namespace App.GameEvent
 {
     class BanditEvents : MonoBehaviour
     {
-        // Bandit.Rob() => BanditEvents.OnRob() => Find all BanditEvents instances in the scene (Use awake) and call invoke on the corresponding event.
-        public UnityEvent onRob;
+        public StringUnityEvent onRob;
+        public StringUnityEvent onPunished;
 
-        public static void OnRob()
+        public static void OnRob(string goldAmount)
         {
 
-            MassivelyInvoke("onRob");
+            MassivelyInvokeString("onRob", goldAmount);
         }
 
+        public static void OnPunished(string goldAmount)
+        {
+            MassivelyInvokeString("onPunished", goldAmount);
+        }
+
+
+
         protected static void MassivelyInvoke(string propertyName)
+        {
+            foreach (var unityEvent in GetUnityEventEnumerator<UnityEvent>(propertyName))
+            {
+                if (unityEvent != null)
+                {
+                    unityEvent.Invoke();
+                }
+            }
+        }
+
+        protected static void MassivelyInvokeString(string propertyName, string value)
+        {
+            foreach (var unityEvent in GetUnityEventEnumerator<StringUnityEvent>(propertyName))
+            {
+                if (unityEvent != null)
+                {
+                    unityEvent.Invoke(value);
+                }
+            }
+        }
+
+        protected static IEnumerable<T> GetUnityEventEnumerator<T>(string propertyName)
         {
             var type = typeof(BanditEvents);
             var field = type.GetField(propertyName);
@@ -23,11 +52,7 @@ namespace App.GameEvent
             var eventObjects = FindObjectsOfType<BanditEvents>();
             foreach (var eventObject in eventObjects)
             {
-                var unityEvent = (UnityEvent)field.GetValue(eventObject);
-                if (unityEvent != null)
-                {
-                    unityEvent.Invoke();
-                }
+                yield return (T)field.GetValue(eventObject);              
             }
         }
     }
