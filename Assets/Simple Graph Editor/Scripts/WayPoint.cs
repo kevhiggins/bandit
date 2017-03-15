@@ -12,6 +12,8 @@ public class WayPoint : MonoBehaviour {
     [HideInInspector]
     public List<WayPoint> ins = new List<WayPoint>();					//Refeences to waypoints that have this one as a principal choice.
 
+    const float boxWidth = .5f;
+
 		/**************************FUNCTIONS***********************************/
 
 	/*	Function assigns  the next waypoint on demand to cars.
@@ -92,7 +94,7 @@ public class WayPoint : MonoBehaviour {
 	public virtual void OnDrawGizmos() {
 		
 		Gizmos.color = color;
-		Gizmos.DrawCube(transform.position, new Vector3(1.5f,1.5f,1.5f));
+		Gizmos.DrawCube(transform.position, new Vector3(boxWidth, boxWidth, boxWidth));
 		for (int i = 0; i < outs.Count; ++i) {
 			Vector3 direction = outs[i].waypoint.transform.position -transform.position;
             DrawArrow.ForGizmo(transform.position + direction.normalized, direction - direction.normalized * 2f, Color.red);
@@ -108,7 +110,7 @@ public class WayPoint : MonoBehaviour {
 	    }
 
         Gizmos.color = Color.yellow;
-		Gizmos.DrawCube(transform.position, new Vector3(1.5f,1.5f,1.5f));
+		Gizmos.DrawCube(transform.position, new Vector3(boxWidth, boxWidth, boxWidth));
 		for (int i = 0; i < outs.Count; ++i) {
 			Vector3 direction = outs[i].waypoint.transform.position-transform.position;
 //			ForGizmo(transform.position+direction.normalized, direction -direction.normalized*2f, Color.magenta);
