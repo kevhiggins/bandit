@@ -24,7 +24,10 @@ namespace App.GameEvent
             foreach (var eventObject in eventObjects)
             {
                 var unityEvent = (UnityEvent)field.GetValue(eventObject);
-                unityEvent.Invoke();
+                if (unityEvent != null)
+                {
+                    unityEvent.Invoke();
+                }
             }
         }
     }

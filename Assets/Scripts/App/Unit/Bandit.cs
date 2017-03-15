@@ -10,7 +10,7 @@ namespace App.Unit
     {
         public GameObject targetWaypoint;
         public UnityEvent onPunished;
-        public UnityEvent onRob;
+        public StringUnityEvent onRob;
 
         public IGraphNode TargetNode
         {
@@ -60,8 +60,19 @@ namespace App.Unit
         {
             var goldReceieved = traveler.GetRobbed(this);
             GameManager.instance.IncreaseScore(goldReceieved);
-            onRob.Invoke();
+            var test = goldReceieved.ToString();
+
+            if (onRob != null)
+            {
+                onRob.Invoke(test);
+            }
+            
             BanditEvents.OnRob();
+        }
+
+        public void Testing(string hi)
+        {
+            
         }
 
         public void MoveToNode(IGraphNode node)
