@@ -1,14 +1,14 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using App.Graph;
 using GraphPathfinding;
 using UnityEngine;
 
 namespace App.Unit
 {
-    public class Soldier : Unit, ISoldier
+    public class Soldier : AbstractUnit, ISoldier
     {
         public Town SourceTown { get; private set; }
+        public float patrolDelay = 2f;
 
         private GraphNavigator graphNavigator;
 
@@ -46,7 +46,7 @@ namespace App.Unit
         {
             graphNavigator.MoveToNode(targetNode, () =>
             {
-                StartCoroutine(PathToSourceTownAfterWait(2));
+                StartCoroutine(PathToSourceTownAfterWait(patrolDelay));
             });
         }
 
