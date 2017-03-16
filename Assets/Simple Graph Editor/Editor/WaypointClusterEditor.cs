@@ -167,7 +167,7 @@ public class WaypointClusterEditor : Editor
         GameObject waypointAux;
         Undo.RecordObject(clusterobject, "Created waypoint");
         waypointAux = Resources.Load("Waypoint") as GameObject;
-        
+
         GameObject waypointInstance = PrefabUtility.InstantiatePrefab(waypointAux) as GameObject;
 
         waypointInstance.transform.position = point;
@@ -178,11 +178,13 @@ public class WaypointClusterEditor : Editor
 
         var nodePrefab = Resources.Load("Node") as GameObject;
         var nodeVisual = PrefabUtility.InstantiatePrefab(nodePrefab) as GameObject;
+
         nodeVisual.transform.parent = waypointInstance.transform;
         nodeVisual.transform.localPosition = Vector3.zero;
 
         var clickColliderPrefab = Resources.Load("NodeClickCollider") as GameObject;
         var clickCollider = PrefabUtility.InstantiatePrefab(clickColliderPrefab) as GameObject;
+
         clickCollider.transform.parent = waypointInstance.transform;
         clickCollider.transform.localPosition = Vector3.zero;
 
@@ -235,6 +237,9 @@ public class WaypointClusterEditor : Editor
 
         destiny.addOutWayPoint(source);
         source.addInWayPoint(destiny);
+
+        EditorUtility.SetDirty(source);
+        EditorUtility.SetDirty(destiny);
     }
 
     /* Removes a link between source and destiny */
@@ -245,6 +250,8 @@ public class WaypointClusterEditor : Editor
         Undo.RecordObject(destiny, "waypointremove");
         source.removeOutWayPoint(destiny);
         destiny.removeInWayPoint(source);
+        EditorUtility.SetDirty(source);
+        EditorUtility.SetDirty(destiny);
     }
 
 
