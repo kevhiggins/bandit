@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using GraphPathfinding;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace App.Graph
 {
@@ -10,6 +11,10 @@ namespace App.Graph
     {
         public float speed = 1;
         public bool HasReachedTarget { get; private set; }
+
+        public UnityEvent OnStartMove;
+        public UnityEvent OnEndMove;
+
 
 
         private IGraphNode targetNode;
@@ -38,6 +43,7 @@ namespace App.Graph
                     else
                     {
                         HasReachedTarget = true;
+                        OnEndMove.Invoke();
                         if (OnTargetReached != null)
                         {
                             OnTargetReached();
@@ -52,6 +58,7 @@ namespace App.Graph
         public void MoveToNode(IGraphNode node, TargetReachedHandler callback)
         {
             OnTargetReached = callback;
+            OnStartMove.Invoke();
             MoveToNode(node);
         }
 

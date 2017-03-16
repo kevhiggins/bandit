@@ -63,7 +63,7 @@ namespace App.Unit
 
         protected void Rob(Traveler traveler)
         {
-            var goldReceieved = traveler.GetRobbed(this);
+            var goldReceieved = traveler.Robbed(this);
             GameManager.instance.IncreaseScore(goldReceieved);
 
             if (onRob != null)

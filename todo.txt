@@ -1,28 +1,20 @@
 Deadline Thursday on Editor fun
 
--Fix node issue where connectes are getting reverted on play.
--Deleting nodes doesn't delete connections
--Fix node editor bright green and issues with errors
-
--Add config for soldier linger
-
-Bandit to soldier gold economy button/personal gold
-
-Add more soldier behavior
-Soldiers that kill bandits.
-
-
--Way to create damage pops without being helpful
-
-
-
-
 -Add scripts for generating Particles/Sound via configuration
--Soldier OnPunish
--StartMove StopMove
 -Travelers on Robbed
 -TownThreat
 	Modulus
+
+-Add config for soldier linger
+
+Add more soldier behavior
+Soldiers that kill bandits.
+-Way to create damage pops without being helpful
+Bandit to soldier gold economy button/personal gold
+
+
+
+
 	
 
 Creating/Destroying Bandits with our gold.

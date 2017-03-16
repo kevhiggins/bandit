@@ -1,5 +1,6 @@
 ﻿using App.Graph;
 using App;
+using App.GameEvent;
 using UnityEngine;
 
 namespace App.Unit
@@ -8,6 +9,9 @@ namespace App.Unit
     {
         public Town SourceTown { get; set; }
         public int goldValue = 10;
+
+        public StringUnityEvent OnRobbed;
+
         private Town destinationTown;
 
         void OnCollisionEnter2D(Collision2D collision)
@@ -26,10 +30,17 @@ namespace App.Unit
             }
         }
 
-        public int GetRobbed(Bandit bandit)
+        public int Robbed(Bandit bandit)
         {
+            var gold = goldValue.ToString();
             SourceTown.ReportRobbery(this, bandit);
             Despawn();
+            if (OnRobbed != null)
+            {
+                OnRobbed.Invoke(gold);
+            }
+            TravelerEvents.OnRobbed(gold);
+
             return goldValue;
         }
 

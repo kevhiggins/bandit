@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using App.GameEvent;
 using App.Graph;
 using GraphPathfinding;
 using UnityEngine;
@@ -9,6 +10,8 @@ namespace App.Unit
     {
         public Town SourceTown { get; private set; }
         public float patrolDelay = 2f;
+
+        public StringUnityEvent OnPunish;
 
         private GraphNavigator graphNavigator;
 
@@ -32,7 +35,14 @@ namespace App.Unit
 
         protected void Punish(Bandit bandit)
         {
-            bandit.Punished();
+            var goldAmount = bandit.Punished();
+            var gold = goldAmount.ToString();
+            if (OnPunish != null)
+            {
+                OnPunish.Invoke(gold);
+            }
+            
+            SoldierEvents.OnPunish(gold);
         }
 
         public void PlaceInTown(Town town)

@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using App.GameEvent;
 using App.Graph;
 using App.Unit;
 using GraphPathfinding;
+using UnityEngine.Events;
 
 namespace App
 {
@@ -11,12 +13,18 @@ namespace App
     {
         public float spawnOffset = 0f;
         public float spawnRate = 5f;
-        public int robberyThreshold = 2;
+        public int robberyThreshold = 4;
+        public int reportModulus = 2;
 
         public List<GameObject> travelerTypes = new List<GameObject>();
         public List<GameObject> soldierTypes = new List<GameObject>();
 
         public IGraphNode Node { get; private set; }
+
+        public StringUnityEvent onReportRobbery;
+        public UnityEvent onThresholdReached;
+        public UnityEvent onReportRobberyModulus;
+
 
         private Dictionary<IGraphNode, int> robberyMap = new Dictionary<IGraphNode, int>();
 
@@ -73,6 +81,14 @@ namespace App
         public void ReportRobbery(Traveler traveler, Bandit bandit)
         {
             var robberyNode = bandit.TargetNode;
+
+            var gold = traveler.goldValue.ToString();
+            if (onReportRobbery != null)
+            {
+                onReportRobbery.Invoke(gold);
+            }
+            TownEvents.OnReportRobbery(gold);
+
             if (robberyMap.ContainsKey(robberyNode))
             {
                 robberyMap[robberyNode]++;
@@ -83,10 +99,27 @@ namespace App
             }
 
             var totalRobberyCount = robberyMap.Sum(item => item.Value);
+
+            if (totalRobberyCount%reportModulus == 0)
+            {
+                if (onReportRobberyModulus != null)
+                {
+                    onReportRobberyModulus.Invoke();
+                }
+                TownEvents.OnReportRobberyModulus();
+            }
+
             if (totalRobberyCount >= robberyThreshold)
             {
                 robberyMap.Clear();
+                
                 SpawnSoldier(bandit.TargetNode);
+
+                if (onThresholdReached != null)
+                {
+                    onThresholdReached.Invoke();
+                }
+                TownEvents.OnThresholdReached();
             }
 
         }
