@@ -1,6 +1,5 @@
 Deadline Thursday on Editor fun
 
--Add scripts for generating Particles/Sound via configuration
 -Way to create damage pops without being helpful
 
 Add more soldier behavior
@@ -10,7 +9,7 @@ Creating/Destroying Bandits with our gold.
 
 
 It seems to me that there is a delay when instantiating prefabs like particle effects/sounds for at least the first time.
-Script for spawning sounds seems to preemptively despawn sometimes.
+
 
 
 https://www.nuget.org
