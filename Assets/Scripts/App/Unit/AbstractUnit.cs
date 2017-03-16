@@ -2,7 +2,7 @@
 
 namespace App.Unit
 {
-    public class Unit : MonoBehaviour, IUnit
+    public abstract class AbstractUnit : MonoBehaviour, IUnit
     {
         public void Despawn()
         {

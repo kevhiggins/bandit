@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace App.Unit
 {
-    public class Traveler : Unit
+    public class Traveler : AbstractUnit
     {
         public Town SourceTown { get; set; }
         public int goldValue = 10;
