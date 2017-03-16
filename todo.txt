@@ -1,41 +1,16 @@
 Deadline Thursday on Editor fun
 
 -Add scripts for generating Particles/Sound via configuration
--Travelers on Robbed
--TownThreat
-	Modulus
-
--Add config for soldier linger
+-Way to create damage pops without being helpful
 
 Add more soldier behavior
 Soldiers that kill bandits.
--Way to create damage pops without being helpful
 Bandit to soldier gold economy button/personal gold
-
-
-
-
-	
-
 Creating/Destroying Bandits with our gold.
-Prevent robbing people in town.
-
-Feedback on town when terror rising.
-Coins pop out of bandit.
-Bandits personal coin purse.
 
 
-Waypoint Editor:
-Low Priority - Half size gizmo boxes
-
-
-Fancy Idea:
-Look into the best way to configure particle effects on units. Should they all have them, or do we instantiate them using an anchor.
-Animation/Particle hook thing similar to TextHook
-
-
-
-
+It seems to me that there is a delay when instantiating prefabs like particle effects/sounds for at least the first time.
+Script for spawning sounds seems to preemptively despawn sometimes.
 
 
 https://www.nuget.org
