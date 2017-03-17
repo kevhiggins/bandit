@@ -55,18 +55,28 @@ namespace App.Graph
         }
 
         // TODO Change to use promises DLL
-        public void MoveToNode(IGraphNode node, TargetReachedHandler callback)
+        public void MoveToNode(IGraphNode node, TargetReachedHandler callback, int movementLimit = -1)
         {
             OnTargetReached = callback;
             OnStartMove.Invoke();
-            MoveToNode(node);
+            MoveToNode(node, movementLimit);
         }
 
-        public void MoveToNode(IGraphNode node)
+        public void MoveToNode(IGraphNode node, int movementLimit = -1)
         {
             // Find the shortest route to the destination node, and start moving towards it.
             var pathfinder = new AStarPathfinder();
             path = pathfinder.FindPath(GetTravelingNode(), node);
+
+            if (movementLimit > -1)
+            {
+//                Debug.Log(path.nodes.Count);
+                path.nodes.RemoveRange(movementLimit, path.nodes.Count - movementLimit);
+//                path.nodes.RemoveAt(path.nodes.Count - 1);
+//                Debug.Log(path.nodes.Count);
+            }
+            
+
             if (path != null)
             {
                 pathEnumerator = path.nodes.GetEnumerator();

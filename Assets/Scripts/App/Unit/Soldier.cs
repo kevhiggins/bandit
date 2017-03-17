@@ -10,6 +10,7 @@ namespace App.Unit
     {
         public Town SourceTown { get; private set; }
         public float patrolDelay = 2f;
+        public int movementRange = 1;
 
         public StringUnityEvent OnPunish;
 
@@ -57,7 +58,7 @@ namespace App.Unit
             graphNavigator.MoveToNode(targetNode, () =>
             {
                 StartCoroutine(PathToSourceTownAfterWait(patrolDelay));
-            });
+            }, movementRange + 2);
         }
 
         protected IEnumerator PathToSourceTownAfterWait(float seconds)

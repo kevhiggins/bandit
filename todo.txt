@@ -1,9 +1,7 @@
-Bandit to soldier gold economy button/personal gold
+Allow bandit to be punished
+TextMeshPro
 
 Add more soldier behavior
-Soldiers that kill bandits.
-
-Creating/Destroying Bandits with our gold.
 
 It seems to me that there is a delay when instantiating prefabs like particle effects/sounds for at least the first time.
 
@@ -12,5 +10,5 @@ Debug Gizmo for town / heat info
 -Setup nuget repo for pathfinding, and use paket
 https://www.nuget.org
 
-
+Parking Lot:
 -Instead of modifying the waypoint code directly, consider creating an observer class that automatically looks through waypoints, and configures the click collider and node visual
