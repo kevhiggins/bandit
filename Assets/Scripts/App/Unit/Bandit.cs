@@ -1,5 +1,6 @@
 ﻿using App.GameEvent;
 using App.Graph;
+using App.UI;
 using GraphPathfinding;
 using UnityEngine;
 using UnityEngine.Events;
@@ -64,14 +65,19 @@ namespace App.Unit
         protected void Rob(Traveler traveler)
         {
             var goldReceieved = traveler.Robbed(this);
+
+            var gold = goldReceieved.ToString();
+
+            GameManager.instance.GameValueRegistry.SetRegistryValue("last_robbed_amount", gold);
+
             GameManager.instance.IncreaseScore(goldReceieved);
 
             if (onRob != null)
             {
-                onRob.Invoke(goldReceieved.ToString());
+                onRob.Invoke(gold);
             }
             
-            BanditEvents.OnRob(goldReceieved.ToString());
+            BanditEvents.OnRob(gold);
         }
 
         public void MoveToNode(IGraphNode node)

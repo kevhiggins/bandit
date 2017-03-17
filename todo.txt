@@ -1,10 +1,26 @@
 Deadline Thursday on Editor fun
 
+-Setup canvas with world view and text subobject with animation
+-Use GameObject spawn script
+-Create a script that gets the animation duration on awake, and deletes the gameobject at the end.
+-Change texthook to allow for one time update
+
+
 -Way to create damage pops without being helpful
+	Add last robbed value to texthook registry, and utilize the GameObject spawn
+	
+	
+String value
+Canvas Game objects
+Text Game object
+Animation?	
+	
+
+Bandit to soldier gold economy button/personal gold
 
 Add more soldier behavior
 Soldiers that kill bandits.
-Bandit to soldier gold economy button/personal gold
+
 Creating/Destroying Bandits with our gold.
 
 

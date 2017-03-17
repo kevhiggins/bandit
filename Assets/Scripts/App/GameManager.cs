@@ -3,6 +3,7 @@ using App.Graph;
 using App.UI;
 using UnityEngine;
 using App.Unit;
+using JetBrains.Annotations;
 
 namespace App
 {
@@ -12,6 +13,8 @@ namespace App
     {
         public static GameManager instance;
         public GameObject graphIllustratorChild = null;
+
+        public bool IsInitialized { get; private set; }
 
         [HideInInspector]
         public WaypointNodeFinder nodeFinder;
@@ -39,6 +42,7 @@ namespace App
 
         void Awake()
         {
+            IsInitialized = false;
             if (instance == null)
             {
                 instance = this;
@@ -175,6 +179,7 @@ namespace App
 
             Score = 0;
             OnAfterInit();
+            IsInitialized = true;
         }
     }
 }

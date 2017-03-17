@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace App.UI
 {
@@ -8,22 +6,7 @@ namespace App.UI
     {
         public void Spawn(GameObject target)
         {
-            Spawn(target, 2);
-        }
-
-        public void Spawn(GameObject target, int duration)
-        {
-            var spawnedGameObject = Instantiate(target, gameObject.transform.position, Quaternion.identity);
-            if (duration > 0)
-            {
-                StartCoroutine(Despawn(spawnedGameObject, duration));
-            }
-        }
-
-        protected IEnumerator Despawn(GameObject instance, int duration)
-        {
-            yield return new WaitForSeconds(duration);
-            Destroy(instance);
+            Instantiate(target, gameObject.transform.position, Quaternion.identity);
         }
     }
 }

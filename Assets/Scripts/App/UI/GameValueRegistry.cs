@@ -10,13 +10,16 @@ namespace App.UI
         public static Dictionary<string, Dictionary<string, string>> registry = new Dictionary
             <string, Dictionary<string, string>>
         {
-            {"General", new Dictionary<string, string>
+            {
+                "General", new Dictionary<string, string>
                 {
                     {"total_gold", "Total Gold"},
-                    {"total_travelers", "Total Travelers"}
+                    {"total_travelers", "Total Travelers"},
+                    {"last_robbed_amount", "Last Robbed Amount"}
                 }
             },
-            {"Miscellaneous", new Dictionary<string, string>
+            {
+                "Miscellaneous", new Dictionary<string, string>
                 {
                     {"total_bandits", "Total Bandits"},
                 }

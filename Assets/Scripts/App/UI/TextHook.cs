@@ -3,29 +3,36 @@ using UnityEngine.UI;
 
 namespace App.UI
 {
-    public class TextHook : MonoBehaviour
+    public class TextHook : AppMonoBehavior
     {
         [HideInInspector]
         public string entryName;
 
         public string replacementText = "{value}";
 
+        public bool synchronizeText = true;
+
         private string initialText;
         private Text textScript;
 
         private string currentValue;
 
-        void Awake()
+        protected override void Awake()
         {
             textScript = gameObject.GetComponent<Text>();
             initialText = textScript.text;
+            base.Awake();
+        }
 
-            GameManager.OnAfterInit += () =>
+        protected override void Init()
+        {
+            if (synchronizeText)
             {
                 GameManager.instance.GameValueRegistry.RegisterHandler(entryName, ReplaceText);
-                var value = GameManager.instance.GameValueRegistry.GetValue(entryName);
-                ReplaceText(value);
-            };
+            }
+
+            var value = GameManager.instance.GameValueRegistry.GetValue(entryName);
+            ReplaceText(value);
         }
 
         private void ReplaceText(string value)
