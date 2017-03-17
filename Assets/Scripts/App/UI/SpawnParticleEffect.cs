@@ -12,7 +12,7 @@ namespace App.UI
             var duration = particleEffect.main.duration;
             particleEffect.Play();
 
-            StartCoroutine(Despawn(spawnedGameObject, duration));
+            GameManager.instance.StartCoroutine(Despawn(spawnedGameObject, duration));
         }
 
         protected IEnumerator Despawn(GameObject target, float duration)
