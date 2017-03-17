@@ -7,7 +7,7 @@ namespace App.UI
     {
         public void Spawn(GameObject target)
         {
-            var spawnedGameObject = Instantiate(target, gameObject.transform.position, Quaternion.identity);
+            var spawnedGameObject = Instantiate(target, gameObject.transform.position, target.transform.rotation);
             var particleEffect = spawnedGameObject.GetComponent<ParticleSystem>();
             var duration = particleEffect.main.duration;
             particleEffect.Play();
