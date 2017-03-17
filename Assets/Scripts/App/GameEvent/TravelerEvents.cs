@@ -2,7 +2,7 @@
 {
     class TravelerEvents : AbstractEvents
     {
-        public StringUnityEvent onRobbed;
+        public StringUnityEvent onRobbed = null;
 
         public static void OnRobbed(string goldAmount)
         {

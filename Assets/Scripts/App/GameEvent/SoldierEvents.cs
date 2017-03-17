@@ -2,7 +2,7 @@
 {
     class SoldierEvents : AbstractEvents
     {
-        public StringUnityEvent onPunish;
+        public StringUnityEvent onPunish = null;
 
         public static void OnPunish(string goldAmount)
         {

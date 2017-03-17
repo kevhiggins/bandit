@@ -7,8 +7,8 @@ namespace App.GameEvent
 {
     class BanditEvents : AbstractEvents
     {
-        public StringUnityEvent onRob;
-        public StringUnityEvent onPunished;
+        public StringUnityEvent onRob = null;
+        public StringUnityEvent onPunished = null;
 
         public static void OnRob(string goldAmount)
         {           

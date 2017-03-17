@@ -4,9 +4,9 @@ namespace App.GameEvent
 {
     class TownEvents : AbstractEvents
     {
-        public StringUnityEvent onReportRobbery;
-        public UnityEvent onThresholdReached;
-        public UnityEvent onReportRobberyModulus;
+        public StringUnityEvent onReportRobbery = null;
+        public UnityEvent onThresholdReached = null;
+        public UnityEvent onReportRobberyModulus = null;
 
         public static void OnReportRobbery(string goldAmount)
         {
