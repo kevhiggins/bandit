@@ -169,8 +169,8 @@ namespace App
 
 
             // Disabled illustrator, since we don't seem to be using it.
-//            var illustrator = new GraphIllustrator();
-//            illustrator.Draw(nodeFinder, waypoints, graphIllustratorChild);
+            var illustrator = new GraphIllustrator();
+            illustrator.Draw(nodeFinder, waypoints, graphIllustratorChild);
 
             foreach (var bandit in FindObjectsOfType<Bandit>())
             {
