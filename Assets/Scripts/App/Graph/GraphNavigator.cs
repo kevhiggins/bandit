@@ -68,12 +68,10 @@ namespace App.Graph
             var pathfinder = new AStarPathfinder();
             path = pathfinder.FindPath(GetTravelingNode(), node);
 
-            if (movementLimit > -1)
+            if (movementLimit > -1 && path.nodes.Count > movementLimit)
             {
-//                Debug.Log(path.nodes.Count);
+
                 path.nodes.RemoveRange(movementLimit, path.nodes.Count - movementLimit);
-//                path.nodes.RemoveAt(path.nodes.Count - 1);
-//                Debug.Log(path.nodes.Count);
             }
             
 
