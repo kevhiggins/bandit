@@ -9,6 +9,7 @@ namespace App.GameEvent
     {
         public StringUnityEvent onRob = null;
         public StringUnityEvent onPunished = null;
+        public UnityEvent onDie = null;
 
         public static void OnRob(string goldAmount)
         {           
@@ -18,6 +19,11 @@ namespace App.GameEvent
         public static void OnPunished(string goldAmount)
         {
             MassivelyInvokeString<BanditEvents>("onPunished", goldAmount);
+        }
+
+        public static void OnDie()
+        {
+            MassivelyInvoke<BanditEvents>("onDie");
         }
     }
 }

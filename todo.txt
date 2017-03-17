@@ -1,21 +1,3 @@
-Deadline Thursday on Editor fun
-
--Setup canvas with world view and text subobject with animation
--Use GameObject spawn script
--Create a script that gets the animation duration on awake, and deletes the gameobject at the end.
--Change texthook to allow for one time update
-
-
--Way to create damage pops without being helpful
-	Add last robbed value to texthook registry, and utilize the GameObject spawn
-	
-	
-String value
-Canvas Game objects
-Text Game object
-Animation?	
-	
-
 Bandit to soldier gold economy button/personal gold
 
 Add more soldier behavior
@@ -23,51 +5,12 @@ Soldiers that kill bandits.
 
 Creating/Destroying Bandits with our gold.
 
-
 It seems to me that there is a delay when instantiating prefabs like particle effects/sounds for at least the first time.
-
-
-
-https://www.nuget.org
-
-Cannot start/stop particle effects arbitrarily in animator
-
-Allow multiple text hooks
-
-Make it so that we are linking the properties to the registry, instead of just calling a method.
-This will help to ensure that the initial value of the property is always applied to the registry.
-
--Fix scoreboard
--scoreboard flashy
-
--Path to node where bandit was
-
-Crime increments meters evenly for all towns
-Travelers “belong” to a town, and increment their town of origin’s meter
-Once meter fills, a soldier spawns and moves to the location of the node where the triggering crime happened.
-If no bandit is found, path back home
-Reset all gold if bandit is caught
 
 Debug Gizmo for town / heat info
 
-
-
-
-
-coin burst thing?
-
-ParticleManager
-ParticleAnchor for game objects
-
-
--Fix editor so prefabs aren't broken when cloning
-=How much gold traveler is worth?
-
 -Setup nuget repo for pathfinding, and use paket
+https://www.nuget.org
 
 
 -Instead of modifying the waypoint code directly, consider creating an observer class that automatically looks through waypoints, and configures the click collider and node visual
--Allow disabling squares for waypointcluster editor
--figure out a way to disable graph editor hit boxes while the game is running? They just make things more confusing.
-
--Look into not needing to find UI gameobject children by name.

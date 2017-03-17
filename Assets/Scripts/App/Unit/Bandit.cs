@@ -10,8 +10,9 @@ namespace App.Unit
     public class Bandit : MonoBehaviour
     {
         public GameObject targetWaypoint;
-        public StringUnityEvent onPunished;
-        public StringUnityEvent onRob;
+        public StringUnityEvent onPunished = null;
+        public StringUnityEvent onRob = null;
+        public UnityEvent onDie = null;
 
         public IGraphNode TargetNode
         {
@@ -19,6 +20,8 @@ namespace App.Unit
         }
 
         private GraphNavigator graphNavigator;
+
+        private int totalGold = 0;
 
         public void Init()
         {
@@ -51,7 +54,8 @@ namespace App.Unit
 
         public int Punished()
         {
-            var goldAmount = GameManager.instance.Score;
+            var goldAmount = totalGold;
+            totalGold = 0;
             GameManager.instance.DecreaseScore(goldAmount);
             if (onPunished != null)
             {
@@ -59,12 +63,16 @@ namespace App.Unit
             }
             BanditEvents.OnPunished(goldAmount.ToString());
 
+            Die();
+
             return goldAmount;
         }
 
         protected void Rob(Traveler traveler)
         {
             var goldReceieved = traveler.Robbed(this);
+            totalGold += goldReceieved;
+
 
             var gold = goldReceieved.ToString();
 
@@ -78,6 +86,16 @@ namespace App.Unit
             }
             
             BanditEvents.OnRob(gold);
+        }
+
+        protected void Die()
+        {
+            Destroy(gameObject);
+            if (onDie != null)
+            {
+                onDie.Invoke();
+            }
+            BanditEvents.OnDie();
         }
 
         public void MoveToNode(IGraphNode node)
