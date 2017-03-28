@@ -58,7 +58,6 @@ namespace App.Graph
         public void MoveToNode(IGraphNode node, TargetReachedHandler callback, int movementLimit = -1)
         {
             OnTargetReached = callback;
-            OnStartMove.Invoke();
             MoveToNode(node, movementLimit);
         }
 
@@ -67,6 +66,11 @@ namespace App.Graph
             // Find the shortest route to the destination node, and start moving towards it.
             var pathfinder = new AStarPathfinder();
             path = pathfinder.FindPath(GetTravelingNode(), node);
+
+            if (OnStartMove != null)
+            {
+                OnStartMove.Invoke();
+            }
 
             if (movementLimit > -1 && path.nodes.Count > movementLimit)
             {
