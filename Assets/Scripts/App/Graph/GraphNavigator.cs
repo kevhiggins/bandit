@@ -24,6 +24,11 @@ namespace App.Graph
         private IEnumerator<IGraphNode> pathEnumerator;
         private TargetReachedHandler OnTargetReached;
 
+        void Awake()
+        {
+            HasReachedTarget = true;
+        }
+
         void Update()
         {
             if (!HasReachedTarget)
@@ -38,7 +43,7 @@ namespace App.Graph
                     // Otherwise, we've reached the target and can stop.
                     if (pathEnumerator != null && pathEnumerator.MoveNext())
                     {
-                        SetTargetNode(pathEnumerator.Current);
+                        SetTargetNode(pathEnumerator.Current, false);
                     }
                     else
                     {
@@ -83,11 +88,11 @@ namespace App.Graph
             {
                 pathEnumerator = path.nodes.GetEnumerator();
                 pathEnumerator.MoveNext();
-                SetTargetNode(pathEnumerator.Current);
+                SetTargetNode(pathEnumerator.Current, false);
             }
         }
 
-        public void SetTargetNode(IGraphNode node)
+        public void SetTargetNode(IGraphNode node, bool isStartingNode = true)
         {
             // Set previous node to current node if we aren't already moving.
             if (targetNode == null)
@@ -101,7 +106,11 @@ namespace App.Graph
 
             targetNode = node;
             targetPosition = new Vector3(targetNode.X, targetNode.Y, 0);
-            HasReachedTarget = false;
+
+            if (!isStartingNode)
+            {
+                HasReachedTarget = false;
+            }
         }
 
         public IGraphNode GetTargetNode()
