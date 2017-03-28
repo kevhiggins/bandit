@@ -1,3 +1,67 @@
+Step 1:
+Setup battle HUD
+Unit threat number
+Bandits have first initiative
+Build statemachine for combat?
+
+
+Attack
+HP
+
+
+Step 1:
+Trigger an ambush
+	-Put your guy in ambush mode
+	-When a special merchant comes by, an ambush happens
+	-Ambush button
+
+Step 2:
+How to pause the game
+
+
+
+Step ?:
+Add text log for combat actions
+
+
+
+
+X-Way to group bandits into a party
+Some form of stat system.
+Setup GUI system with buttons and display area.
+How do we layout the units on their side of the field
+Programming button actions accordingly
+
+
+Setup basic selection GUI with Ambush button.
+Implement the 3 bandit states, and make sure they interact with the world accordingly.
+That includes ambushing merchants (add a merchant script)
+
+
+
+Bandit ambush state for robbing caravans specifically.
+	-Simplest implementation is to get more gold than normal and drop out of the ambush state.
+	-Bandits in ambush state can't be punished by soldiers.
+	
+	
+	-Idle
+	-Rob
+	-Ambush
+	
+	Can't rob travelers, but can rob merchants?
+	
+	Pause world on ambush to determine if you want to fight
+	
+	
+	cooldown
+	
+	
+
+
+Bandit purchases
+Bandit upgrades
+Bandit gameplay with robbing
+
 Allow bandit to be punished
 TextMeshPro
 
