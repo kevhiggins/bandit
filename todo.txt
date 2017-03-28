@@ -1,3 +1,5 @@
+Add OnMouseHover script to be used with colliders
+
 Step 1:
 Setup battle HUD
 Unit threat number
