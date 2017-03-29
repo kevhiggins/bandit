@@ -1,5 +1,9 @@
 Add OnMouseHover script to be used with colliders
 
+Change battle HUD to world space
+
+OnStruck()
+
 Draw units on the screen
 
 Issues:
