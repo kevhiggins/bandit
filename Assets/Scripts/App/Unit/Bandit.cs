@@ -1,6 +1,5 @@
 ﻿using App.GameEvent;
 using App.Graph;
-using App.UI;
 using GraphPathfinding;
 using UnityEngine;
 using UnityEngine.Events;

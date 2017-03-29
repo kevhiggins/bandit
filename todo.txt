@@ -1,5 +1,12 @@
 Add OnMouseHover script to be used with colliders
 
+Draw units on the screen
+
+Issues:
+Throwing our existing prefabs into a new scene is going to be wacky. We should have a separate prefab configured onto our Unit script specifically for the battle version of a unit.
+
+
+
 Step 1:
 Setup battle HUD
 Unit threat number
