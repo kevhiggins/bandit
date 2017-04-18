@@ -8,6 +8,7 @@ namespace App.Battle
         public int hp = 6;
         public int attackPower = 2;
         public int threat = 1;
+        public int initiative = 1;
         public UnityEvent onAttack = null;
 
 
@@ -17,6 +18,8 @@ namespace App.Battle
 
         public int Threat { get; private set; }
 
+        public int Initiative { get; private set; }
+
         public GameObject DisplayPrefab { get; private set; }
 
         public void Init()
@@ -25,6 +28,7 @@ namespace App.Battle
             AttackPower = attackPower;
             Threat = threat;
             DisplayPrefab = gameObject;
+            Initiative = initiative;
         }
 
         public void Attack(ICombatant target)
@@ -33,6 +37,17 @@ namespace App.Battle
             {
                 onAttack.Invoke();
             }
+            target.ReceiveHit(this);
+        }
+
+        public void ReceiveHit(ICombatant attacker)
+        {
+            hp -= attacker.AttackPower;
+        }
+
+        public bool IsLiving()
+        {
+            return Hp > 0;
         }
     }
 }

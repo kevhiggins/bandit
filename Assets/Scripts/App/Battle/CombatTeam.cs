@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace App.Battle
 {
@@ -9,6 +10,16 @@ namespace App.Battle
         public CombatTeam(List<ICombatant> combatants)
         {
             Combatants = combatants;
+        }
+
+        public ICombatant GetTank()
+        {
+            return LivingCombatants().OrderByDescending(combatant => combatant.Threat).FirstOrDefault();
+        }
+
+        public IEnumerable<ICombatant> LivingCombatants()
+        {
+            return Combatants.Where(combatant => combatant.IsLiving());
         }
     }
 }

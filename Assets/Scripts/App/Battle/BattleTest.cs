@@ -7,11 +7,15 @@ namespace App.Battle
     {
         public List<GameObject> travelers = new List<GameObject>();
         public List<GameObject> bandits = new List<GameObject>();
+        public float delayPerUnitFight = 0.3f;
+
+        private ICombatTeam teamA;
+        private ICombatTeam teamB;
 
         public void Awake()
         {
-            var teamA = CreateTeam(travelers);
-            var teamB = CreateTeam(bandits);
+            teamA = CreateTeam(travelers);
+            teamB = CreateTeam(bandits);
 
             // Display the battle on the screen.
             var battleIllustrator = new BattleIllustrator();
@@ -33,6 +37,12 @@ namespace App.Battle
             }
 
             return new CombatTeam(combatants);
+        }
+
+        public void Fight()
+        {
+            var battleDirector = new BattleDirector(this);
+            battleDirector.Battle(teamA, teamB);
         }
     }
 }
