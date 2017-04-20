@@ -1,5 +1,12 @@
+Figure out best way to not display name/hp info when not enough units are present.
+Fix issue where both teams are fighting simultaneously.
+Fix issue where the events aren't being triggered on the instantiated game objects
+
+
 Run some basic tests on battle system with debugger logs
 Hook in some visuals
+
+Set visual anchor points
 
 Add OnMouseHover script to be used with colliders
 

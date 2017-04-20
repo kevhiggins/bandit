@@ -31,6 +31,13 @@ namespace App.Battle
             {
                 // Get the highest threat enemy unit and attack it.
                 var tank = teamB.GetTank();
+
+                // If there is no tank, then break out of the loop.
+                if (tank == null)
+                {
+                    break;
+                }
+
                 activeUnit.Attack(tank);
 
                 // Wait the configured amount of time before starting the next fight.

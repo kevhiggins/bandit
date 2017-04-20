@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 namespace App.Battle
 {
@@ -9,6 +10,12 @@ namespace App.Battle
         int Threat { get; }
         int Initiative { get; }
         GameObject DisplayPrefab { get; }
+        string Name { get; }
+
+        UnityEvent OnAttack { get; }
+        UnityEvent OnReceiveHit { get; }
+
+
 
         void Attack(ICombatant target);
         void ReceiveHit(ICombatant attacker);
