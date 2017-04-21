@@ -9,7 +9,7 @@ namespace App.Battle
         int AttackPower { get; }
         int Threat { get; }
         int Initiative { get; }
-        GameObject DisplayPrefab { get; }
+        GameObject GameObject { get; }
         string Name { get; }
 
         UnityEvent OnAttack { get; }

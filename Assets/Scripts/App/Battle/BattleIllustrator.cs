@@ -1,21 +1,22 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace App.Battle
 {
     public class BattleIllustrator
     {
-        public void DrawBattle(ICombatTeam teamA, ICombatTeam teamB)
+        public void DrawBattle(ICombatTeam teamA, ICombatTeam teamB, List<GameObject> aAnchors, List<GameObject> bAnchors)
         {
-            DrawTeam(teamA, -10f, 4f, -1.5f);
-            DrawTeam(teamB, 8f, 4f, -1.5f);
+            DrawTeam(teamA, aAnchors);
+            DrawTeam(teamB, bAnchors);
         }
 
-        private void DrawTeam(ICombatTeam team, float xStart, float yStart, float yOffset)
+        private void DrawTeam(ICombatTeam team, List<GameObject> anchors)
         {
             var count = 0;
             foreach (var combatant in team.Combatants)
             {
-                Object.Instantiate(combatant.DisplayPrefab, new Vector3(xStart, yStart + count * yOffset, 0), Quaternion.identity);
+                combatant.GameObject.transform.position = anchors[count].transform.position;
                 count++;
             }
         }

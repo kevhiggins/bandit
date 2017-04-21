@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -11,11 +12,17 @@ namespace App.Battle
         public List<GameObject> travelers = new List<GameObject>();
         public List<GameObject> bandits = new List<GameObject>();
 
+        public List<GameObject> travelerInfoBoxes = new List<GameObject>();
+        public List<GameObject> banditInfoBoxes = new List<GameObject>();
+
         public List<GameObject> travelerNameTexts = new List<GameObject>();
         public List<GameObject> travelerHpTexts = new List<GameObject>();
 
         public List<GameObject> banditNameTexts = new List<GameObject>();
         public List<GameObject> banditHpTexts = new List<GameObject>();
+
+        public List<GameObject> travelerAnchors = new List<GameObject>();
+        public List<GameObject> banditAnchors = new List<GameObject>();
 
         public float delayPerUnitFight = 0.3f;
 
@@ -31,7 +38,7 @@ namespace App.Battle
 
             // Display the battle on the screen.
             var battleIllustrator = new BattleIllustrator();
-            battleIllustrator.DrawBattle(teamA, teamB);
+            battleIllustrator.DrawBattle(teamA, teamB, travelerAnchors, banditAnchors);
 
             // Initiate the battle.
 //            var battleDirector = new BattleDirector();
@@ -59,11 +66,27 @@ namespace App.Battle
 
         protected void HookupTextFields()
         {
+            DestroyUnusedInfoBoxes(teamA, travelerInfoBoxes);
+            DestroyUnusedInfoBoxes(teamB, banditInfoBoxes);
+
             HookupNameFields(teamA, travelerNameTexts);
             HookupNameFields(teamB, banditNameTexts);
 
             HookupOnReceiveTextFields(teamA, travelerHpTexts);
             HookupOnReceiveTextFields(teamB, banditHpTexts);
+        }
+
+        protected void DestroyUnusedInfoBoxes(ICombatTeam team, List<GameObject> infoBoxes)
+        {
+            var index = 0;
+            foreach (var infoBox in infoBoxes)
+            {
+                if (team.Combatants.ElementAtOrDefault(index) == null)
+                {
+                    Destroy(infoBox);
+                }
+                index++;
+            }
         }
 
         protected void HookupOnReceiveTextFields(ICombatTeam team, List<GameObject> textFields)

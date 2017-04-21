@@ -17,9 +17,14 @@ namespace App.Battle
 
         public void Battle(ICombatTeam teamA, ICombatTeam teamB)
         {
+            coroutineManager.StartCoroutine(BattleRoutine(teamA, teamB));
+        }
+
+        protected IEnumerator BattleRoutine(ICombatTeam teamA, ICombatTeam teamB)
+        {
             coroutineManager.StartCoroutine(TeamAttack(teamA, teamB));
 
-            // TODO Add a configure for a wait between teams fighting?
+            yield return new WaitForSeconds(2);
 
             coroutineManager.StartCoroutine(TeamAttack(teamB, teamA));
         }

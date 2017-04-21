@@ -21,7 +21,7 @@ namespace App.Battle
 
         public int Initiative { get; private set; }
 
-        public GameObject DisplayPrefab { get; private set; }
+        public GameObject GameObject { get; private set; }
         public string Name { get { return gameObject.name; } }
 
         public UnityEvent OnAttack { get { return onAttack; } }
@@ -32,8 +32,8 @@ namespace App.Battle
             Hp = hp;
             AttackPower = attackPower;
             Threat = threat;
-            DisplayPrefab = gameObject;
             Initiative = initiative;
+            GameObject = gameObject;
         }
 
         public void Attack(ICombatant target)
