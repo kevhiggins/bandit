@@ -1,5 +1,6 @@
 ﻿using App.GameEvent;
 using App.Graph;
+using App.UI;
 using GraphPathfinding;
 using UnityEngine;
 using UnityEngine.Events;
@@ -75,7 +76,7 @@ namespace App.Unit
 
             var gold = goldReceieved.ToString();
 
-            GameManager.instance.GameValueRegistry.SetRegistryValue("last_robbed_amount", gold);
+            GameValueRegistry.Instance.SetRegistryValue("last_robbed_amount", gold);
 
             GameManager.instance.IncreaseScore(goldReceieved);
 

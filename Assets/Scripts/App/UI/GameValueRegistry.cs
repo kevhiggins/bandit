@@ -5,6 +5,20 @@ namespace App.UI
 {
     public class GameValueRegistry
     {
+        public static GameValueRegistry Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new GameValueRegistry();
+                }
+                return instance;
+            }
+        }
+
+        private static GameValueRegistry instance;
+
         // Switch the entries to an object, so we can more easily run queries via linq.
         // TODO move this into a configuration, so this can become a package.
         public static Dictionary<string, Dictionary<string, string>> registry = new Dictionary
@@ -16,6 +30,12 @@ namespace App.UI
                     {"total_gold", "Total Gold"},
                     {"total_travelers", "Total Travelers"},
                     {"last_robbed_amount", "Last Robbed Amount"}
+                }
+            },
+            {
+                "Battle", new Dictionary<string, string>
+                {
+                    {"last_battle_hit_amount", "Last Battle Hit Amount"},
                 }
             },
             {

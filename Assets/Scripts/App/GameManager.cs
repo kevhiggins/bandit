@@ -3,7 +3,6 @@ using App.Graph;
 using App.UI;
 using UnityEngine;
 using App.Unit;
-using JetBrains.Annotations;
 
 namespace App
 {
@@ -28,13 +27,11 @@ namespace App
             private set
             {
                 score = value;
-                GameValueRegistry.SetRegistryValue("total_gold", score.ToString());
+                GameValueRegistry.Instance.SetRegistryValue("total_gold", score.ToString());
             }
         }
 
         private Bandit selectedBandit;
-
-        public GameValueRegistry GameValueRegistry { get; private set; }
 
         public TownManager TownManager { get; private set; }
 
@@ -126,11 +123,11 @@ namespace App
             }
 
             var bandits = FindObjectsOfType<Unit.Bandit>();
-            GameValueRegistry.SetRegistryValue("total_bandits", bandits.Length.ToString());
+            GameValueRegistry.Instance.SetRegistryValue("total_bandits", bandits.Length.ToString());
 
 
             var travelers = FindObjectsOfType<Traveler>();
-            GameValueRegistry.SetRegistryValue("total_travelers", travelers.Length.ToString());
+            GameValueRegistry.Instance.SetRegistryValue("total_travelers", travelers.Length.ToString());
         }
 
         public void IncreaseScore(int value)
@@ -160,7 +157,6 @@ namespace App
         void InitGame()
         {
             TownManager = new TownManager();      
-            GameValueRegistry = new GameValueRegistry();      
 
             var waypoints = FindObjectsOfType<WayPoint>();
             nodeFinder = new WaypointNodeFinder(waypoints);

@@ -28,10 +28,10 @@ namespace App.UI
         {
             if (synchronizeText)
             {
-                GameManager.instance.GameValueRegistry.RegisterHandler(entryName, ReplaceText);
+                GameValueRegistry.Instance.RegisterHandler(entryName, ReplaceText);
             }
 
-            var value = GameManager.instance.GameValueRegistry.GetValue(entryName);
+            var value = GameValueRegistry.Instance.GetValue(entryName);
             ReplaceText(value);
         }
 

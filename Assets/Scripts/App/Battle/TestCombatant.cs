@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using App.UI;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace App.Battle
@@ -47,7 +48,14 @@ namespace App.Battle
 
         public void ReceiveHit(ICombatant attacker)
         {
-            Hp -= attacker.AttackPower;
+            var damage = attacker.AttackPower;
+            GameValueRegistry.Instance.SetRegistryValue("last_battle_hit_amount", damage.ToString());
+            Hp -= damage;
+            if (Hp < 0)
+            {
+                Hp = 0;
+            }
+
             if (onReceiveHit != null)
             {
                 onReceiveHit.Invoke();
