@@ -60,7 +60,7 @@ namespace App.Battle
 
         public void Fight()
         {
-            var battleDirector = new BattleDirector(this);
+            var battleDirector = new BattleDirector(this, delayPerUnitFight);
             battleDirector.Battle(teamA, teamB);
         }
 
