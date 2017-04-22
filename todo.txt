@@ -1,5 +1,44 @@
+Make sure matched threat combatants get resolved for targeting randomly
+Fix issue where teams attacks are overlapping
+Implement unit death/animation/delay
+Add max hp to hp box
+
+Battle start event
+Add an event that occurs between fight rounds.
+Battle Success event
+Battle Fail event
+
+Need a confirm button for both success/fail canvases
+On confirm treasure goes in pocket. (Or maybe the caravan explodes into coins)
+
+HOW TO PAUSE AND UNPAUSE
+
+
+
+
+
+Display reward on battle screen.
+	Add a configuration for how much gold the battle is worth.
+
+When a team wins, end the banditmon game somehow.
+Same for losing.
+Implement Run button as well.
+
+
+Wishlist:
+Battle log
+
+Questions:
+How should unit hit and unit death events chain?
+
 Handle unit deaths in battle scene.
 Figure out what else.
+
+After each round, check to see if a team is totally dead.
+If so, do the success actions
+Else, do the fail action
+
+Add running from battle
 
 
 Run some basic tests on battle system with debugger logs
