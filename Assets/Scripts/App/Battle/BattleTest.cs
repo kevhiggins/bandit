@@ -25,6 +25,7 @@ namespace App.Battle
         public List<GameObject> banditAnchors = new List<GameObject>();
 
         public float delayPerUnitFight = 0.3f;
+        public float delayPerTeamFight = 0.5f;
 
         private ICombatTeam teamA;
         private ICombatTeam teamB;
@@ -60,7 +61,7 @@ namespace App.Battle
 
         public void Fight()
         {
-            var battleDirector = new BattleDirector(this, delayPerUnitFight);
+            var battleDirector = new BattleDirector(delayPerUnitFight, delayPerTeamFight);
             battleDirector.Battle(teamA, teamB);
         }
 

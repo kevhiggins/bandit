@@ -1,53 +1,59 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using App.GamePromise;
+using RSG;
 
 namespace App.Battle
 {
     public class BattleDirector
     {
-        public float DelayPerUnitFight { get; private set; }
-        private MonoBehaviour coroutineManager;
+        private float delayPerUnitFight;
+        private float delayPerTeamFight;
 
-        public BattleDirector(MonoBehaviour coroutineManager, float delayPerUnitFight = 0.3f)
+        public BattleDirector(float delayPerUnitFight, float delayPerTeamFight)
         {
-            DelayPerUnitFight = delayPerUnitFight;
-            this.coroutineManager = coroutineManager;
+            this.delayPerUnitFight = delayPerUnitFight;
+            this.delayPerTeamFight = delayPerTeamFight;
         }
 
         public void Battle(ICombatTeam teamA, ICombatTeam teamB)
-        {
-            coroutineManager.StartCoroutine(BattleRoutine(teamA, teamB));
+        {           
+            TeamAttack(teamA, teamB)
+                .Then(() => PromiseTimerHelper.Instance.WaitFor(delayPerTeamFight))
+                .Then(() => TeamAttack(teamB, teamA))
+                .Done();
         }
 
-        protected IEnumerator BattleRoutine(ICombatTeam teamA, ICombatTeam teamB)
+        protected IPromise TeamAttack(ICombatTeam teamA, ICombatTeam teamB)
         {
-            coroutineManager.StartCoroutine(TeamAttack(teamA, teamB));
+            var promises = new List<Func<IPromise>>();
 
-            yield return new WaitForSeconds(2);
-
-            coroutineManager.StartCoroutine(TeamAttack(teamB, teamA));
-        }
-
-        protected IEnumerator TeamAttack(ICombatTeam teamA, ICombatTeam teamB)
-        {
             // Foreach unit in team A, attack the highest living unit on teamB with the highest threat.
             foreach (var activeUnit in teamA.LivingCombatants().OrderByDescending(unit => unit.Initiative))
             {
-                // Get the highest threat enemy unit and attack it.
-                var tank = teamB.GetTank();
+                var attacker = activeUnit;
 
-                // If there is no tank, then break out of the loop.
-                if (tank == null)
-                {
-                    break;
-                }
-
-                activeUnit.Attack(tank);
-
-                // Wait the configured amount of time before starting the next fight.
-                yield return new WaitForSeconds(DelayPerUnitFight);
+                promises.Add(() => UnitAttack(attacker, teamB));
             }
+
+            return Promise.Sequence(promises);
+        }
+
+        protected IPromise UnitAttack(ICombatant attacker, ICombatTeam defendingTeam)
+        {
+            // Get the highest threat enemy unit and attack it.
+            var defender = defendingTeam.GetTank();
+
+            // TODO look into breaking out of the group of attacks early if possible.
+            // Return an autoresolved promise if no defender is found.
+            if (defender == null)
+            {
+                return null;
+            }
+
+            attacker.Attack(defender);
+            return PromiseTimerHelper.Instance.WaitFor(delayPerTeamFight);
         }
     }
 }
