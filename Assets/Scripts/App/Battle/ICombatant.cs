@@ -15,6 +15,7 @@ namespace App.Battle
 
         UnityEvent OnAttack { get; }
         UnityEvent OnReceiveHit { get; }
+        UnityEvent OnDeath { get; }
 
 
 

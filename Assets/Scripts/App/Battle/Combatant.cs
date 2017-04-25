@@ -1,10 +1,11 @@
-﻿using App.UI;
+﻿using App.GamePromise;
+using App.UI;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace App.Battle
 {
-    public class TestCombatant : MonoBehaviour, ICombatant
+    public class Combatant : MonoBehaviour, ICombatant
     {
         public int hp = 6;
         public int attackPower = 2;
@@ -12,6 +13,9 @@ namespace App.Battle
         public int initiative = 1;
         public UnityEvent onAttack = new UnityEvent();
         public UnityEvent onReceiveHit = new UnityEvent();
+        public UnityEvent onDeath = new UnityEvent();
+
+        public float deathDelay = .3f;
 
 
         public int Hp { get; private set; }
@@ -28,6 +32,7 @@ namespace App.Battle
 
         public UnityEvent OnAttack { get { return onAttack; } }
         public UnityEvent OnReceiveHit { get { return onReceiveHit; } }
+        public UnityEvent OnDeath { get { return onDeath; } }
 
         public void Init()
         {
@@ -56,6 +61,10 @@ namespace App.Battle
             if (Hp < 0)
             {
                 Hp = 0;
+                PromiseTimerHelper.Instance.WaitFor(deathDelay).Done(() =>
+                {
+                    onDeath.Invoke();
+                });
             }
 
             if (onReceiveHit != null)

@@ -51,7 +51,7 @@ namespace App.Battle
             List<ICombatant> combatants = new List<ICombatant>();
             foreach (var combatantGameObject in combatantGameObjects)
             {
-                var combatant = combatantGameObject.GetComponent<TestCombatant>();
+                var combatant = combatantGameObject.GetComponent<Combatant>();
                 combatant.Init();
                 combatants.Add(combatant);
             }
