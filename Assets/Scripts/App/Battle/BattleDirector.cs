@@ -30,7 +30,7 @@ namespace App.Battle
             var promises = new List<Func<IPromise>>();
 
             // Foreach unit in team A, attack the highest living unit on teamB with the highest threat.
-            foreach (var activeUnit in teamA.LivingCombatants().OrderByDescending(unit => unit.Initiative))
+            foreach (var activeUnit in teamA.CombatantsByInitiative())
             {
                 var attacker = activeUnit;
 

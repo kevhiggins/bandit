@@ -24,5 +24,10 @@ namespace App.Battle
         {
             return Combatants.Where(combatant => combatant.IsLiving());
         }
+
+        public List<ICombatant> CombatantsByInitiative()
+        {
+            return LivingCombatants().OrderByDescending(combatant => combatant.Initiative).ToList();
+        }
     }
 }

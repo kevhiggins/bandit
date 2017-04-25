@@ -9,5 +9,7 @@ namespace App.Battle
         ICombatant GetTank();
 
         IEnumerable<ICombatant> LivingCombatants();
+
+        List<ICombatant> CombatantsByInitiative();
     }
 }
