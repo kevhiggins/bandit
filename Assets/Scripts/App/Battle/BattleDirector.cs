@@ -49,7 +49,7 @@ namespace App.Battle
             // Return an autoresolved promise if no defender is found.
             if (defender == null)
             {
-                return null;
+                return Promise.Resolved();
             }
 
             attacker.Attack(defender);
