@@ -1,7 +1,5 @@
-Make sure matched threat combatants get resolved for targeting randomly
-Fix issue where teams attacks are overlapping
-Implement unit death/animation/delay
-Add max hp to hp box
+Fix issues where scene is being strange about saving properly.
+Make units disappear after DeathEvent.
 
 Battle start event
 Add an event that occurs between fight rounds.
