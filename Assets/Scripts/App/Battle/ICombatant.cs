@@ -6,6 +6,7 @@ namespace App.Battle
     public interface ICombatant
     {
         int Hp { get; }
+        int MaxHp { get; }
         int AttackPower { get; }
         int Threat { get; }
         int Initiative { get; }

@@ -15,6 +15,7 @@ namespace App.Battle
 
 
         public int Hp { get; private set; }
+        public int MaxHp { get; private set; }
 
         public int AttackPower { get; private set; }
 
@@ -31,6 +32,7 @@ namespace App.Battle
         public void Init()
         {
             Hp = hp;
+            MaxHp = hp;
             AttackPower = attackPower;
             Threat = threat;
             Initiative = initiative;

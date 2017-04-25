@@ -103,7 +103,9 @@ namespace App.Battle
 
                 UnityAction hitCallback = () =>
                 {
-                    unitText.text = initialHpText.Replace("{hp}", activeUnit.Hp.ToString());
+                    unitText.text = initialHpText
+                        .Replace("{hp}", activeUnit.Hp.ToString())
+                        .Replace("{maxhp}", activeUnit.MaxHp.ToString());
                 };
                 hitCallback();
 
