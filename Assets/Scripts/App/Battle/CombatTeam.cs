@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using App.Battle.TankStrategy;
 
 namespace App.Battle
 {
     public class CombatTeam : ICombatTeam
     {
+        public ITankStrategy tankStrategy = new RandomHighTheatStrategy();
+
         public List<ICombatant> Combatants { get; private set; }
 
         public CombatTeam(List<ICombatant> combatants)
@@ -14,7 +17,7 @@ namespace App.Battle
 
         public ICombatant GetTank()
         {
-            return LivingCombatants().OrderByDescending(combatant => combatant.Threat).FirstOrDefault();
+            return tankStrategy.ChooseTank(this);
         }
 
         public IEnumerable<ICombatant> LivingCombatants()
