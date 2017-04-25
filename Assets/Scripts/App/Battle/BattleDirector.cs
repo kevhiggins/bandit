@@ -53,7 +53,7 @@ namespace App.Battle
             }
 
             attacker.Attack(defender);
-            return PromiseTimerHelper.Instance.WaitFor(delayPerTeamFight);
+            return PromiseTimerHelper.Instance.WaitFor(delayPerUnitFight);
         }
     }
 }
