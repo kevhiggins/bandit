@@ -57,14 +57,18 @@ namespace App.Battle
             GameValueRegistry.Instance.SetRegistryValue("last_battle_hit_amount", damage.ToString());
             Hp -= damage;
 
+            if (Hp < 0)
+            {
+                Hp = 0;
+            }
+
             if (onReceiveHit != null)
             {
                 onReceiveHit.Invoke();
             }
 
-            if (Hp < 0)
+            if (!IsLiving())
             {
-                Hp = 0;
                 onDeath.Invoke();
             }
         }
