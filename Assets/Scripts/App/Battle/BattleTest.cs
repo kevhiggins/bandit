@@ -59,10 +59,14 @@ namespace App.Battle
             return new CombatTeam(combatants);
         }
 
-        public void Fight()
+        public void Fight(Button fightButton)
         {
+            fightButton.interactable = false;
             var battleDirector = new BattleDirector(delayPerUnitFight, delayPerTeamFight);
-            battleDirector.Battle(teamA, teamB);
+            battleDirector.Battle(teamA, teamB).Done(() =>
+            {
+                fightButton.interactable = true;
+            });
         }
 
         protected void HookupTextFields()

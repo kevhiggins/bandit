@@ -16,12 +16,11 @@ namespace App.Battle
             this.delayPerTeamFight = delayPerTeamFight;
         }
 
-        public void Battle(ICombatTeam teamA, ICombatTeam teamB)
-        {           
-            TeamAttack(teamA, teamB)
+        public IPromise Battle(ICombatTeam teamA, ICombatTeam teamB)
+        {
+            return TeamAttack(teamA, teamB)
                 .Then(() => PromiseTimerHelper.Instance.WaitFor(delayPerTeamFight))
-                .Then(() => TeamAttack(teamB, teamA))
-                .Done();
+                .Then(() => TeamAttack(teamB, teamA));
         }
 
         protected IPromise TeamAttack(ICombatTeam teamA, ICombatTeam teamB)
