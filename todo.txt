@@ -1,10 +1,23 @@
-Fix issues where scene is being strange about saving properly.
-Make units disappear after DeathEvent.
+Add events like usually
 
-Battle start event
-Add an event that occurs between fight rounds.
-Battle Success event
-Battle Fail event
+Shader wishlist:
+-Fade from texture to a color (like grey)
+-Shader to perform photoshop like layer operations (multiply, etc) blending layers?
+-Draw a highlight around a texture with a 1 pixel outline
+
+
+OnBattleStart
+OnAttackStart
+OnAttackEnd
+
+OnBattleEnd
+OnBattleSuccess
+OnBattleFail
+
+OnEscape
+
+Hook up run
+
 
 Need a confirm button for both success/fail canvases
 On confirm treasure goes in pocket. (Or maybe the caravan explodes into coins)
