@@ -15,8 +15,6 @@ namespace App.Battle
         public UnityEvent onReceiveHit = new UnityEvent();
         public UnityEvent onDeath = new UnityEvent();
 
-        public float deathDelay = .3f;
-
 
         public int Hp { get; private set; }
         public int MaxHp { get; private set; }
@@ -58,18 +56,16 @@ namespace App.Battle
             var damage = attacker.AttackPower;
             GameValueRegistry.Instance.SetRegistryValue("last_battle_hit_amount", damage.ToString());
             Hp -= damage;
-            if (Hp < 0)
-            {
-                Hp = 0;
-                PromiseTimerHelper.Instance.WaitFor(deathDelay).Done(() =>
-                {
-                    onDeath.Invoke();
-                });
-            }
 
             if (onReceiveHit != null)
             {
                 onReceiveHit.Invoke();
+            }
+
+            if (Hp < 0)
+            {
+                Hp = 0;
+                onDeath.Invoke();
             }
         }
 
