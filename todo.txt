@@ -1,22 +1,27 @@
+Fix issue where pausing as man screams, the pausing fails.
+Prevent hiring while game is paused.
+Contemplate extending animator and adding pause functionality to it, and configurable pausing, since some animators we want to pause, and some we do not.
+
+
 Add events like usually
 
+
 Shader wishlist:
+
+Figure out pausing
+Figure out how to hook up the battle screen with the main game
+
+Hook up run
+
+
 -Fade from texture to a color (like grey)
 -Shader to perform photoshop like layer operations (multiply, etc) blending layers?
 -Draw a highlight around a texture with a 1 pixel outline
 
 
-OnBattleStart
-OnAttackStart
-OnAttackEnd
 
-OnBattleEnd
-OnBattleSuccess
-OnBattleFail
 
-OnEscape
 
-Hook up run
 
 
 Need a confirm button for both success/fail canvases
