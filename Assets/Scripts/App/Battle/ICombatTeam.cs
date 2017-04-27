@@ -11,5 +11,7 @@ namespace App.Battle
         IEnumerable<ICombatant> LivingCombatants();
 
         List<ICombatant> CombatantsByInitiative();
+
+        bool HasLiving();
     }
 }

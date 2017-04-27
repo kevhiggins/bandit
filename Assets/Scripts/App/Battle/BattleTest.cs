@@ -27,6 +27,14 @@ namespace App.Battle
         public float delayPerUnitFight = 0.3f;
         public float delayPerTeamFight = 0.5f;
 
+        public UnityEvent onBattleStart = new UnityEvent();
+        public UnityEvent onAttackStart = new UnityEvent();
+        public UnityEvent onAttackEnd = new UnityEvent();
+        public UnityEvent onBattleEnd = new UnityEvent();
+        public UnityEvent onBattleSuccess = new UnityEvent();
+        public UnityEvent onBattleFail = new UnityEvent();
+        public UnityEvent onEscape = new UnityEvent();
+
         private ICombatTeam teamA;
         private ICombatTeam teamB;
 
@@ -41,9 +49,7 @@ namespace App.Battle
             var battleIllustrator = new BattleIllustrator();
             battleIllustrator.DrawBattle(teamA, teamB, travelerAnchors, banditAnchors);
 
-            // Initiate the battle.
-//            var battleDirector = new BattleDirector();
-//            battleDirector.Battle(teamA, teamB);
+            onBattleStart.Invoke();
         }
 
         private ICombatTeam CreateTeam(List<GameObject> combatantGameObjects)
@@ -63,10 +69,43 @@ namespace App.Battle
         {
             fightButton.interactable = false;
             var battleDirector = new BattleDirector(delayPerUnitFight, delayPerTeamFight);
+
+            onAttackStart.Invoke();
+
             battleDirector.Battle(teamA, teamB).Done(() =>
             {
                 fightButton.interactable = true;
+                onAttackEnd.Invoke();
+
+                if (!teamA.HasLiving() || !teamB.HasLiving())
+                {
+                    onBattleEnd.Invoke();
+                }
+
+                if (!teamA.HasLiving())
+                {
+                    Success();
+                }
+                else if(!teamB.HasLiving())
+                {
+                    Fail();
+                }
             });
+        }
+
+        public void Escape()
+        {
+            onEscape.Invoke();
+        }
+
+        protected void Success()
+        {
+            onBattleSuccess.Invoke();
+        }
+
+        protected void Fail()
+        {
+            onBattleFail.Invoke();
         }
 
         protected void HookupTextFields()

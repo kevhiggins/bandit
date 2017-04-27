@@ -29,5 +29,10 @@ namespace App.Battle
         {
             return LivingCombatants().OrderByDescending(combatant => combatant.Initiative).ToList();
         }
+
+        public bool HasLiving()
+        {
+            return LivingCombatants().Any();
+        }
     }
 }
