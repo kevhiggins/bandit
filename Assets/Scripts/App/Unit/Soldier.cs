@@ -16,9 +16,10 @@ namespace App.Unit
 
         private GraphNavigator graphNavigator;
 
-        void Awake()
+        new void Awake()
         {
             graphNavigator = GetComponent<GraphNavigator>();
+            base.Awake();
         }
 
         void OnCollisionEnter2D(Collision2D collision)

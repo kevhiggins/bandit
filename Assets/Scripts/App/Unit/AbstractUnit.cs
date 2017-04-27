@@ -1,8 +1,6 @@
-﻿using UnityEngine;
-
-namespace App.Unit
+﻿namespace App.Unit
 {
-    public abstract class AbstractUnit : MonoBehaviour, IUnit
+    public abstract class AbstractUnit : AppMonoBehavior, IUnit
     {
         public void Despawn()
         {

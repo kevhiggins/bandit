@@ -7,7 +7,7 @@ namespace App.Graph
 {
     public delegate void TargetReachedHandler();
 
-    class GraphNavigator : MonoBehaviour
+    class GraphNavigator : AppMonoBehavior
     {
         public float speed = 1;
         public bool HasReachedTarget { get; private set; }
@@ -24,13 +24,19 @@ namespace App.Graph
         private IEnumerator<IGraphNode> pathEnumerator;
         private TargetReachedHandler OnTargetReached;
 
-        void Awake()
+        new void Awake()
         {
             HasReachedTarget = true;
+            base.Awake();
         }
 
         void Update()
         {
+            if (IsPaused)
+            {
+                return;
+            }
+
             if (!HasReachedTarget)
             {
                 // Move the bandit towards the target, and prevent over shooting.

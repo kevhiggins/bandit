@@ -9,7 +9,7 @@ using UnityEngine.Events;
 
 namespace App
 {
-    public class Town : MonoBehaviour
+    public class Town : AppMonoBehavior
     {
         public float spawnOffset = 0f;
         public float spawnRate = 5f;
@@ -25,10 +25,9 @@ namespace App
         public UnityEvent onThresholdReached;
         public UnityEvent onReportRobberyModulus;
 
-
         private Dictionary<IGraphNode, int> robberyMap = new Dictionary<IGraphNode, int>();
 
-        void Awake()
+        new void Awake()
         {
             GameManager.OnAfterInit += () =>
             {
@@ -38,10 +37,16 @@ namespace App
                 var townWaypoint = gameObject.transform.parent.gameObject.GetComponent<WayPoint>();
                 Node = GameManager.instance.nodeFinder.FindAdapter(townWaypoint);
             };
+            base.Awake();
         }
 
         void SpawnTravelers()
         {
+            if (IsPaused)
+            {
+                return;
+            }
+
             var travelerGameObject = CreateTraveler();
 
             var graphNavigator = travelerGameObject.GetComponent<GraphNavigator>();
