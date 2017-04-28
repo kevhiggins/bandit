@@ -23,7 +23,7 @@ namespace App
 
 
         private int score;
-        private List<AudioSource> pausedAudioSources = new List<AudioSource>();
+        //private List<AudioSource> pausedAudioSources = new List<AudioSource>();
 
         public int Score
         {
@@ -176,16 +176,16 @@ namespace App
                     objectAnimation.enabled = false;
                 }
 
-                var audioSource = go.GetComponent<AudioSource>();
-                if (audioSource != null)
-                {
-                    if (audioSource.isPlaying)
-                    {
-                        audioSource.Pause();
-                        pausedAudioSources.Add(audioSource);
-                    }
+                //var audioSource = go.GetComponent<AudioSource>();
+                //if (audioSource != null)
+                //{
+                //    if (audioSource.isPlaying)
+                //    {
+                //        audioSource.Pause();
+                //        pausedAudioSources.Add(audioSource);
+                //    }
                     
-                }
+                //}
                 
             }
         }
@@ -208,10 +208,10 @@ namespace App
                     objectAnimation.enabled = true;
                 }
 
-                foreach (var audioSource in pausedAudioSources)
-                {
-                    audioSource.Play();
-                }
+                //foreach (var audioSource in pausedAudioSources)
+                //{
+                //    audioSource.Play();
+                //}
             }
         }
 

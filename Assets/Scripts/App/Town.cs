@@ -26,13 +26,15 @@ namespace App
         public UnityEvent onReportRobberyModulus;
 
         private Dictionary<IGraphNode, int> robberyMap = new Dictionary<IGraphNode, int>();
+        private float timeSinceLastSpawn = 0f;
+        private bool hasStartedSpawn = false;
 
         new void Awake()
         {
             GameManager.OnAfterInit += () =>
             {
                 // TODO use a coroutine instead
-                InvokeRepeating("SpawnTravelers", spawnOffset, spawnRate);
+                //InvokeRepeating("SpawnTravelers", spawnOffset, spawnRate);
 
                 var townWaypoint = gameObject.transform.parent.gameObject.GetComponent<WayPoint>();
                 Node = GameManager.instance.nodeFinder.FindAdapter(townWaypoint);
@@ -40,13 +42,34 @@ namespace App
             base.Awake();
         }
 
-        void SpawnTravelers()
+        void Update()
         {
             if (IsPaused)
             {
                 return;
             }
 
+            timeSinceLastSpawn += Time.deltaTime;
+            if (!hasStartedSpawn)
+            { 
+                if (timeSinceLastSpawn >= spawnOffset)
+                {
+                    hasStartedSpawn = true;
+                    SpawnTraveler();
+                    timeSinceLastSpawn = 0;
+                }
+            }
+            else if(timeSinceLastSpawn >= spawnRate)
+            {
+                SpawnTraveler();
+                timeSinceLastSpawn = 0;
+            }
+
+        }
+
+
+        void SpawnTraveler()
+        {
             var travelerGameObject = CreateTraveler();
 
             var graphNavigator = travelerGameObject.GetComponent<GraphNavigator>();
