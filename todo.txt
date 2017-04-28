@@ -1,14 +1,22 @@
-Fix issue where pausing as man screams, the pausing fails.
-Prevent hiring while game is paused.
+Create a class for instantiating/managing the battle overlay
+
+for now, just assume we are adding two units to the battle.
+Set a default gold value for now that gets rewarded after battle
+
+Add a callback to the overlay for success and failure.
+	We need a way to make it trigger after we have our visual fun in the battle.
+
+	
+	
+	
+	
+	
+	
 Contemplate extending animator and adding pause functionality to it, and configurable pausing, since some animators we want to pause, and some we do not.
-
-
-Add events like usually
-
 
 Shader wishlist:
 
-Figure out pausing
+
 Figure out how to hook up the battle screen with the main game
 
 Hook up run
