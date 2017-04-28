@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using App.UI;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace App.Battle
 {
-    public class BattleTest : MonoBehaviour
+    public class BattleManager : MonoBehaviour
     {
         public List<GameObject> travelers = new List<GameObject>();
         public List<GameObject> bandits = new List<GameObject>();
@@ -24,6 +25,8 @@ namespace App.Battle
         public List<GameObject> travelerAnchors = new List<GameObject>();
         public List<GameObject> banditAnchors = new List<GameObject>();
 
+        public bool testBattle = false;
+
         public float delayPerUnitFight = 0.3f;
         public float delayPerTeamFight = 0.5f;
 
@@ -38,10 +41,30 @@ namespace App.Battle
         private ICombatTeam teamA;
         private ICombatTeam teamB;
 
+        public int RoundNumber {
+            get { return roundNumber; }
+            set
+            {
+                roundNumber = value;
+                GameValueRegistry.Instance.SetRegistryValue("current_battle_round", roundNumber.ToString());
+            } 
+        }
+        private int roundNumber;
+
         public void Awake()
         {
-            teamA = CreateTeam(travelers);
-            teamB = CreateTeam(bandits);
+            if (testBattle)
+            {
+                StartBattle(CreateTeam(travelers), CreateTeam(bandits));
+            }
+        }
+
+        public void StartBattle(ICombatTeam team1, ICombatTeam team2)
+        {
+            teamA = team1;
+            teamB = team2;
+
+            RoundNumber++;
 
             HookupTextFields();
 
@@ -75,7 +98,9 @@ namespace App.Battle
             battleDirector.Battle(teamA, teamB).Done(() =>
             {
                 fightButton.interactable = true;
+                RoundNumber++;
                 onAttackEnd.Invoke();
+
 
                 if (!teamA.HasLiving() || !teamB.HasLiving())
                 {

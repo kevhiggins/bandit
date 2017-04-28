@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace App.UI
@@ -13,14 +14,26 @@ namespace App.UI
         public bool synchronizeText = true;
 
         private string initialText;
+        private string initialProText;
         private Text textScript;
+        private TextMeshProUGUI textMeshProScript;
 
         private string currentValue;
 
         protected override void Awake()
         {
+            textMeshProScript = gameObject.GetComponent<TextMeshProUGUI>();
             textScript = gameObject.GetComponent<Text>();
-            initialText = textScript.text;
+            if (textScript != null)
+            {
+                initialText = textScript.text;
+            }
+            if (textMeshProScript != null)
+            {
+                initialProText = textMeshProScript.text;
+            }
+            
+
             base.Awake();
         }
 
@@ -38,7 +51,15 @@ namespace App.UI
         private void ReplaceText(string value)
         {
             currentValue = value;
-            textScript.text = initialText.Replace(replacementText, value);
+
+            if (textMeshProScript != null)
+            {
+                textMeshProScript.text = initialProText.Replace(replacementText, value);
+            }
+            if (textScript != null)
+            {
+                textScript.text = initialText.Replace(replacementText, value);
+            }
 
             var textHooks = GetComponents<TextHook>();
             foreach (var hook in textHooks)
@@ -55,7 +76,14 @@ namespace App.UI
          */
         private void SyncText()
         {
-            textScript.text = textScript.text.Replace(replacementText, currentValue);
+            if (textScript != null)
+            {
+                textScript.text = textScript.text.Replace(replacementText, currentValue);
+            }
+            if (textMeshProScript != null)
+            {
+                textMeshProScript.text = textMeshProScript.text.Replace(replacementText, currentValue);
+            }
         }
     }
 }

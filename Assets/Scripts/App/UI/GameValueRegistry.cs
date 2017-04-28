@@ -36,6 +36,7 @@ namespace App.UI
                 "Battle", new Dictionary<string, string>
                 {
                     {"last_battle_hit_amount", "Last Battle Hit Amount"},
+                    {"current_battle_round", "Current Round"},
                 }
             },
             {
