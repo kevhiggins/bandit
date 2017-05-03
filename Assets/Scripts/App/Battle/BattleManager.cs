@@ -38,16 +38,20 @@ namespace App.Battle
         public UnityEvent onBattleFail = new UnityEvent();
         public UnityEvent onEscape = new UnityEvent();
 
+        public Button attackButton;
+        public Button escapeButton;
+
         private ICombatTeam teamA;
         private ICombatTeam teamB;
 
-        public int RoundNumber {
+        public int RoundNumber
+        {
             get { return roundNumber; }
             set
             {
                 roundNumber = value;
                 GameValueRegistry.Instance.SetRegistryValue("current_battle_round", roundNumber.ToString());
-            } 
+            }
         }
         private int roundNumber;
 
@@ -72,7 +76,13 @@ namespace App.Battle
             var battleIllustrator = new BattleIllustrator();
             battleIllustrator.DrawBattle(teamA, teamB, travelerAnchors, banditAnchors);
 
+            DisableButtons();
             onBattleStart.Invoke();
+        }
+
+        public void Ready()
+        {
+            EnableButtons();
         }
 
         private ICombatTeam CreateTeam(List<GameObject> combatantGameObjects)
@@ -111,11 +121,23 @@ namespace App.Battle
                 {
                     Success();
                 }
-                else if(!teamB.HasLiving())
+                else if (!teamB.HasLiving())
                 {
                     Fail();
                 }
             });
+        }
+
+        private void DisableButtons()
+        {
+            attackButton.interactable = false;
+            escapeButton.interactable = false;
+        }
+
+        private void EnableButtons()
+        {
+            attackButton.interactable = true;
+            escapeButton.interactable = true;
         }
 
         public void Escape()
