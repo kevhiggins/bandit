@@ -1,3 +1,17 @@
+https://docs.unity3d.com/ScriptReference/SceneManagement.SceneManager.html
+Use LoadScene
+
+Figure out how to fix exciting prefab issue with storing the entire overlay in a prefab.
+	Can we extract the object from a scene instead?
+	Otherwise, we need to figure out some way to sync prefabs.
+
+https://unity3d.com/learn/resources/downloads
+Figure out state machine limitation
+
+
+Fix attack spam bug
+
+
 Create a class for instantiating/managing the battle overlay
 
 for now, just assume we are adding two units to the battle.
