@@ -1,3 +1,37 @@
+X - Press "Battle" button
+X - Pause map scene
+X - Load battle scene
+X - Do battle stuff
+
+Hook the scene run button (and eventually battle success/fail) up so that it will kill the scene. Ideally this should be controlled outside of the battle overlay scene.
+Create a stripped down version of the battle overlay without the EventSystem and camera audio listener. Probably without camera period?
+
+
+
+Make it so that any collision between a traveler and a bandit opens up the fancy scene
+
+Parameters for Battle:
+Bandit Team
+TravelerTeam
+// Eventually Reward - Gold
+
+
+
+
+https://docs.unity3d.com/ScriptReference/SceneManagement.SceneManager.html
+Use LoadScene
+
+Figure out how to fix exciting prefab issue with storing the entire overlay in a prefab.
+	Can we extract the object from a scene instead?
+	Otherwise, we need to figure out some way to sync prefabs.
+
+https://unity3d.com/learn/resources/downloads
+Figure out state machine limitation
+
+
+Fix attack spam bug
+
+
 Create a class for instantiating/managing the battle overlay
 
 for now, just assume we are adding two units to the battle.
