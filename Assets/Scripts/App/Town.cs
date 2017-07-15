@@ -38,6 +38,10 @@ namespace App
 
                 var townWaypoint = gameObject.transform.parent.gameObject.GetComponent<WayPoint>();
                 Node = GameManager.instance.nodeFinder.FindAdapter(townWaypoint);
+                if(Node == null)
+                {
+                    throw new System.Exception("Could not find node associated with town.");
+                }
             };
             base.Awake();
         }

@@ -35,8 +35,6 @@ namespace App
             }
         }
 
-        private Bandit selectedBandit;
-
         public TownManager TownManager { get; private set; }
 
         public static event AfterInitHandler OnAfterInit = () => { };
@@ -52,13 +50,13 @@ namespace App
             {
                 Destroy(gameObject);
             }
-            
 
             InitGame();
         }
 
         void Update()
         {
+            /*
             if (Input.GetMouseButtonDown(0))
             {
                 var mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -125,6 +123,7 @@ namespace App
                     }
                 }
             }
+            */
 
             var bandits = FindObjectsOfType<Unit.Bandit>();
             GameValueRegistry.Instance.SetRegistryValue("total_bandits", bandits.Length.ToString());
@@ -184,9 +183,9 @@ namespace App
                 //        audioSource.Pause();
                 //        pausedAudioSources.Add(audioSource);
                 //    }
-                    
+
                 //}
-                
+
             }
         }
 
@@ -231,18 +230,17 @@ namespace App
 
         void InitGame()
         {
-            TownManager = new TownManager();      
+            TownManager = new TownManager();
 
             var waypoints = FindObjectsOfType<WayPoint>();
             nodeFinder = new WaypointNodeFinder(waypoints);
 
             // Draw the lines of the nodeFinder.
 
-
-            // Disabled illustrator, since we don't seem to be using it.
             var illustrator = new GraphIllustrator();
             illustrator.Draw(nodeFinder, waypoints, graphIllustratorChild);
 
+            // TODO switch Bandit to an AppMonoBehavior to get init for free.
             foreach (var bandit in FindObjectsOfType<Bandit>())
             {
                 bandit.Init();
