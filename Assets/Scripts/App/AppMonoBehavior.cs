@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace App.Location
+namespace App
 {
     public class AppMonoBehavior : MonoBehaviour
     {
