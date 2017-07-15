@@ -1,7 +1,7 @@
-﻿using App.GamePromise;
-using RSG;
+﻿using RSG;
 using System;
 using System.Collections;
+using App.GamePromise;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using App.GameEvent;
 using App.Graph;
+using App.Location;
 using GraphPathfinding;
 using UnityEngine;
 

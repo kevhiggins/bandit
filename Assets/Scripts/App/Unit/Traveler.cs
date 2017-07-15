@@ -1,6 +1,7 @@
 ﻿using App.Graph;
 using App;
 using App.GameEvent;
+using App.Location;
 using UnityEngine;
 
 namespace App.Unit

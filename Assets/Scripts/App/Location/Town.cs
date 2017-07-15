@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
 using App.GameEvent;
 using App.Graph;
 using App.Unit;
 using GraphPathfinding;
+using UnityEngine;
 using UnityEngine.Events;
 
-namespace App
+namespace App.Location
 {
     public class Town : AppMonoBehavior
     {
