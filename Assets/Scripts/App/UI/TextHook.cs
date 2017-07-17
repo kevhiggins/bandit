@@ -15,7 +15,7 @@ namespace App.UI
 
         private string initialText;
         private string initialProText;
-        private Text textScript;
+        private UnityEngine.UI.Text textScript;
         private TextMeshProUGUI textMeshProScript;
 
         private string currentValue;
@@ -23,7 +23,7 @@ namespace App.UI
         protected override void Awake()
         {
             textMeshProScript = gameObject.GetComponent<TextMeshProUGUI>();
-            textScript = gameObject.GetComponent<Text>();
+            textScript = gameObject.GetComponent<UnityEngine.UI.Text>();
             if (textScript != null)
             {
                 initialText = textScript.text;

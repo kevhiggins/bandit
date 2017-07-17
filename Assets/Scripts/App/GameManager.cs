@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using App.Graph;
 using App.UI;
 using App.Unit;
+using App.Worker;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -10,7 +11,7 @@ namespace App
 {
 
     public delegate void AfterInitHandler();
-    class GameManager : MonoBehaviour
+    public class GameManager : MonoBehaviour
     {
         public static GameManager instance;
         public GameObject graphIllustratorChild = null;

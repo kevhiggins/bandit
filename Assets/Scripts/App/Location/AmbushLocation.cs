@@ -4,7 +4,6 @@ namespace App.Location
 {
     public class AmbushLocation : MonoBehaviour
     {
-
         // Use this for initialization
         void Start()
         {

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace App
 {
-    class TownManager
+    public class TownManager
     {
         private List<Town> towns;
 

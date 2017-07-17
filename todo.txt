@@ -1,3 +1,10 @@
+Drag/Drop probably easier at this point.
+
+
+
+Click Assign disables button and 
+
+
 X - Press "Battle" button
 X - Pause map scene
 X - Load battle scene
