@@ -1,28 +1,40 @@
 ﻿using UnityEngine;
 using App.Worker;
 using TMPro;
-using UnityEngine.Experimental.UIElements;
+using UnityEngine.UI;
 
 namespace App.UI.Components
 {
     public class WorkerInfo : MonoBehaviour
     {
         public TextMeshProUGUI nameText;
-        private AbstractWorker worker;
+        public Button assignmentButton;
+        private AvailableWorkers availableWorkers;
 
-        public void Configure(AbstractWorker worker)
+        public AbstractWorker Worker { get; private set; }
+
+        public void Configure(AbstractWorker worker, AvailableWorkers availableWorkers)
         {
-            this.worker = worker;
+            this.Worker = worker;
+            this.availableWorkers = availableWorkers;
         }
 
-        public void ToggleAssign(Button button)
+        public void ToggleAssign()
         {
-            
+            assignmentButton.image.color = Color.gray;
+            availableWorkers.InfoToggled(this);
+
+        }
+
+        public void Deselect()
+        {
+            assignmentButton.image.color = Color.white;
         }
 
         void Start()
         {
-            this.nameText.text = worker.workerName;
+            this.nameText.text = Worker.workerName;
+            assignmentButton.onClick.AddListener(ToggleAssign);          
         }
     }
 }

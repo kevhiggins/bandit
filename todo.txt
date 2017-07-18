@@ -1,8 +1,8 @@
-Drag/Drop probably easier at this point.
+Assignment of worker should deselect the worker info box, (which should also set locations to unassigned mode)
+Assignment of worker should hide worker on AvailableWorkers list (just disable the gameObject)
 
 
 
-Click Assign disables button and 
 
 
 X - Press "Battle" button

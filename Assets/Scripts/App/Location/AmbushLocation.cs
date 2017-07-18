@@ -2,18 +2,14 @@
 
 namespace App.Location
 {
-    public class AmbushLocation : MonoBehaviour
+    [RequireComponent(typeof(CircleCollider2D))]
+    
+    public class AmbushLocation : AbstractLocation
     {
-        // Use this for initialization
         void Start()
         {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            Behaviour halo = (Behaviour)GetComponent("Halo");
+            halo.enabled = false;
         }
     }
 }
