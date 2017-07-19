@@ -8,13 +8,6 @@ public class AvailableWorkers : MonoBehaviour
 {
     public List<AbstractWorker> startingWorkers;
     public WorkerInfo workerInfo;
-    public AbstractWorker SelectedWorker {
-        get
-        {
-            return currentSelected == null ? null : currentSelected.Worker;
-        }
-    }
-
     private List<WorkerInfo> workerInfos = new List<WorkerInfo>();
     private WorkerInfo currentSelected = null;
     private AmbushLocation[] ambushLocations;
@@ -50,6 +43,14 @@ public class AvailableWorkers : MonoBehaviour
         }
         InvokeAssignableLocations(toggledInfo);
         currentSelected = toggledInfo;
+    }
+
+    public AbstractWorker AssignWorker(AbstractLocation location)
+    {
+        var worker = currentSelected.Worker;
+        currentSelected.gameObject.SetActive(false);
+        this.InfoToggled(currentSelected);
+        return worker;
     }
 
     protected void InvokeAssignableLocations(WorkerInfo info)

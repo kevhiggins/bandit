@@ -12,6 +12,8 @@ namespace App.Location
         public UnityEvent onAssignable;
         public UnityEvent onUnassignable;
 
+        public bool HasWorker { get { return worker != null;  } }
+
         private bool isAssignable = false;
         private AvailableWorkers availableWorkers;
 
@@ -33,7 +35,8 @@ namespace App.Location
                 return;
             }
 
-            var selectedWorker = availableWorkers.SelectedWorker;
+            var selectedWorker = availableWorkers.AssignWorker(this);
+
             if (selectedWorker == null)
             {
                 throw new Exception("No worker selected. Location should not be assignable without a selected worker.");
@@ -49,6 +52,9 @@ namespace App.Location
 
         public void EnableAssignment()
         {
+            if (HasWorker)
+                return;
+
             this.onAssignable.Invoke();
             isAssignable = true;
         }

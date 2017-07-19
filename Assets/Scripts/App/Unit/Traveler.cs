@@ -31,10 +31,9 @@ namespace App.Unit
             }
         }
 
-        public int Robbed(Bandit bandit)
+        public int Robbed()
         {
             var gold = goldValue.ToString();
-            SourceTown.ReportRobbery(this, bandit);
             Despawn();
             if (OnRobbed != null)
             {
