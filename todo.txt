@@ -1,8 +1,22 @@
-Assignment of worker should deselect the worker info box, (which should also set locations to unassigned mode)
-Assignment of worker should hide worker on AvailableWorkers list (just disable the gameObject)
+Make an assign phase and a simulation phase.
 
+Create a queue of events to occur (hard coded for now)
 
+TravelerSpawnEvent
+startTime
+Traveler prefab
+Traveler destination waypoint
 
+SoldierSpawnEvent
+startTime
+Soldier prefab
+Soldier destination waypoint
+
+Add some Debug.Logging of the event queue for science
+
+Make movement snappy
+
+COOOL IDEAS:
 
 
 X - Press "Battle" button
