@@ -1,3 +1,6 @@
+Create a button to perform the simulation.
+Add start waypoint, and end waypoint to SpawnTraveler event script (Maybe do location, we probably want the traveler to despawn on impacting just that location)
+
 Make an assign phase and a simulation phase.
 
 Create a queue of events to occur (hard coded for now)
