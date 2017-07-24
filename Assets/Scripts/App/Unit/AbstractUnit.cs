@@ -2,7 +2,7 @@
 {
     public abstract class AbstractUnit : AppMonoBehavior, IUnit
     {
-        public void Despawn()
+        public virtual void Despawn()
         {
             Destroy(gameObject);
         }

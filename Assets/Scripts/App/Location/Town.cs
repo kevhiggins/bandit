@@ -53,21 +53,21 @@ namespace App.Location
                 return;
             }
 
-            timeSinceLastSpawn += Time.deltaTime;
-            if (!hasStartedSpawn)
-            { 
-                if (timeSinceLastSpawn >= spawnOffset)
-                {
-                    hasStartedSpawn = true;
-                    SpawnTraveler();
-                    timeSinceLastSpawn = 0;
-                }
-            }
-            else if(timeSinceLastSpawn >= spawnRate)
-            {
-                SpawnTraveler();
-                timeSinceLastSpawn = 0;
-            }
+            //timeSinceLastSpawn += Time.deltaTime;
+            //if (!hasStartedSpawn)
+            //{ 
+            //    if (timeSinceLastSpawn >= spawnOffset)
+            //    {
+            //        hasStartedSpawn = true;
+            //        SpawnTraveler();
+            //        timeSinceLastSpawn = 0;
+            //    }
+            //}
+            //else if(timeSinceLastSpawn >= spawnRate)
+            //{
+            //    SpawnTraveler();
+            //    timeSinceLastSpawn = 0;
+            //}
 
         }
 

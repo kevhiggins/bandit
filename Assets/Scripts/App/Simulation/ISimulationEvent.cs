@@ -1,7 +1,12 @@
-﻿namespace App.Simulation
+﻿using RSG;
+using UnityEngine;
+
+namespace App.Simulation
 {
     public interface ISimulationEvent
     {
-        int Delay { get; }
+        float Delay { get; }
+
+        IPromise Start();
     }
 }

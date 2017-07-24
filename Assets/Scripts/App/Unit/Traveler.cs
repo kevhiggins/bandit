@@ -2,6 +2,7 @@
 using App;
 using App.GameEvent;
 using App.Location;
+using RSG;
 using UnityEngine;
 
 namespace App.Unit
@@ -14,6 +15,7 @@ namespace App.Unit
         public StringUnityEvent OnRobbed;
 
         private Town destinationTown;
+        private Promise moveToTownPromise;
 
         void OnCollisionEnter2D(Collision2D collision)
         {
@@ -44,12 +46,21 @@ namespace App.Unit
             return goldValue;
         }
 
-        public void MoveToTown(Town town)
+        public override void Despawn()
+        {
+            base.Despawn();
+            if (moveToTownPromise == null) return;
+            moveToTownPromise.Resolve();
+            moveToTownPromise = null;
+        }
+
+        public IPromise MoveToTown(Town town)
         {
             destinationTown = town;
             var destinationWaypoint = destinationTown.gameObject.transform.parent.gameObject.GetComponent<WayPoint>();
             var endNode = GameManager.instance.nodeFinder.FindAdapter(destinationWaypoint);
             GetComponent<GraphNavigator>().MoveToNode(endNode);
+            return moveToTownPromise = new Promise();
         }
     }
 }
