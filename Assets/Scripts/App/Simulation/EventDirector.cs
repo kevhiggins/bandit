@@ -3,22 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using App.Simulation;
+using App.Simulation.Cards;
 using C5;
 using UnityEngine.Events;
+using Zenject;
 
 namespace App
 {
     public class EventDirector : MonoBehaviour
     {
-        public List<SpawnTravelerEvent> spawnTravelerEvents;
-        private IntervalHeap<ISimulationEvent> eventQueue;
-        private float simulationDuration = 0;
-        public bool IsSimulating { get; private set; }
-        private List<ISimulationEvent> activeEvents;
-        private List<ISimulationEvent> completeEvents;
-
         public UnityEvent onSimulateStart = new UnityEvent();
         public UnityEvent onSimulateEnd = new UnityEvent();
+
+        public bool IsSimulating { get; private set; }
+
+        private List<ISimulationEvent> activeEvents;
+        private List<ISimulationEvent> completeEvents;
+        private IntervalHeap<ISimulationEvent> eventQueue;
+        private float simulationDuration = 0;
+
+        private Deck eventDeck;
+
+        [Inject]
+        public void Construct(Deck eventDeck)
+        {
+            this.eventDeck = eventDeck;
+        }
 
         void Start()
         {
@@ -27,13 +37,8 @@ namespace App
 
         protected void PopulateEventQueue()
         {
-            foreach (var spawnTravelerEvent in spawnTravelerEvents)
-            {
-                if (!eventQueue.Add(spawnTravelerEvent))
-                {
-                    throw new Exception("Failed to add event.");
-                }
-            }
+            var nextCard = eventDeck.Draw();
+            eventQueue.AddAll(nextCard.GenerateEvents());
         }
 
         public void Simulate()

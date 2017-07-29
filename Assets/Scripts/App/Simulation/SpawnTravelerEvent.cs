@@ -6,15 +6,23 @@ using UnityEngine;
 
 namespace App.Simulation
 {
-    [System.Serializable]
     public class SpawnTravelerEvent : ISimulationEvent
     {
-        public Traveler traveler;
-        public Town startTown;
-        public Town endTown;
-        public int delay;
+        private Traveler traveler;
+        private Town startTown;
+        private Town endTown;
+        private int delay;
 
         public float Delay { get { return delay; } }
+
+        public SpawnTravelerEvent(Traveler traveler, Town startTown, Town endTown, int delay)
+        {
+            this.traveler = traveler;
+            this.startTown = startTown;
+            this.endTown = endTown;
+            this.delay = delay;
+        }
+
         public IPromise Start()
         {
             var travelerGameObject = Object.Instantiate(traveler, startTown.transform.position, Quaternion.identity);
@@ -27,7 +35,5 @@ namespace App.Simulation
             travelerInstance.SourceTown = startTown;
             return travelerInstance.MoveToTown(endTown);
         }
-
-
     }
 }

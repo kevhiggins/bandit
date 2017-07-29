@@ -25,5 +25,11 @@ namespace App
             var townIndex = Random.Range(0, filteredTowns.Count);
             return filteredTowns.ElementAt(townIndex);
         }
+
+        public Town GetRandomTown()
+        {
+            var townIndex = Random.Range(0, towns.Count);
+            return towns.ElementAt(townIndex);
+        }
     }
 }
