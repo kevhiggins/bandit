@@ -53,7 +53,12 @@ namespace App
 
         void Update()
         {
-            if (!IsSimulating || !eventQueue.Any())
+            if (!IsSimulating)
+                return;
+
+            CheckSimulationComplete();
+
+            if (!eventQueue.Any())
                 return;
 
             simulationDuration += Time.deltaTime;

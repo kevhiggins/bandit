@@ -8,5 +8,12 @@ namespace App.Simulation.Cards
     public abstract class Card : ScriptableObject, ICard
     {
         public abstract List<ISimulationEvent> GenerateEvents();
+
+        [Serializable]
+        public class Settings
+        {
+            public int frequency;
+            public Card card;
+        }
     }
 }

@@ -8,21 +8,23 @@ namespace App.Installer
     [CreateAssetMenu(menuName = "Game/Settings")]
     public class GameSettingsInstaller : ScriptableObjectInstaller<GameSettingsInstaller>
     {
-        public Deck eventDeck;
+        public Deck.Settings eventDeck;
 
         public override void InstallBindings()
         {
             // Bind Deck, and inject into the deck and all of its cards.
             Container.Bind<Deck>().FromMethod(ctx =>
             {
-                Container.Inject(eventDeck);
+                var deck = eventDeck.GenerateDeck();
 
-                foreach (var card in eventDeck.cards)
+                Container.Inject(deck);
+
+                foreach (var card in deck.cards)
                 {
                     Container.Inject(card);
                 }
 
-                return eventDeck;
+                return deck;
             }).AsSingle();
         }
     }

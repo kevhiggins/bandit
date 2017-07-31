@@ -33,7 +33,7 @@ namespace App.Simulation.Cards
 
             var events = new List<ISimulationEvent>();
 
-            var startDelay = 0;
+            var startDelay = 0f;
             // Generate the traveler events
             for (var i = 0; i < travelerCount; i++)
             {
@@ -44,7 +44,9 @@ namespace App.Simulation.Cards
                 var endTown = townManager.GetDifferentTown(startTown);
 
                 // Determine the delay.
-                var delay = startDelay++;
+                var delay = startDelay;
+
+                startDelay += travelerSpawnInterval;
 
                 // Create the event and add it to the event list.
                 var traveler = GetRandomTraveler();

@@ -11,11 +11,11 @@ namespace App.Simulation
         private Traveler traveler;
         private Town startTown;
         private Town endTown;
-        private int delay;
+        private float delay;
 
         public float Delay { get { return delay; } }
 
-        public SpawnTravelerEvent(Traveler traveler, Town startTown, Town endTown, int delay)
+        public SpawnTravelerEvent(Traveler traveler, Town startTown, Town endTown, float delay)
         {
             this.traveler = traveler;
             this.startTown = startTown;

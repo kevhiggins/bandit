@@ -1,17 +1,16 @@
-Basic Turn
-# of travelers with variance 
+Modify Card settings editor to allow the following:
+-Abstract card functionlity into more generic building blocks to be combined on a single card?
+-Specify Card frequency
+-Display card draw probability in a full deck
+-Add/Remove buttons for list. Perhaps abstract this into a reusable way to display any list of objects.
+-Can we move EventDirectory into a ScriptableObject?
 
-Travelers:
-baseline
-variance
-spawn interval
 
 
 
 
 Make an assign phase and a simulation phase.
 
-Create a queue of events to occur (hard coded for now)
 
 TravelerSpawnEvent
 startTime
