@@ -65,10 +65,7 @@ public class DeckEditor : Editor
             deckSettings.cards.Add(new Card.Settings());
         }
 
+        EditorUtility.SetDirty(gameSettingsInstaller);
 
-        //categoryIndex = EditorGUILayout.Popup("Category", categoryIndex, categories);
-
-
-        //EditorGUILayout.ObjectField("Card", )
     }
 }
