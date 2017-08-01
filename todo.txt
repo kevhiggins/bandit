@@ -1,3 +1,5 @@
+Bigger job descriptions textarea
+
 Prevent Nan issue in deck editor
 Rename deck setting to something more sensible.
 Maybe prevent saving if no card? Throw error?

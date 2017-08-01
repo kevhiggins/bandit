@@ -14,6 +14,6 @@ namespace App.Jobs
 
         public BanditCollisionAction collisionAction;
 
-        public List<Modifier> modifiers = new List<Modifier>();
+        public List<Modifier> synergyModifiers = new List<Modifier>();
     }
 }
