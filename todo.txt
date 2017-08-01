@@ -1,3 +1,9 @@
+Prevent Nan issue in deck editor
+Rename deck setting to something more sensible.
+Maybe prevent saving if no card? Throw error?
+
+Add layers to node objects we don't want to see so we can hide them? Although they might still show up in hierarchy, hmm.
+
 Modify Card settings editor to allow the following:
 -Abstract card functionlity into more generic building blocks to be combined on a single card?
 -Specify Card frequency
@@ -6,8 +12,28 @@ Modify Card settings editor to allow the following:
 -Can we move EventDirectory into a ScriptableObject?
 
 
+Cost:
+Stamina
+Gold
+Infamy
 
+Turn Invesment
 
+Reward:
+Stamina
+Gold
+Infamy
+
+Job:
+Name
+Description
+
+Job Affinity
+
+Bandit Actions
+
+JobSettings scriptable object
+BanditActions scriptable object
 
 Make an assign phase and a simulation phase.
 
