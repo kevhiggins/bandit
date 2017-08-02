@@ -2,13 +2,16 @@
 
 namespace App.Jobs
 {
-    [Serializable]
     public class Modifier
     {
-        public string name;
-        public BanditType type;
+        [Serializable]
+        public class Settings
+        {
+            public string name;
+            public BanditType type;
 
-        public Cost cost;
-        public Reward reward;
+            public Cost.Settings cost;
+            public Reward.Settings reward;
+        }
     }
 }
