@@ -3,3 +3,4 @@ framework: auto-detect
 source https://nuget.org/api/v2
 nuget C5
 nuget RSG.Promise
+nuget StringTemplate4
