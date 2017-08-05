@@ -1,3 +1,31 @@
+Create serialiazable class for configuring a key and a gameobject
+When those are selected, display a dropdown of all the game objects behaviors
+When a behavior is selected, display a dropdown of all available public properties/fields.
+
+
+
+Click Bandit
+Display Halos around eligible locations
+Click location
+Display icons for jobs
+hover over job
+Display job info in job info box
+Click job - assigns bandit
+Click simulate does exciting stuff.
+
+Don't gain money from bandit until they return to bandit hold
+
+Display number of turns left for bandit deployment to a job.
+Right click bandit to reclain on same turn deployed.
+
+Job icon configurable through JobSettings
+Look into text field templating languages?
+
+
+Add JobSettings aggregation to Location
+
+
+
 Bigger job descriptions textarea
 
 Prevent Nan issue in deck editor

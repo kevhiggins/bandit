@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Antlr4.StringTemplate;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,9 +11,12 @@ namespace App.UI.Text.Templates
         [TextArea(5, 10)]
         public string template;
 
+        public List<TemplateObjectSettings> objects = new List<TemplateObjectSettings>();
+
         // TODO allow support for UniRx ReactiveProperty
 
         private UnityEngine.UI.Text text;
+        private Template templateRenderer;
 
         void Awake()
         {
@@ -21,16 +25,24 @@ namespace App.UI.Text.Templates
             {
                 throw new Exception("Failed to find Text component.");
             }
+            templateRenderer = new Template(template);
+
+            foreach (var templateObject in objects)
+            {
+                var component = templateObject.GetComponent();
+                if (string.IsNullOrEmpty(templateObject.key))
+                {
+                    continue;
+                }
+
+                templateRenderer.Add(templateObject.key, component);
+            }
+
             Render();
         }
 
-        // Render
-        // Slots for configuring data sources should be observable, so when we swap sources the template is rerendered
-
         protected void Render()
         {
-            var templateRenderer = new Template(template);
-            templateRenderer.Add("name", "BOB");
             text.text = templateRenderer.Render();
         }
     }
