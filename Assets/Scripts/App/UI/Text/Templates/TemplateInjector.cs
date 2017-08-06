@@ -11,7 +11,7 @@ namespace App.UI.Text.Templates
         [TextArea(5, 10)]
         public string template;
 
-        public List<TemplateObjectSettings> objects = new List<TemplateObjectSettings>();
+        public List<TemplateGameObjectSettings> gameObjects = new List<TemplateGameObjectSettings>();
 
         // TODO allow support for UniRx ReactiveProperty
 
@@ -27,7 +27,7 @@ namespace App.UI.Text.Templates
             }
             templateRenderer = new Template(template);
 
-            foreach (var templateObject in objects)
+            foreach (var templateObject in gameObjects)
             {
                 var component = templateObject.GetComponent();
                 if (string.IsNullOrEmpty(templateObject.key))

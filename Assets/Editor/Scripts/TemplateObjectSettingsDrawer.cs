@@ -7,26 +7,26 @@ using UnityEngine;
 
 namespace App.Editor
 {
-    [CustomPropertyDrawer(typeof(TemplateObjectSettings))]
+    [CustomPropertyDrawer(typeof(TemplateGameObjectSettings))]
     public class TemplateObjectSettingsDrawer : PropertyDrawer
     { 
-        private TemplateObjectSettings templateObjectSettings;
+        private TemplateGameObjectSettings templateGameObjectSettings;
 
-        protected TemplateObjectSettings GetTarget(SerializedProperty property)
+        protected TemplateGameObjectSettings GetTarget(SerializedProperty property)
         {
             var value = fieldInfo.GetValue(property.serializedObject.targetObject);
-            if (value is TemplateObjectSettings)
+            if (value is TemplateGameObjectSettings)
             {
-                return (TemplateObjectSettings)value;
+                return (TemplateGameObjectSettings)value;
             }
 
-            if (!(value is List<TemplateObjectSettings>))
+            if (!(value is List<TemplateGameObjectSettings>))
             {
                 return null;
             }
 
-            var obj = ((List<TemplateObjectSettings>)fieldInfo.GetValue(property.serializedObject.targetObject)).ToArray();
-            TemplateObjectSettings target = null;
+            var obj = ((List<TemplateGameObjectSettings>)fieldInfo.GetValue(property.serializedObject.targetObject)).ToArray();
+            TemplateGameObjectSettings target = null;
             if (obj.GetType().IsArray)
             {
                 var index = Convert.ToInt32(new string(property.propertyPath.Where(c => char.IsDigit(c)).ToArray()));

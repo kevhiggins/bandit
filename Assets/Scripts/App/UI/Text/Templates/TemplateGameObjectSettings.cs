@@ -6,7 +6,7 @@ using UnityEngine;
 namespace App.UI.Text.Templates
 {
     [Serializable]
-    public class TemplateObjectSettings
+    public class TemplateGameObjectSettings
     {
         public string key;
 
@@ -33,13 +33,21 @@ namespace App.UI.Text.Templates
             }
             set
             {
-                componentName = GetComponents()[value];
+                var components = GetComponents();
+                if (value < components.Length)
+                {
+                    componentName = components[value];
+                }
             }
         }
 
         public string[] GetComponents()
         {
             var componentNames = new List<string>();
+
+            if (gameObject == null)
+                return componentNames.ToArray();
+
             var components = gameObject.GetComponents<Component>();
             foreach (var component in components)
             {
@@ -50,6 +58,10 @@ namespace App.UI.Text.Templates
 
         public Component GetComponent()
         {
+            if (gameObject == null)
+            {
+                return null;
+            }
             return gameObject.GetComponent(componentName);
         }
 
