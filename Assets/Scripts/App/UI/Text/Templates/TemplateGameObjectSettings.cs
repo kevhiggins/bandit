@@ -48,7 +48,22 @@ namespace App.UI.Text.Templates
             if (gameObject == null)
                 return componentNames.ToArray();
 
-            var components = gameObject.GetComponents<Component>();
+            Component[] components;
+            var provider = GetProvider();
+            if (provider != null)
+            {
+                var selected = GetSelected(provider);
+                if (selected == null)
+                {
+                    return componentNames.ToArray();
+                }
+                components = selected.GetComponents<Component>();
+            }
+            else
+            {
+                components = gameObject.GetComponents<Component>();
+            }
+            
             foreach (var component in components)
             {
                 componentNames.Add(component.GetType().Name);
@@ -62,7 +77,38 @@ namespace App.UI.Text.Templates
             {
                 return null;
             }
+
+            var provider = GetProvider();
+
+            if (provider != null)
+            {
+                var selected = GetSelected(provider);
+                if (selected == null)
+                {
+                    return null;
+                }
+                return selected.GetComponent(componentName);
+            }
+
             return gameObject.GetComponent(componentName);
+        }
+
+        protected ObjectProvider GetProvider()
+        {
+            return gameObject == null ? null : gameObject.GetComponent<ObjectProvider>();
+        }
+
+        public GameObject GetSelected(ObjectProvider provider)
+        {
+            if (provider.Selected == null)
+                return null;
+
+            var selectedGameObject = (GameObject)provider.Selected;
+            if (selectedGameObject == null)
+            {
+                throw new Exception("Objects that are not of type GameObject not supported.");
+            }
+            return selectedGameObject;
         }
 
         public string[] GetAttributes()
@@ -74,9 +120,13 @@ namespace App.UI.Text.Templates
             foreach (var f in type.GetFields().Where(f => f.IsPublic))
             {
                 attributeNames.Add(f.Name);
-                //Console.WriteLine(
-                    //String.Format("Name: {0} Value: {1}", f.Name, f.GetValue(obj));
             }
+
+            foreach (var p in type.GetProperties().Where(p => p.CanRead && p.GetGetMethod(true).IsPublic))
+            {
+                attributeNames.Add(p.Name);
+            }
+
             return attributeNames.ToArray();
         }
     }
