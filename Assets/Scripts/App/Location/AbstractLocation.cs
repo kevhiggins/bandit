@@ -72,8 +72,6 @@ namespace App.Location
             onAssignable.Invoke();
             var icons = GetJobIcons();
             icons.gameObject.SetActive(true);
-         //   icons.gameObject.SetActive(false);
-        //    icons.enabled = true;
 
             isAssignable = true;
         }

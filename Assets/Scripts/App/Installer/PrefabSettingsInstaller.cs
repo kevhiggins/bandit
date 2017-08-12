@@ -1,6 +1,7 @@
 ﻿using System;
 using App.Simulation;
 using App.UI.Location;
+using App.UI.Text.Templates;
 using UnityEngine;
 using Zenject;
 
@@ -15,6 +16,7 @@ namespace App.Installer
         {
             Container.Bind<LocationJobIcons>().FromInstance(prefabSettings.locationJobIcons);
             Container.Bind<LocationJobIcons.Factory>().AsSingle();
+            Container.Bind<ObjectProvider>().WithId("HighlightedJobProvider").FromInstance(prefabSettings.highlightedJobProvider);
 
             //Container.BindFactory<LocationJobIcons, LocationJobIcons.Factory>()
             //.FromComponentInNewPrefab(prefabSettings.locationJobIcons);
@@ -24,6 +26,7 @@ namespace App.Installer
         public class PrefabSettings
         {
             public LocationJobIcons locationJobIcons;
+            public ObjectProvider highlightedJobProvider;
         }
     }
 }
