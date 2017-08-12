@@ -1,8 +1,11 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
+using App.Jobs;
+using App.UI.Location;
 using App.Worker;
 using UnityEngine.Events;
+using Zenject;
 using Object = UnityEngine.Object;
 
 namespace App.Location
@@ -12,12 +15,17 @@ namespace App.Location
         public UnityEvent onAssignable;
         public UnityEvent onUnassignable;
 
+        public List<JobSettings> jobs = new List<JobSettings>();
+
         public bool HasWorker { get { return worker != null;  } }
 
         private bool isAssignable = false;
         private AvailableWorkers availableWorkers;
 
         private AbstractWorker worker;
+
+        private LocationJobIcons.Factory locationJobIconsFactory;
+        private LocationJobIcons jobIcons;
 
         void Awake()
         {
@@ -26,6 +34,12 @@ namespace App.Location
             {
                 throw new Exception("Could not find available workers component.");
             }
+        }
+
+        [Inject]
+        public void Construct(LocationJobIcons.Factory locationJobIconsFactory)
+        {
+            this.locationJobIconsFactory = locationJobIconsFactory;
         }
 
         void OnMouseUpAsButton()
@@ -55,13 +69,46 @@ namespace App.Location
             if (HasWorker)
                 return;
 
-            this.onAssignable.Invoke();
+            onAssignable.Invoke();
+            var icons = GetJobIcons();
+            icons.gameObject.SetActive(true);
+         //   icons.gameObject.SetActive(false);
+        //    icons.enabled = true;
+
             isAssignable = true;
+        }
+
+        protected LocationJobIcons GetJobIcons()
+        {
+            if (jobIcons != null)
+            {
+                return jobIcons;
+            }
+
+            jobIcons = locationJobIconsFactory.Create(transform);
+
+            // For each configured job, assign a job settings to a job icon
+            if (jobs.Count > jobIcons.jobIcons.Count)
+            {
+                throw new Exception(String.Format("Location with name {0} has {1} assigned jobs, when the max allowed Jobs anchors is {2}", name, jobs.Count, jobIcons.jobIcons.Count));
+            }
+
+            var count = 0;
+            foreach(var jobSetting in jobs)
+            {
+                var jobIcon = jobIcons.jobIcons[count];
+                jobIcon.ConfigureJob(jobSetting);
+                count++;
+            }
+
+            return jobIcons;
         }
 
         public void DisableAssignment()
         {
-            this.onUnassignable.Invoke();
+            onUnassignable.Invoke();
+            var icons = GetJobIcons();
+            icons.gameObject.SetActive(false);
             isAssignable = false;
         }
     }

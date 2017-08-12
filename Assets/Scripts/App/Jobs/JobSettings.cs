@@ -8,6 +8,9 @@ namespace App.Jobs
     {
         public string title;
         public string description;
+
+        public Sprite icon;
+
         [Tooltip("The worker will be returned to the player when the job cost is paid in full.")]
         public bool resetWorkerWhenPaid = true;
 

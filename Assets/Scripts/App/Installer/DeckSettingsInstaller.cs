@@ -1,14 +1,16 @@
 ﻿using System;
 using App.Simulation;
+using App.UI.Location;
 using UnityEngine;
 using Zenject;
 
 namespace App.Installer
 {
-    [CreateAssetMenu(menuName = "Game/Settings")]
-    public class GameSettingsInstaller : ScriptableObjectInstaller<GameSettingsInstaller>
+    [CreateAssetMenu(menuName = "Game/Deck Settings")]
+    public class DeckSettingsInstaller : ScriptableObjectInstaller<DeckSettingsInstaller>
     {
         public Deck.Settings eventDeck;
+        public PrefabSettings prefabSettings;
 
         public override void InstallBindings()
         {
@@ -26,6 +28,11 @@ namespace App.Installer
 
                 return deck;
             }).AsSingle();
+        }
+
+        public class PrefabSettings
+        {
+            public LocationJobIcons locationJobIcons;
         }
     }
 }

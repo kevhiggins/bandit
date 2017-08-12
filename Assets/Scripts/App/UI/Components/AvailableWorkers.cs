@@ -10,7 +10,6 @@ public class AvailableWorkers : MonoBehaviour
     public WorkerInfo workerInfo;
     private List<WorkerInfo> workerInfos = new List<WorkerInfo>();
     private WorkerInfo currentSelected = null;
-    private AmbushLocation[] ambushLocations;
 
     void Start()
     {
@@ -49,7 +48,7 @@ public class AvailableWorkers : MonoBehaviour
     {
         var worker = currentSelected.Worker;
         currentSelected.gameObject.SetActive(false);
-        this.InfoToggled(currentSelected);
+        InfoToggled(currentSelected);
         return worker;
     }
 
@@ -73,6 +72,6 @@ public class AvailableWorkers : MonoBehaviour
 
     protected IEnumerable<AbstractLocation> GetLocations(AbstractWorker worker)
     {
-        return FindObjectsOfType<AmbushLocation>();
+        return FindObjectsOfType<AbstractLocation>();
     }
 }

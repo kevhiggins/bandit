@@ -2,7 +2,6 @@
 using App.UI;
 using App.Unit;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace App.Location
 {

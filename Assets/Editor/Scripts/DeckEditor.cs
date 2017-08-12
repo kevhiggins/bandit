@@ -1,25 +1,23 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using App.Installer;
-using App.Simulation;
 using App.Simulation.Cards;
 
-[CustomEditor(typeof(GameSettingsInstaller), true)]
+[CustomEditor(typeof(DeckSettingsInstaller), true)]
 public class DeckEditor : Editor
 {
-    public GameSettingsInstaller gameSettingsInstaller;
+    public DeckSettingsInstaller DeckSettingsInstaller;
 
     void OnEnable()
     {
-        this.gameSettingsInstaller = (GameSettingsInstaller) target;
+        this.DeckSettingsInstaller = (DeckSettingsInstaller) target;
     }
 
     public override void OnInspectorGUI()
     {
-        var deckSettings = gameSettingsInstaller.eventDeck;
+        var deckSettings = DeckSettingsInstaller.eventDeck;
 
         serializedObject.Update();
 
@@ -65,7 +63,7 @@ public class DeckEditor : Editor
             deckSettings.cards.Add(new Card.Settings());
         }
 
-        EditorUtility.SetDirty(gameSettingsInstaller);
+        EditorUtility.SetDirty(DeckSettingsInstaller);
 
     }
 }

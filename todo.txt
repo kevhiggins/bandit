@@ -1,3 +1,7 @@
+When job orb is highlighted, display job info in job info panel
+Redo worker tray to Joe's specs
+
+
 Inform Settings script to use the providers selected components instead of the parents 
 
 Turn SelectedJobProvider into a prefab with the DynamicGameObject mono behavior attached to it.
