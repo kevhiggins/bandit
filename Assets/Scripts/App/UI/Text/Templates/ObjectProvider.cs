@@ -1,12 +1,15 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using JetBrains.Annotations;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace App.UI.Text.Templates
 {
     public class ObjectProvider : MonoBehaviour, INotifyPropertyChanged
     {
-        public Object selected;
+        [NonSerialized]
+        private Object selected;
         public Object Selected {
             get { return selected; }
             set { selected = value; OnPropertyChanged("Selected"); }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace App.UI.Text.Templates
 {
@@ -50,9 +51,11 @@ namespace App.UI.Text.Templates
 
             Component[] components;
             var provider = GetProvider();
+
+            /*
             if (provider != null)
             {
-                var selected = GetSelected(provider);
+                var selected =   GetSelected(provider);
                 if (selected == null)
                 {
                     return componentNames.ToArray();
@@ -61,8 +64,11 @@ namespace App.UI.Text.Templates
             }
             else
             {
+            */
                 components = gameObject.GetComponents<Component>();
+            /*
             }
+            */
             
             foreach (var component in components)
             {
@@ -80,6 +86,7 @@ namespace App.UI.Text.Templates
 
             var provider = GetProvider();
 
+            /*
             if (provider != null)
             {
                 var selected = GetSelected(provider);
@@ -89,6 +96,7 @@ namespace App.UI.Text.Templates
                 }
                 return selected.GetComponent(componentName);
             }
+            */
 
             return gameObject.GetComponent(componentName);
         }
@@ -98,18 +106,26 @@ namespace App.UI.Text.Templates
             return gameObject == null ? null : gameObject.GetComponent<ObjectProvider>();
         }
 
+        /*
         public GameObject GetSelected(ObjectProvider provider)
         {
             if (provider.Selected == null)
                 return null;
 
-            var selectedGameObject = (GameObject)provider.Selected;
-            if (selectedGameObject == null)
+            var selectedGameObject = provider.Selected as GameObject;
+            if (selectedGameObject != null)
             {
-                throw new Exception("Objects that are not of type GameObject not supported.");
+                return selectedGameObject;
             }
-            return selectedGameObject;
+            var selectedObject = provider.Selected as Object;
+            if (selectedObject != null)
+            {
+                
+            }
+
+            throw new Exception("Objects that are not of type GameObject not supported.");
         }
+        */
 
         public string[] GetAttributes()
         {
