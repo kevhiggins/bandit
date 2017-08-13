@@ -1,6 +1,8 @@
-When job orb is highlighted, display job info in job info panel
 Redo worker tray to Joe's specs
 
+Discuss:
+What events to add regarding job icon appearance, hovering, exit.
+Additionally, do we need global level events on any of those? For instance, if any job icon is hovered, allow a global event to toggle the job info windows visibility
 
 Inform Settings script to use the providers selected components instead of the parents 
 

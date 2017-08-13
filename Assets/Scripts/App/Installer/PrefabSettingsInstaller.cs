@@ -17,9 +17,6 @@ namespace App.Installer
             Container.Bind<LocationJobIcons>().FromInstance(prefabSettings.locationJobIcons);
             Container.Bind<LocationJobIcons.Factory>().AsSingle();
             Container.Bind<ObjectProvider>().WithId("HighlightedJobProvider").FromInstance(prefabSettings.highlightedJobProvider);
-
-            //Container.BindFactory<LocationJobIcons, LocationJobIcons.Factory>()
-            //.FromComponentInNewPrefab(prefabSettings.locationJobIcons);
         }
 
         [Serializable]

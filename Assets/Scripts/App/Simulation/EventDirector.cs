@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using App.Simulation;
 using App.Simulation.Cards;
+using App.UI.Events;
 using C5;
 using UnityEngine.Events;
 using Zenject;
@@ -14,6 +15,8 @@ namespace App
     {
         public UnityEvent onSimulateStart = new UnityEvent();
         public UnityEvent onSimulateEnd = new UnityEvent();
+
+        public GlobalEventManager globalEvents;
 
         public bool IsSimulating { get; private set; }
 

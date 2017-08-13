@@ -1,6 +1,8 @@
 ﻿using App.Jobs;
+using App.UI.Events;
 using App.UI.Text.Templates;
 using UnityEngine;
+using UnityEngine.Events;
 using Zenject;
 
 namespace App.UI.Location
@@ -8,15 +10,21 @@ namespace App.UI.Location
     [RequireComponent(typeof(SpriteRenderer))]
     public class JobIcon : MonoBehaviour
     {
+        public UnityEvent onMouseEnter = new UnityEvent();
+        public UnityEvent onMouseExit = new UnityEvent();
+
         private JobSettings job;
         private ObjectProvider highlightedJobProvider;
+        private GlobalEventManager globalEventManager;
 
         [Inject]
         public void Construct(
             [Inject(Id="HighlightedJobProvider")]
-            ObjectProvider highlightedJobProvider)
+            ObjectProvider highlightedJobProvider,
+            GlobalEventManager globalEventManager)
         {
             this.highlightedJobProvider = highlightedJobProvider;
+            this.globalEventManager = globalEventManager;
         }
 
         public void ConfigureJob(JobSettings job)
@@ -28,13 +36,16 @@ namespace App.UI.Location
 
         void OnMouseEnter()
         {
-            Debug.Log(highlightedJobProvider);
             highlightedJobProvider.Selected = job;
+            onMouseEnter.Invoke();
+            globalEventManager.onJobIconMouseEnter.Invoke();
         }
 
         void OnMouseExit()
         {
             highlightedJobProvider.Selected = null;
+            onMouseExit.Invoke();
+            globalEventManager.onJobIconMouseExit.Invoke();
         }
     }
 }
