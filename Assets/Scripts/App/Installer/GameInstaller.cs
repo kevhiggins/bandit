@@ -1,8 +1,5 @@
-﻿using System.Diagnostics;
-using App.UI.Events;
+﻿using App.UI.Events;
 using Zenject;
-using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 namespace App.Installer
 {

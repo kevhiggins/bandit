@@ -50,9 +50,10 @@ namespace App.UI.Text.Templates
                 return componentNames.ToArray();
 
             Component[] components;
+            /*
             var provider = GetProvider();
 
-            /*
+            
             if (provider != null)
             {
                 var selected =   GetSelected(provider);
@@ -65,7 +66,7 @@ namespace App.UI.Text.Templates
             else
             {
             */
-                components = gameObject.GetComponents<Component>();
+            components = gameObject.GetComponents<Component>();
             /*
             }
             */
