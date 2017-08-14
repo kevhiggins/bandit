@@ -42,6 +42,7 @@ public class AvailableWorkers : MonoBehaviour
         }
         InvokeAssignableLocations(toggledInfo);
         currentSelected = toggledInfo;
+        currentSelected.Select();
     }
 
     public AbstractWorker AssignWorker(AbstractLocation location)

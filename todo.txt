@@ -1,3 +1,15 @@
+Make egg carton thing look correct.
+Implement job interactions with simulation phase.
+
+
+Add textmeshpro functionality to TemplateInjector
+Don't display anchors that dont have jobs
+
+Jellybeans:
+hide location node
+
+Click on node
+
 Redo worker tray to Joe's specs
 
 Discuss:

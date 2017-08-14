@@ -1,40 +1,66 @@
 ﻿using UnityEngine;
 using App.Worker;
-using TMPro;
-using UnityEngine.UI;
+using UnityEngine.Events;
+using UnityEngine.Experimental.UIElements;
+using Button = UnityEngine.UI.Button;
 
 namespace App.UI.Components
 {
     public class WorkerInfo : MonoBehaviour
     {
-        public TextMeshProUGUI nameText;
-        public Button assignmentButton;
         private AvailableWorkers availableWorkers;
+        private bool isSelected = false;
 
         public AbstractWorker Worker { get; private set; }
 
+        public UnityEvent onSelected = new UnityEvent();
+        public UnityEvent onDeselected = new UnityEvent();
+        public Button button;
+
+        public bool IsSelected
+        {
+            get { return isSelected;  }
+            set
+            {
+                if (isSelected != value)
+                {
+                    isSelected = value;
+                    if (isSelected)
+                    {
+                        onSelected.Invoke();
+                    }
+                    else
+                    {
+                        onDeselected.Invoke();
+                    }
+                }
+            }
+        }
+
         public void Configure(AbstractWorker worker, AvailableWorkers availableWorkers)
         {
-            this.Worker = worker;
+            Worker = worker;
             this.availableWorkers = availableWorkers;
         }
 
         public void ToggleAssign()
         {
-            assignmentButton.image.color = Color.gray;
             availableWorkers.InfoToggled(this);
-
         }
 
         public void Deselect()
         {
-            assignmentButton.image.color = Color.white;
+            IsSelected = false;
+        }
+
+        public void Select()
+        {
+            IsSelected = true;
         }
 
         void Start()
         {
-            this.nameText.text = Worker.workerName;
-            assignmentButton.onClick.AddListener(ToggleAssign);          
+            button.onClick.AddListener(ToggleAssign);
         }
     }
 }
