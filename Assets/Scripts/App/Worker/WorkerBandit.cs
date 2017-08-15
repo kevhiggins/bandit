@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using App.Jobs;
 
 namespace App.Worker
 {
     public class WorkerBandit : AbstractWorker
     {
-        public int ambushSkill = 1;
+        public BanditType type;
     }
 }

@@ -13,6 +13,9 @@ namespace App.UI.Text.Templates
         [TextArea(5, 10)]
         public string template;
 
+        public char delimiterStartChar = '<';
+        public char delimiterStopChar = '>';
+
         public List<TemplateGameObjectSettings> gameObjects = new List<TemplateGameObjectSettings>();
         public List<TemplateObjectSettings> objects = new List<TemplateObjectSettings>();
 
@@ -24,7 +27,7 @@ namespace App.UI.Text.Templates
         void Awake()
         {
             text = new TextAdapter(gameObject);
-            templateRenderer = new Template(template);
+            templateRenderer = new Template(template, delimiterStartChar, delimiterStopChar);
 
             foreach (var templateGameObject in gameObjects)
             {

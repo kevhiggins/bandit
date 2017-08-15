@@ -1,3 +1,8 @@
+I'm worried that I will need to pass a lot of custom data to script to control the UI objects.
+Talk to Joe to see if we can come up with a solution that will give him more control on the UI side without making it too complicated, or making too much work for me.
+eg more stuff similar to TemplateInjector??
+
+
 Make egg carton thing look correct.
 Implement job interactions with simulation phase.
 

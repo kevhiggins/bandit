@@ -3,6 +3,7 @@ using App.Worker;
 using UnityEngine.Events;
 using UnityEngine.Experimental.UIElements;
 using Button = UnityEngine.UI.Button;
+using Image = UnityEngine.UI.Image;
 
 namespace App.UI.Components
 {
@@ -16,6 +17,7 @@ namespace App.UI.Components
         public UnityEvent onSelected = new UnityEvent();
         public UnityEvent onDeselected = new UnityEvent();
         public Button button;
+        public GameObject portrait;
 
         public bool IsSelected
         {
@@ -41,6 +43,7 @@ namespace App.UI.Components
         {
             Worker = worker;
             this.availableWorkers = availableWorkers;
+            Instantiate(worker.portrait, portrait.transform);
         }
 
         public void ToggleAssign()
