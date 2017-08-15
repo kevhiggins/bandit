@@ -18,16 +18,12 @@ namespace App.UI.Text.Templates
 
         // TODO allow support for UniRx ReactiveProperty
 
-        private UnityEngine.UI.Text text;
+        private IText text;
         private Template templateRenderer;
 
         void Awake()
         {
-            text = GetComponent<UnityEngine.UI.Text>();
-            if (text == null)
-            {
-                throw new Exception("Failed to find Text component.");
-            }
+            text = new TextAdapter(gameObject);
             templateRenderer = new Template(template);
 
             foreach (var templateGameObject in gameObjects)
@@ -66,7 +62,7 @@ namespace App.UI.Text.Templates
 
         protected void Render()
         {
-            text.text = templateRenderer.Render();
+            text.Value = templateRenderer.Render();
         }
     }
 }
