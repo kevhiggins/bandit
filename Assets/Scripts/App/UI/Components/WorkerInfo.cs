@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using App.Worker;
+using UniRx;
 using UnityEngine.Events;
-using UnityEngine.Experimental.UIElements;
 using Button = UnityEngine.UI.Button;
-using Image = UnityEngine.UI.Image;
 
 namespace App.UI.Components
 {
@@ -16,6 +15,9 @@ namespace App.UI.Components
 
         public UnityEvent onSelected = new UnityEvent();
         public UnityEvent onDeselected = new UnityEvent();
+        public UnityEvent onPlacement = new UnityEvent();
+        public UnityEvent onReclaimation = new UnityEvent();
+
         public Button button;
         public GameObject portrait;
 
@@ -41,13 +43,33 @@ namespace App.UI.Components
 
         public void Configure(AbstractWorker worker, AvailableWorkers availableWorkers)
         {
-            Worker = worker;
+            worker.gameObject.SetActive(false);
+            Worker = Instantiate(worker);
+            worker.gameObject.SetActive(true);
+            Worker.Init();
+
+            Worker.onPlacement.AsObservable().Subscribe(_ =>
+            {
+                onPlacement.Invoke();
+            });
+
+            Worker.onReclaimation.AsObservable().Subscribe(_ =>
+            {
+                onReclaimation.Invoke();
+            });
+
             this.availableWorkers = availableWorkers;
             Instantiate(worker.portrait, portrait.transform);
         }
 
-        public void ToggleAssign()
+        public void SignalSelection()
         {
+            // Prevent selection if worker is already assigned to location.
+            if (Worker.Location.Value != null)
+            {
+                return;
+            }
+
             availableWorkers.InfoToggled(this);
         }
 
@@ -61,9 +83,19 @@ namespace App.UI.Components
             IsSelected = true;
         }
 
+        public void DoPlacement()
+        {
+            onPlacement.Invoke();
+        }
+
+        public void DoReclaimation()
+        {
+            onReclaimation.Invoke();
+        }
+
         void Start()
         {
-            button.onClick.AddListener(ToggleAssign);
+            button.onClick.AddListener(SignalSelection);
         }
     }
 }

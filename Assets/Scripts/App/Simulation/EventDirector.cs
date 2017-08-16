@@ -6,6 +6,7 @@ using App.Simulation;
 using App.Simulation.Cards;
 using App.UI.Events;
 using C5;
+using UniRx;
 using UnityEngine.Events;
 using Zenject;
 
@@ -18,7 +19,7 @@ namespace App
 
         public GlobalEventManager globalEvents;
 
-        public bool IsSimulating { get; private set; }
+        public ReactiveProperty<bool> IsSimulating { get; private set; }
 
         private List<ISimulationEvent> activeEvents;
         private List<ISimulationEvent> completeEvents;
@@ -31,6 +32,11 @@ namespace App
         public void Construct(Deck eventDeck)
         {
             this.eventDeck = eventDeck;
+        }
+
+        void Awake()
+        {
+            IsSimulating = new ReactiveProperty<bool>(false);
         }
 
         void Start()
@@ -50,13 +56,13 @@ namespace App
             simulationDuration = 0;
             activeEvents = new List<ISimulationEvent>();
             completeEvents = new List<ISimulationEvent>();
-            IsSimulating = true;
+            IsSimulating.Value = true;
             onSimulateStart.Invoke();
         }
 
         void Update()
         {
-            if (!IsSimulating)
+            if (!IsSimulating.Value)
                 return;
 
             CheckSimulationComplete();
@@ -92,7 +98,7 @@ namespace App
 
         private void EndSimulation()
         {
-            IsSimulating = false;
+            IsSimulating.Value = false;
             onSimulateEnd.Invoke();
         }
     }

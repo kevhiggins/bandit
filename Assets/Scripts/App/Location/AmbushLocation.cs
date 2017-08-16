@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace App.Location
 {
-    [RequireComponent(typeof(CircleCollider2D))]
+    
     public class AmbushLocation : AbstractLocation
     {
         public StringUnityEvent onAmbush = new StringUnityEvent();

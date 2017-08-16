@@ -10,6 +10,7 @@ using Object = UnityEngine.Object;
 
 namespace App.Location
 {
+    [RequireComponent(typeof(CircleCollider2D))]
     public class AbstractLocation : MonoBehaviour
     {
         public UnityEvent onAssignable;
@@ -26,20 +27,12 @@ namespace App.Location
 
         private LocationJobIcons.Factory locationJobIconsFactory;
         private LocationJobIcons jobIcons;
-
-        void Awake()
-        {
-            availableWorkers = FindObjectOfType<AvailableWorkers>();
-            if (availableWorkers == null)
-            {
-                throw new Exception("Could not find available workers component.");
-            }
-        }
-
+        
         [Inject]
-        public void Construct(LocationJobIcons.Factory locationJobIconsFactory)
+        public void Construct(LocationJobIcons.Factory locationJobIconsFactory, AvailableWorkers availableWorkers)
         {
             this.locationJobIconsFactory = locationJobIconsFactory;
+            this.availableWorkers = availableWorkers;
         }
 
         void OnMouseUpAsButton()
@@ -49,19 +42,21 @@ namespace App.Location
                 return;
             }
 
-            var selectedWorker = availableWorkers.AssignWorker(this);
+            availableWorkers.AssignWorker(this);
+        }
 
-            if (selectedWorker == null)
-            {
-                throw new Exception("No worker selected. Location should not be assignable without a selected worker.");
-            }
+        public void PlaceWorker(AbstractWorker worker)
+        {
+            worker.transform.parent = transform;
+            worker.gameObject.SetActive(true);
+            worker.transform.localPosition = Vector3.zero;
+            this.worker = worker;
+        }
 
-            var workerObject = Object.Instantiate(selectedWorker, this.transform);
-            worker = workerObject.GetComponent<AbstractWorker>();
-            if (worker == null)
-            {
-                throw new Exception("Could not get worker script from worker object.");
-            }
+        public void ReclaimWorker()
+        {
+            worker.gameObject.SetActive(false);
+            worker = null;
         }
 
         public void EnableAssignment()
