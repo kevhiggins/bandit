@@ -10,6 +10,7 @@ namespace App.UI.Components
     {
         private AvailableWorkers availableWorkers;
         private bool isSelected = false;
+        private EventDirector eventDirector;
 
         public AbstractWorker Worker { get; private set; }
 
@@ -41,12 +42,13 @@ namespace App.UI.Components
             }
         }
 
-        public void Configure(AbstractWorker worker, AvailableWorkers availableWorkers)
+        public void Configure(AbstractWorker worker, AvailableWorkers availableWorkers, EventDirector eventDirector)
         {
+            this.eventDirector = eventDirector;
             worker.gameObject.SetActive(false);
             Worker = Instantiate(worker);
             worker.gameObject.SetActive(true);
-            Worker.Init();
+            Worker.Init(eventDirector);
 
             Worker.onPlacement.AsObservable().Subscribe(_ =>
             {

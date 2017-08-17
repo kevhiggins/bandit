@@ -1,3 +1,5 @@
+// TODO consider putting reclaimed workers in a special game object (also initially spawned workers).
+
 Determine ways and times a bandit can be removed from the board.
 Implement job interactions with simulation phase.
 

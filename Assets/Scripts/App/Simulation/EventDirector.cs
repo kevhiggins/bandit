@@ -19,7 +19,8 @@ namespace App
 
         public GlobalEventManager globalEvents;
 
-        public ReactiveProperty<bool> IsSimulating { get; private set; }
+        public ReadOnlyReactiveProperty<bool> IsSimulating;
+        private ReactiveProperty<bool> isSimulating;
 
         private List<ISimulationEvent> activeEvents;
         private List<ISimulationEvent> completeEvents;
@@ -36,7 +37,8 @@ namespace App
 
         void Awake()
         {
-            IsSimulating = new ReactiveProperty<bool>(false);
+            isSimulating = new ReactiveProperty<bool>(false);
+            IsSimulating = new ReadOnlyReactiveProperty<bool>(isSimulating);
         }
 
         void Start()
@@ -56,7 +58,7 @@ namespace App
             simulationDuration = 0;
             activeEvents = new List<ISimulationEvent>();
             completeEvents = new List<ISimulationEvent>();
-            IsSimulating.Value = true;
+            isSimulating.Value = true;
             onSimulateStart.Invoke();
         }
 
@@ -98,7 +100,7 @@ namespace App
 
         private void EndSimulation()
         {
-            IsSimulating.Value = false;
+            isSimulating.Value = false;
             onSimulateEnd.Invoke();
         }
     }

@@ -34,7 +34,7 @@ public class AvailableWorkers : MonoBehaviour
             
             var info = instance.GetComponent<WorkerInfo>();
             workerInfos.Add(info);
-            info.Configure(worker, this);
+            info.Configure(worker, this, eventDirector);
             instance.SetActive(true);
         }
         infoGameObject.SetActive(true);
