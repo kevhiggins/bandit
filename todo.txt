@@ -1,4 +1,6 @@
-// TODO consider putting reclaimed workers in a special game object (also initially spawned workers).
+consider putting reclaimed workers in a special game object (also initially spawned workers).
+Bug: Fix issue where a worker is selected, then a worker is reclaimed, and the selected worker cannot be placed.
+	Seems to be due to the location not being assignable when the bandit is selected, but then being assignable afterwards (technically)
 
 Determine ways and times a bandit can be removed from the board.
 Implement job interactions with simulation phase.
