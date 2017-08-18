@@ -13,6 +13,10 @@ public class AvailableWorkers : MonoBehaviour
 {
     public List<AbstractWorker> startingWorkers;
     public WorkerInfo workerInfo;
+    public bool HasSelected {
+        get { return currentSelected != null; }
+    }
+
     private List<WorkerInfo> workerInfos = new List<WorkerInfo>();
     private WorkerInfo currentSelected = null;
     private EventDirector eventDirector;

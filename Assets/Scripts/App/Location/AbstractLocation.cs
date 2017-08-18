@@ -86,6 +86,10 @@ namespace App.Location
             worker.gameObject.SetActive(false);
             worker = null;
             onWorkerReclaimed.Invoke();
+            if (availableWorkers.HasSelected)
+            {
+                EnableAssignment();
+            }
         }
 
         public void EnableAssignment()
