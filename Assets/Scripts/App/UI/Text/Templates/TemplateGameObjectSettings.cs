@@ -61,7 +61,7 @@ namespace App.UI.Text.Templates
                 {
                     return componentNames.ToArray();
                 }
-                components = selected.GetComponents<Component>();
+                components = selected.GetComponentNames<Component>();
             }
             else
             {

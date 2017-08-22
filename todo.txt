@@ -1,3 +1,13 @@
+Fix issue where BanditWorker.Location throws an error in SpriteInjector
+
+Create a serialiazable object that takes an Object OR a GameObject, and displays a series of dropdowns to select attributes until a leaf property is found.
+	Use that property for TemplateInjector AND for SpriteInjector
+
+Move gold score count to a better spot (Player object?) and use the Injector to listen to the changes. Need to think on how we want to handle nested observables and similar things.
+May need to check all objects between the parent and the selected value, and listen for change events
+
+Split emblem and bandit icon on worker config for Joe
+
 consider putting reclaimed workers in a special game object (also initially spawned workers).
 Bug: Fix issue where a worker is selected, then a worker is reclaimed, and the selected worker cannot be placed.
 	Seems to be due to the location not being assignable when the bandit is selected, but then being assignable afterwards (technically)
