@@ -5,6 +5,6 @@ namespace App.UI.Sprite
 {
     public class SpriteInjector : MonoBehaviour
     {
-        public DataSelector selector;
+        public SpriteDataSelector selector;
     }
 }

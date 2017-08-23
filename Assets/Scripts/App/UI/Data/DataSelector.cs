@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using App.Extensions;
-using App.UI.Text.Templates;
-using ModestTree;
 using UnityEngine;
 
 namespace App.UI.Data
@@ -12,10 +8,15 @@ namespace App.UI.Data
     [Serializable]
     public class DataSelector
     {
+        public virtual Type GenericType { get { return null; } }
         public UnityEngine.Object source;
         public List<string> PathSegments {
             get { return pathSegments;  }
             set { pathSegments = value; }
+        }
+
+        public Type SelectedType {
+            get { return GetTypeAtPath(pathSegments); }
         }
 
         protected GameObject SourceGameObject {
@@ -35,7 +36,7 @@ namespace App.UI.Data
 
         [SerializeField]
         [HideInInspector]
-        private List<string> pathSegments;
+        private List<string> pathSegments = new List<string>();
 
         public int ComponentIndex
         {
@@ -81,7 +82,7 @@ namespace App.UI.Data
             return gameObject.GetComponent(selectedComponentName);
         }
 
-        public List<string> GetAttributes(List<string> pathSegments)
+        public Type GetTypeAtPath(List<string> path)
         {
             // If source is a game object, get the selected component.
             var gameObject = SourceGameObject;
@@ -93,10 +94,10 @@ namespace App.UI.Data
                 }
                 source = gameObject.GetComponent(selectedComponentName);
             }
-            
-            Type currentType = source.GetType();
 
-            foreach (var pathSegment in pathSegments)
+            var currentType = source.GetType();
+
+            foreach (var pathSegment in path)
             {
                 var field = currentType.GetField(pathSegment);
                 if (field != null)
@@ -112,8 +113,15 @@ namespace App.UI.Data
                     continue;
                 }
 
-                throw new Exception(string.Format("Path segment with name {0} does not have a corresponding value.", pathSegment));              
+                throw new Exception(string.Format("Path segment with name {0} does not have a corresponding type.", pathSegment));
             }
+
+            return currentType;
+        }
+
+        public List<string> GetAttributes(List<string> path)
+        {
+            var currentType = GetTypeAtPath(path);
 
             // Get list of fields and properties on current object.
             var attributeNames = currentType.GetFields().Where(f =>

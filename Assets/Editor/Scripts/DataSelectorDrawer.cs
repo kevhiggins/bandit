@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using App.UI.Data;
-using App.UI.Text.Templates;
 using UnityEditor;
 using UnityEngine;
 
 namespace App.Editor
 {
-    [CustomPropertyDrawer(typeof(DataSelector))]
+    [CustomPropertyDrawer(typeof(DataSelector), true)]
     public class DataSelectorDrawer : PropertyDrawer
     {
         protected DataSelector GetTarget(SerializedProperty property)
@@ -47,6 +46,8 @@ namespace App.Editor
 
             EditorGUI.BeginProperty(position, label, property);
 
+            RenderBackgroundColor(target, position, property, label);
+
             EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
 
             var indent = EditorGUI.indentLevel;
@@ -59,17 +60,61 @@ namespace App.Editor
             EditorGUI.EndProperty();
         }
 
+        private void RenderBackgroundColor(DataSelector target, Rect position, SerializedProperty property, GUIContent label)
+        {
+            if (target.GenericType == null || target.SelectedType == null)
+            {
+                return;
+            }
+
+            Color backgroundColor;
+            backgroundColor = target.GenericType == target.SelectedType ? Color.green : Color.red;
+
+            var texture = MakeTex(500, (int)GetPropertyHeight(property, label), backgroundColor);
+            var rect = new Rect(position.x, position.y, texture.width, texture.height);
+
+            var style = new GUIStyle();
+            style.normal.background = texture;
+            EditorGUI.LabelField(rect, GUIContent.none, style);
+        }
+
+        private Texture2D MakeTex(int width, int height, Color col)
+        {
+            Color[] pix = new Color[width * height];
+
+            for (int i = 0; i < pix.Length; i++)
+                pix[i] = col;
+
+            Texture2D result = new Texture2D(width, height);
+            result.SetPixels(pix);
+            result.Apply();
+
+            return result;
+        }
+
+        protected void FillBackgroundTexture(Texture2D texture)
+        {
+            
+            var fillColor = Color.green;
+            var fillColorArray = texture.GetPixels();
+
+            for (var i = 0; i < fillColorArray.Length; ++i)
+            {
+                fillColorArray[i] = fillColor;
+            }
+
+            texture.SetPixels(fillColorArray);
+
+            texture.Apply();
+        }
+
         protected void RenderSelector(Rect position, SerializedProperty property, DataSelector target)
         {
             var sourceRect = new Rect(position.x, position.y + 18, 500, 16);
             var componentsRect = new Rect(position.x, position.y + 36, 500, 16);
             var attributesRect = new Rect(position.x, position.y + 54, 500, 16);
 
-
-            //EditorGUI.PropertyField(keyRect, property.FindPropertyRelative("key"));
             EditorGUI.PropertyField(sourceRect, property.FindPropertyRelative("source"));
-
-            //target.source = EditorGUI.ObjectField(sourceRect, "Source", target.source, typeof(object), true);
 
             if (target.source == null)
             {
@@ -96,7 +141,6 @@ namespace App.Editor
             {
                 return;
             }
-
 
             var segments = new List<string>();
             using (var enumerator = target.PathSegments.GetEnumerator())
