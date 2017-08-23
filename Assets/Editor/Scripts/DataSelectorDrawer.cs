@@ -135,7 +135,7 @@ namespace App.Editor
 
             var newIndex = EditorGUI.Popup(rect, index, attributes.ToArray());
 
-            return newIndex == 0 ? null : attributes[newIndex];
+            return newIndex <= 0 ? null : attributes[newIndex];
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
