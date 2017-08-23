@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using App.Extensions;
 using App.UI.Text.Templates;
+using ModestTree;
 using UnityEngine;
 
 namespace App.UI.Data
@@ -93,22 +94,21 @@ namespace App.UI.Data
                 source = gameObject.GetComponent(selectedComponentName);
             }
             
-            object currentObject = source;
+            Type currentType = source.GetType();
 
             foreach (var pathSegment in pathSegments)
             {
-                var currentType = currentObject.GetType();
                 var field = currentType.GetField(pathSegment);
                 if (field != null)
                 {
-                    currentObject = field.GetValue(currentObject);
+                    currentType = field.FieldType;
                     continue;
                 }
 
                 var property = currentType.GetProperty(pathSegment);
                 if (property != null)
                 {
-                    currentObject = property.GetValue(currentObject, null);
+                    currentType = property.PropertyType;
                     continue;
                 }
 
@@ -116,8 +116,7 @@ namespace App.UI.Data
             }
 
             // Get list of fields and properties on current object.
-            var type = currentObject.GetType();
-            var attributeNames = type.GetFields().Where(f =>
+            var attributeNames = currentType.GetFields().Where(f =>
             {
                 if (!f.IsPublic) return false;
 
@@ -125,7 +124,7 @@ namespace App.UI.Data
                 return !attributes.OfType<ObsoleteAttribute>().Any();
             }).Select(f => f.Name).ToList();
 
-            attributeNames.AddRange(type.GetProperties().Where(p =>
+            attributeNames.AddRange(currentType.GetProperties().Where(p =>
                 {
                     if (!p.CanRead || !p.GetGetMethod(true).IsPublic) return false;
 
