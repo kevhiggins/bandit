@@ -140,7 +140,11 @@ namespace App.Editor
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return 100;
+            var target = GetTarget(property);
+            if (target == null)
+                return 100;
+
+            return 100 + target.PathSegments.Count * 18;
         }
     }
 }
