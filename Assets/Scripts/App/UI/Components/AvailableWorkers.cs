@@ -11,8 +11,9 @@ using Object = UnityEngine.Object;
 
 public class AvailableWorkers : MonoBehaviour
 {
-    public List<AbstractWorker> startingWorkers;
+    public List<BanditWorkerSettings> startingWorkers;
     public WorkerInfo workerInfo;
+    public AbstractWorker worker;
     public bool HasSelected {
         get { return currentSelected != null; }
     }
@@ -32,13 +33,13 @@ public class AvailableWorkers : MonoBehaviour
         var infoGameObject = workerInfo.gameObject;
         infoGameObject.SetActive(false);
 
-        foreach (var worker in startingWorkers)
+        foreach (var workerSetting in startingWorkers)
         {
             var instance = Object.Instantiate(infoGameObject, gameObject.transform);
             
             var info = instance.GetComponent<WorkerInfo>();
             workerInfos.Add(info);
-            info.Configure(worker, this, eventDirector);
+            info.Configure(worker, workerSetting, this, eventDirector);
             instance.SetActive(true);
         }
         infoGameObject.SetActive(true);

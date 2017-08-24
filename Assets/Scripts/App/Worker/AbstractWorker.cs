@@ -8,9 +8,7 @@ namespace App.Worker
 {
     public class AbstractWorker : MonoBehaviour
     {
-        public string workerName;
-        public int stamina = 5;
-        public GameObject portrait;
+        public BanditWorkerSettings workerSettings;
 
         public UnityEvent onPlacement = new UnityEvent();
         public UnityEvent onReclaimation = new UnityEvent();

@@ -42,11 +42,12 @@ namespace App.UI.Components
             }
         }
 
-        public void Configure(AbstractWorker worker, AvailableWorkers availableWorkers, EventDirector eventDirector)
+        public void Configure(AbstractWorker worker, BanditWorkerSettings workerSetting, AvailableWorkers availableWorkers, EventDirector eventDirector)
         {
             this.eventDirector = eventDirector;
             worker.gameObject.SetActive(false);
             Worker = Instantiate(worker);
+            worker.workerSettings = workerSetting;
             worker.gameObject.SetActive(true);
             Worker.Init(eventDirector);
 
@@ -61,7 +62,6 @@ namespace App.UI.Components
             });
 
             this.availableWorkers = availableWorkers;
-            Instantiate(worker.portrait, portrait.transform);
         }
 
         public void SignalSelection()
