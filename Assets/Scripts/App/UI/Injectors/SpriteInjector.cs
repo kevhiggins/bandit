@@ -1,7 +1,7 @@
 ﻿using App.UI.Data;
 using UnityEngine;
 
-namespace App.UI.Sprite
+namespace App.UI.Injectors
 {
     public class SpriteInjector : MonoBehaviour
     {

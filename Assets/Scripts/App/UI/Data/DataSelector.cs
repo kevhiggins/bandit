@@ -154,6 +154,10 @@ namespace App.UI.Data
         {
             // If source is a game object, get the selected component.
             var target = GetTarget();
+            if (target == null)
+            {
+                return null;
+            }
 
             var currentType = target.GetType();
 

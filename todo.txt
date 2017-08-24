@@ -1,4 +1,6 @@
-Fix issue where BanditWorker.Location throws an error in SpriteInjector
+Give visual feedback that the selected data is the correct type
+Add the types next to the members on the DataSelector dropdowns.
+
 
 Create a serialiazable object that takes an Object OR a GameObject, and displays a series of dropdowns to select attributes until a leaf property is found.
 	Use that property for TemplateInjector AND for SpriteInjector
