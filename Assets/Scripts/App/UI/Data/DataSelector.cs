@@ -85,6 +85,7 @@ namespace App.UI.Data
         public Type GetTypeAtPath(List<string> path)
         {
             // If source is a game object, get the selected component.
+            var target = source;
             var gameObject = SourceGameObject;
             if (gameObject != null)
             {
@@ -92,10 +93,10 @@ namespace App.UI.Data
                 {
                     return null;
                 }
-                source = gameObject.GetComponent(selectedComponentName);
+                target = gameObject.GetComponent(selectedComponentName);
             }
 
-            var currentType = source.GetType();
+            var currentType = target.GetType();
 
             foreach (var pathSegment in path)
             {
