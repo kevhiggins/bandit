@@ -9,7 +9,25 @@ namespace App.UI.Data
     public class DataSelector
     {
         public virtual Type GenericType { get { return null; } }
+        public object Selected
+        {
+            get
+            {
+                object currentObject = GetTarget();
+                foreach (var segment in pathSegments)
+                {
+                    currentObject = GetMemberValue(currentObject, segment);
+
+                    if (currentObject == null)
+                    {
+                        throw new Exception(string.Format("Object with type {0} and memberName {1} has a null member value", currentObject.GetType().FullName, segment));
+                    }
+                }
+                return currentObject;
+            }
+        }
         public UnityEngine.Object source;
+
         public List<string> PathSegments {
             get { return pathSegments;  }
             set { pathSegments = value; }
@@ -82,39 +100,66 @@ namespace App.UI.Data
             return gameObject.GetComponent(selectedComponentName);
         }
 
+        public UnityEngine.Object GetTarget()
+        {
+            var target = source;
+            var gameObject = SourceGameObject;
+
+            if (gameObject == null) return target;
+
+            if (selectedComponentName == null)
+            {
+                return null;
+            }
+            target = gameObject.GetComponent(selectedComponentName);
+            return target;
+        }
+
+        protected Type GetMemberType(Type objectType, string memberName)
+        {
+            var field = objectType.GetField(memberName);
+            if (field != null)
+            {
+                return field.FieldType;
+            }
+
+            var property = objectType.GetProperty(memberName);
+            if (property != null)
+            {
+                return property.PropertyType;
+            }
+            throw new Exception(string.Format("Object type {0} with member name {1} does not have a corresponding type.", objectType.FullName, memberName));
+        }
+
+        protected object GetMemberValue(object obj, string memberName)
+        {
+            var objType = obj.GetType();
+            var field = objType.GetField(memberName);
+            object value = null;
+            if (field != null)
+            {
+                value = field.GetValue(obj);
+            }
+
+            var property = objType.GetProperty(memberName);
+            if (property != null)
+            {
+                value = property.GetValue(obj, null);
+            }
+
+            return value;
+        }
+
         public Type GetTypeAtPath(List<string> path)
         {
             // If source is a game object, get the selected component.
-            var target = source;
-            var gameObject = SourceGameObject;
-            if (gameObject != null)
-            {
-                if (selectedComponentName == null)
-                {
-                    return null;
-                }
-                target = gameObject.GetComponent(selectedComponentName);
-            }
+            var target = GetTarget();
 
             var currentType = target.GetType();
 
             foreach (var pathSegment in path)
             {
-                var field = currentType.GetField(pathSegment);
-                if (field != null)
-                {
-                    currentType = field.FieldType;
-                    continue;
-                }
-
-                var property = currentType.GetProperty(pathSegment);
-                if (property != null)
-                {
-                    currentType = property.PropertyType;
-                    continue;
-                }
-
-                throw new Exception(string.Format("Path segment with name {0} does not have a corresponding type.", pathSegment));
+                currentType = GetMemberType(currentType, pathSegment);
             }
 
             return currentType;
