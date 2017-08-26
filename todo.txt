@@ -1,3 +1,29 @@
+Add a function to DataSelector to register a callback that provides the selected value, and allows setting it however is needed.
+When registration occurs, iterate over the object path and subscribe to all observables. (Keep a record of all subscriptions)
+When a subscription is triggered, call the registered callback(s) and dispose of all previous subscriptions. Crawl the paths again and resubscribe to any events
+
+
+Job TODO:
+
+PLACEMENT:
+XImplement a player object with a gold amount
+XAdd infamy to player
+Alter bandit construction to reveal attributes that are initialized by the bandit settings
+Alter template injector (Or data selector?!!) to watch for updates to the selected object and it's parents?
+
+Change bandit assignment to use job icons
+Don't allow assignment unless the bandit/player are qualified for the job cost.
+Clicking the job should decrement the cost from the bandit and player.
+Reclaiming the bandit should return the cost of the job to the player/bandit
+
+SIMULATION/REWARD:
+
+
+Implement Cost
+
+Thing about highlight node problem that Joe proposed.
+Find out why jobs not working in second node
+
 Give visual feedback that the selected data is the correct type
 Add the types next to the members on the DataSelector dropdowns.
 
