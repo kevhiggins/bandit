@@ -11,6 +11,8 @@ namespace App.Installer
         public override void InstallBindings()
         {
             Container.Bind<TownManager>().AsSingle();
+            Container.Bind<Player>().AsSingle();
+
             Container.Bind<GlobalEventManager>().FromInstance(eventDirector.globalEvents);
             Container.Bind<EventDirector>().FromInstance(eventDirector);
             Container.Bind<AvailableWorkers>().FromInstance(availableWorkers);

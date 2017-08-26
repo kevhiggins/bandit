@@ -14,6 +14,8 @@ namespace App.Worker
         public UnityEvent onReclaimation = new UnityEvent();
         public UnityEvent onNotReclaimable = new UnityEvent();
 
+        public ReactiveX.ReactiveProperty<int> Stamina { get; private set; }
+
         private ReactiveProperty<AbstractLocation> location;
         public ReadOnlyReactiveProperty<AbstractLocation> Location { get; private set; }
         public bool IsReclaimable { get; private set; }
@@ -23,14 +25,18 @@ namespace App.Worker
 
         private IDisposable isSimulatingSubscription;
 
-        public void Init(EventDirector eventDirector)
+        public void Init(BanditWorkerSettings workerSettings, EventDirector eventDirector)
         {
             if (isInitialized)
                 return;
 
+            this.workerSettings = workerSettings;
             IsReclaimable = false;
             location = new ReactiveProperty<AbstractLocation>();
             Location = location.ToReadOnlyReactiveProperty();
+
+            Stamina = new ReactiveX.ReactiveProperty<int>(workerSettings.stamina);
+
             this.eventDirector = eventDirector;
 
             isInitialized = true;

@@ -47,9 +47,9 @@ namespace App.UI.Components
             this.eventDirector = eventDirector;
             worker.gameObject.SetActive(false);
             Worker = Instantiate(worker);
-            worker.workerSettings = workerSetting;
+
+            Worker.Init(workerSetting, eventDirector);
             worker.gameObject.SetActive(true);
-            Worker.Init(eventDirector);
 
             Worker.onPlacement.AsObservable().Subscribe(_ =>
             {
