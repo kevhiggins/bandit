@@ -9,6 +9,6 @@ namespace App.UI.Text.Templates
     {
         public string key;
 
-        public DataSelector sourceObject;
+        public DataSelector sourceObject = new DataSelector();
     }
 }

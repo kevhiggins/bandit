@@ -13,7 +13,7 @@ namespace App.Editor
             var path = prop.propertyPath.Replace(".Array.data[", "[");
             object obj = prop.serializedObject.targetObject;
             var elements = path.Split('.');
-            foreach (var element in elements.Take(elements.Length - 1))
+            foreach (var element in elements)
             {
                 if (element.Contains("["))
                 {

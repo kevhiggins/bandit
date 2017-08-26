@@ -12,8 +12,7 @@ namespace App.Editor
     {
         protected DataSelector GetTarget(SerializedProperty property)
         {
-            var value = (DataSelector)GetParent(property);
-            return null;
+            return GetParent(property) as DataSelector;
             /*
             var test = 5;
 
