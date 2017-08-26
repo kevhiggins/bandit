@@ -10,9 +10,8 @@ namespace App.Editor
     {
         public object GetParent(SerializedProperty prop)
         {
-            var path = prop.propertyPath.Replace(".Array.data[", "[");
+            var elements = GetPropertyPathSegments(prop);
             object obj = prop.serializedObject.targetObject;
-            var elements = path.Split('.');
             foreach (var element in elements)
             {
                 if (element.Contains("["))
@@ -27,6 +26,18 @@ namespace App.Editor
                 }
             }
             return obj;
+        }
+
+        public int GetNestingLevel(SerializedProperty prop)
+        {
+            var segments = GetPropertyPathSegments(prop);
+            return segments.Length - 1;
+        }
+
+        protected string[] GetPropertyPathSegments(SerializedProperty prop)
+        {
+            var path = prop.propertyPath.Replace(".Array.data[", "[");
+            return path.Split('.');
         }
 
         public object GetValue(object source, string name)

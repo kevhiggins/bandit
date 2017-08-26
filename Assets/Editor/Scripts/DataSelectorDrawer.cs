@@ -13,39 +13,6 @@ namespace App.Editor
         protected DataSelector GetTarget(SerializedProperty property)
         {
             return GetParent(property) as DataSelector;
-            /*
-            var test = 5;
-
-            var targetProperty = property.serializedObject.FindProperty(property.propertyPath);
-
-            var value = fieldInfo.GetValue(property.serializedObject.targetObject);
-
-        //    property.serializedObject.
-            
-            if (value is DataSelector)
-            {
-                return (DataSelector)value;
-            }
-
-            if (!(value is List<DataSelector>))
-            {
-                return null;
-            }
-
-            var obj = ((List<DataSelector>)fieldInfo.GetValue(property.serializedObject.targetObject)).ToArray();
-            DataSelector target = null;
-            if (obj.GetType().IsArray)
-            {
-                var index = Convert.ToInt32(new string(property.propertyPath.Where(c => char.IsDigit(c)).ToArray()));
-
-                if (index >= obj.Length)
-                {
-                    return null;
-                }
-                target = obj[index];
-            }
-            return target;
-            */
         }
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
@@ -54,6 +21,8 @@ namespace App.Editor
             if (target == null)
                 return;
 
+            var level = GetNestingLevel(property);
+
             EditorGUI.BeginProperty(position, label, property);
 
             RenderBackgroundColor(target, position, property, label);
@@ -61,7 +30,8 @@ namespace App.Editor
             EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
 
             var indent = EditorGUI.indentLevel;
-            EditorGUI.indentLevel = 1;
+            var indentPerNestedListLevel = 2;
+            EditorGUI.indentLevel = 1 + level * indentPerNestedListLevel;
 
             RenderSelector(position, property, target);
 
