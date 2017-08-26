@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Antlr4.StringTemplate;
 using App.Jobs;
+using App.UI.Data;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,8 +17,10 @@ namespace App.UI.Text.Templates
         public char delimiterStartChar = '<';
         public char delimiterStopChar = '>';
 
-        public List<TemplateGameObjectSettings> gameObjects = new List<TemplateGameObjectSettings>();
         public List<TemplateObjectSettings> objects = new List<TemplateObjectSettings>();
+
+       // public List<TemplateGameObjectSettings> gameObjects = new List<TemplateGameObjectSettings>();
+       // public List<TemplateObjectSettings> objects = new List<TemplateObjectSettings>();
 
         // TODO allow support for UniRx ReactiveProperty
 
@@ -29,6 +32,37 @@ namespace App.UI.Text.Templates
             text = new TextAdapter(gameObject);
             templateRenderer = new Template(template, delimiterStartChar, delimiterStopChar);
 
+            foreach (var objectSetting in objects)
+            {
+                if (string.IsNullOrEmpty(objectSetting.key))
+                {
+                    continue;
+                }
+
+                //var objectProvider = component as ObjectProvider;
+                //if (objectProvider != null)
+                //{
+                //    var o = templateGameObject;
+                //    templateRenderer.Add(templateGameObject.key, objectProvider.Selected);
+                //    objectProvider.PropertyChanged += (sender, args) =>
+                //    {
+                //        templateRenderer.Remove(o.key);
+                //        templateRenderer.Add(o.key, objectProvider.Selected);
+                //        Render();
+                //    };
+                //}
+                //else
+                //{
+                //    templateRenderer.Add(templateGameObject.key, component);
+                //}
+
+                objectSetting.sourceObject.RegisterSelectionCallback(() =>
+                {
+
+                });
+            }
+
+            /*
             foreach (var templateGameObject in gameObjects)
             {
                 var component = templateGameObject.GetComponent();
@@ -59,8 +93,9 @@ namespace App.UI.Text.Templates
             {
                 templateRenderer.Add(templateObject.key, templateObject.sourceObject);
             }
+            */
 
-            Render();
+       //     Render();
         }
 
         protected void Render()

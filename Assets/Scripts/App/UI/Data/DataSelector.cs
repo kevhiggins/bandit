@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using App.ReactiveX;
 using UnityEngine;
 
 namespace App.UI.Data
@@ -13,19 +14,29 @@ namespace App.UI.Data
         {
             get
             {
+                return SelectionPathIterator.Last();
+            }
+        }
+
+        protected IEnumerable<object> SelectionPathIterator
+        {
+            get
+            {
                 object currentObject = GetTarget();
+                yield return currentObject;
                 foreach (var segment in pathSegments)
                 {
                     currentObject = GetMemberValue(currentObject, segment);
+                    yield return currentObject;
 
                     if (currentObject == null)
                     {
                         throw new Exception(string.Format("Object with type {0} and memberName {1} has a null member value", currentObject.GetType().FullName, segment));
                     }
                 }
-                return currentObject;
             }
         }
+
         public UnityEngine.Object source;
 
         public List<string> PathSegments {
@@ -55,6 +66,8 @@ namespace App.UI.Data
         [SerializeField]
         [HideInInspector]
         private List<string> pathSegments = new List<string>();
+
+        private Action selectionCallback;
 
         public int ComponentIndex
         {
@@ -113,6 +126,27 @@ namespace App.UI.Data
             }
             target = gameObject.GetComponent(selectedComponentName);
             return target;
+        }
+
+        protected void WatchObservables()
+        {
+            foreach(var currentObject in SelectionPathIterator)
+            {
+                var observable = currentObject as IObservable;
+                if (observable != null)
+                {
+                    observable.Subscribe(test =>
+                    {
+                        Debug.Log("HI");
+                    });
+                }
+            }
+        }
+
+        public void RegisterSelectionCallback(Action callback)
+        {
+            selectionCallback = callback;
+            callback();
         }
 
         protected Type GetMemberType(Type objectType, string memberName)

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace App.Editor
 {
-    [CustomPropertyDrawer(typeof(TemplateGameObjectSettings))]
+    //[CustomPropertyDrawer(typeof(TemplateGameObjectSettings))]
     public class TemplateObjectSettingsDrawer : PropertyDrawer
     { 
         private TemplateGameObjectSettings templateGameObjectSettings;

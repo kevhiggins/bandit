@@ -8,11 +8,21 @@ using UnityEngine;
 namespace App.Editor
 {
     [CustomPropertyDrawer(typeof(DataSelector), true)]
-    public class DataSelectorDrawer : PropertyDrawer
+    public class DataSelectorDrawer : BasePropertyDrawer
     {
         protected DataSelector GetTarget(SerializedProperty property)
         {
+            var value = (DataSelector)GetParent(property);
+            return null;
+            /*
+            var test = 5;
+
+            var targetProperty = property.serializedObject.FindProperty(property.propertyPath);
+
             var value = fieldInfo.GetValue(property.serializedObject.targetObject);
+
+        //    property.serializedObject.
+            
             if (value is DataSelector)
             {
                 return (DataSelector)value;
@@ -36,6 +46,7 @@ namespace App.Editor
                 target = obj[index];
             }
             return target;
+            */
         }
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)

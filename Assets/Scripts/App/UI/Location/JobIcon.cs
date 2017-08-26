@@ -36,14 +36,14 @@ namespace App.UI.Location
 
         void OnMouseEnter()
         {
-            highlightedJobProvider.Selected = job;
+            highlightedJobProvider.Selected.Value = job;
             onMouseEnter.Invoke();
             globalEventManager.onJobIconMouseEnter.Invoke();
         }
 
         void OnMouseExit()
         {
-            highlightedJobProvider.Selected = null;
+            highlightedJobProvider.Selected.Value = null;
             onMouseExit.Invoke();
             globalEventManager.onJobIconMouseExit.Invoke();
         }
