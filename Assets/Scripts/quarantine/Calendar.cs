@@ -16,7 +16,7 @@ public class Calendar : MonoBehaviour {
 	[SerializeField]
 	private string seasonText;
 	private int seasonCount = 0;
-	private string[] seasonName = {"spring","summer","fall","winter"};
+	private string[] seasonName = {"Spring","Summer","Fall","Winter"};
 
 	// Use this for initialization
 	void Start () {
