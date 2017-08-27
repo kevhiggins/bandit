@@ -31,7 +31,8 @@ namespace App.UI.Data
 
                     if (currentObject == null)
                     {
-                        throw new Exception(string.Format("Object with type {0} and memberName {1} has a null member value", currentObject.GetType().FullName, segment));
+                        yield return null;
+                        break;
                     }
                 }
             }
@@ -59,6 +60,10 @@ namespace App.UI.Data
             }
         }
 
+        protected event Action SelectionChange;
+
+        private bool isWatchingObservables = false;
+
         [SerializeField]
         [HideInInspector]
         private string selectedComponentName;
@@ -67,7 +72,7 @@ namespace App.UI.Data
         [HideInInspector]
         private List<string> pathSegments = new List<string>();
 
-        private Action selectionCallback;
+        private List<IDisposable> subscriptions = new List<IDisposable>();
 
         public int ComponentIndex
         {
@@ -84,6 +89,11 @@ namespace App.UI.Data
                 var componentNames = GetComponentNames();
                 selectedComponentName = value == 0 ? null : componentNames[value - 1];
             }
+        }
+
+        public DataSelector()
+        {
+            SelectionChange += WatchObservables;
         }
 
         public List<string> GetComponentNames()
@@ -130,22 +140,42 @@ namespace App.UI.Data
 
         protected void WatchObservables()
         {
+            DisposeSubscriptions();
             foreach(var currentObject in SelectionPathIterator)
             {
                 var observable = currentObject as IObservable;
                 if (observable != null)
                 {
-                    observable.Subscribe(test =>
+                    var subscription = observable.SkipN(1).Subscribe(() =>
                     {
-                        Debug.Log("HI");
+                        if (SelectionChange != null)
+                        {
+                            SelectionChange();
+                        }
                     });
+                    subscriptions.Add(subscription);
                 }
             }
         }
 
-        public void RegisterSelectionCallback(Action callback)
+        protected void DisposeSubscriptions()
         {
-            selectionCallback = callback;
+            foreach (var subscription in subscriptions)
+            {
+                subscription.Dispose();
+            }
+            subscriptions.Clear();
+        }
+
+        public void  RegisterSelectionCallback(Action callback)
+        {
+            if (!isWatchingObservables)
+            {
+                WatchObservables();
+                isWatchingObservables = true;
+            }
+
+            SelectionChange += callback;
             callback();
         }
 

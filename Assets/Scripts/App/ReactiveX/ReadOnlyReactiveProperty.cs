@@ -25,5 +25,15 @@ namespace App.ReactiveX
         {
             return Subscribe((IObserver<T>)observer);
         }
+
+        public IDisposable Subscribe(Action onNext)
+        {
+            return Subscribe(Observer.Create<T>(v => { onNext(); }));
+        }
+
+        public IObservable SkipN(int count)
+        {
+            return new ObservableAdapter<T>(this.Skip(count));
+        }
     }
 }

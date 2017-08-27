@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using Antlr4.StringTemplate;
-using App.Jobs;
-using App.UI.Data;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace App.UI.Text.Templates
 {
@@ -18,11 +13,6 @@ namespace App.UI.Text.Templates
         public char delimiterStopChar = '>';
 
         public List<TemplateObjectSettings> objects = new List<TemplateObjectSettings>();
-
-       // public List<TemplateGameObjectSettings> gameObjects = new List<TemplateGameObjectSettings>();
-       // public List<TemplateObjectSettings> objects = new List<TemplateObjectSettings>();
-
-        // TODO allow support for UniRx ReactiveProperty
 
         private IText text;
         private Template templateRenderer;
@@ -39,63 +29,25 @@ namespace App.UI.Text.Templates
                     continue;
                 }
 
-                //var objectProvider = component as ObjectProvider;
-                //if (objectProvider != null)
-                //{
-                //    var o = templateGameObject;
-                //    templateRenderer.Add(templateGameObject.key, objectProvider.Selected);
-                //    objectProvider.PropertyChanged += (sender, args) =>
-                //    {
-                //        templateRenderer.Remove(o.key);
-                //        templateRenderer.Add(o.key, objectProvider.Selected);
-                //        Render();
-                //    };
-                //}
-                //else
-                //{
-                //    templateRenderer.Add(templateGameObject.key, component);
-                //}
-
+                var setting = objectSetting;
                 objectSetting.sourceObject.RegisterSelectionCallback(() =>
                 {
+                    var attributes = templateRenderer.GetAttributes();
+                    var attributeExists = attributes != null && attributes.ContainsKey(setting.key);
+                    if (attributeExists)
+                    {
+                        templateRenderer.Remove(setting.key);
+                    }
+                    templateRenderer.Add(setting.key, setting.sourceObject.Selected);
 
+                    // If we just changed an existing attribute, then re-render the template.
+                    if (attributeExists)
+                    {
+                        Render();
+                    }
                 });
             }
-
-            /*
-            foreach (var templateGameObject in gameObjects)
-            {
-                var component = templateGameObject.GetComponent();
-                if (string.IsNullOrEmpty(templateGameObject.key))
-                {
-                    continue;
-                }
-
-                var objectProvider = component as ObjectProvider;
-                if (objectProvider != null)
-                {
-                    var o = templateGameObject;
-                    templateRenderer.Add(templateGameObject.key, objectProvider.Selected);
-                    objectProvider.PropertyChanged += (sender, args) =>
-                    {
-                        templateRenderer.Remove(o.key);
-                        templateRenderer.Add(o.key, objectProvider.Selected);
-                        Render();
-                    };
-                }
-                else
-                {
-                    templateRenderer.Add(templateGameObject.key, component);
-                }
-            }
-
-            foreach (var templateObject in objects)
-            {
-                templateRenderer.Add(templateObject.key, templateObject.sourceObject);
-            }
-            */
-
-       //     Render();
+            Render();
         }
 
         protected void Render()
