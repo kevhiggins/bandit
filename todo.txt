@@ -1,12 +1,4 @@
-Changing iterator to return null may have broke shit.
-
-Finish changes to TemplateInjector, and make sure the Job info box works
-Use a generic DataSelector with JobProvider
-Change JobProvider to be a Resource instead of a Prefab
-
-Add a function to DataSelector to register a callback that provides the selected value, and allows setting it however is needed.
-When registration occurs, iterate over the object path and subscribe to all observables. (Keep a record of all subscriptions)
-When a subscription is triggered, call the registered callback(s) and dispose of all previous subscriptions. Crawl the paths again and resubscribe to any events
+Add validation to template injectors so that it will throw an exception if an attribute isn't registered
 
 
 Job TODO:
@@ -14,8 +6,8 @@ Job TODO:
 PLACEMENT:
 XImplement a player object with a gold amount
 XAdd infamy to player
-Alter bandit construction to reveal attributes that are initialized by the bandit settings
-Alter template injector (Or data selector?!!) to watch for updates to the selected object and it's parents?
+XAlter bandit construction to reveal attributes that are initialized by the bandit settings
+XAlter template injector (Or data selector?!!) to watch for updates to the selected object and it's parents?
 
 Change bandit assignment to use job icons
 Don't allow assignment unless the bandit/player are qualified for the job cost.
