@@ -51,8 +51,6 @@ namespace App.UI.Components
             Worker.Init(workerSetting, eventDirector);
             worker.gameObject.SetActive(true);
 
-            Worker.Stamina.Value = 2;
-
             Worker.onPlacement.AsObservable().Subscribe(_ =>
             {
                 onPlacement.Invoke();
