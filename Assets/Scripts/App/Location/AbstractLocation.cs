@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using App.Jobs;
+using App.UI.Events;
 using App.UI.Location;
 using App.Worker;
 using UniRx;
@@ -13,7 +14,7 @@ using Object = UnityEngine.Object;
 namespace App.Location
 {
     [RequireComponent(typeof(CircleCollider2D))]
-    public class AbstractLocation : MonoBehaviour
+    public class AbstractLocation : AppMonoBehavior
     {
         public UnityEvent onAssignable = new UnityEvent();
         public UnityEvent onUnassignable = new UnityEvent();
@@ -32,6 +33,7 @@ namespace App.Location
 
         private LocationJobIcons.Factory locationJobIconsFactory;
         private LocationJobIcons jobIcons;
+        private JobSettings job;
         
         [Inject]
         public void Construct(LocationJobIcons.Factory locationJobIconsFactory, AvailableWorkers availableWorkers)
@@ -42,15 +44,7 @@ namespace App.Location
 
         void Awake()
         {
-
-
-            // right click happened
-            // Mouse is over the current game object
-            // We have a frame with a right click followed by a frame without a right click down
-
-            var rightClickOverStream = RightClickOverStream();
-
-            rightClickOverStream.Where(isClickOver => isClickOver).Subscribe(value =>
+            RightClickOverStream().Where(isClickOver => isClickOver).Subscribe(value =>
             {
                 if (worker == null)
                     return;
@@ -62,22 +56,23 @@ namespace App.Location
             });
         }
 
-        void OnMouseUpAsButton()
+        public void AssignSelectedWorker(JobSettings job)
         {
             if (!isAssignable || worker != null)
             {
                 return;
             }
 
-            availableWorkers.AssignWorker(this);
+            availableWorkers.AssignWorker(this, job);
         }
 
-        public void PlaceWorker(AbstractWorker worker)
+        public void PlaceWorker(AbstractWorker worker, JobSettings job)
         {
             worker.transform.parent = transform;
             worker.gameObject.SetActive(true);
             worker.transform.localPosition = Vector3.zero;
             this.worker = worker;
+            this.job = job;
             onWorkerPlacement.Invoke();
         }
 
@@ -85,6 +80,7 @@ namespace App.Location
         {
             worker.gameObject.SetActive(false);
             worker = null;
+            job = null;
             onWorkerReclaimed.Invoke();
             if (availableWorkers.HasSelected)
             {
@@ -111,7 +107,7 @@ namespace App.Location
                 return jobIcons;
             }
 
-            jobIcons = locationJobIconsFactory.Create(transform);
+            jobIcons = locationJobIconsFactory.Create(this);
 
             // For each configured job, assign a job settings to a job icon
             if (jobs.Count > jobIcons.jobIcons.Count)
@@ -136,28 +132,6 @@ namespace App.Location
             var icons = GetJobIcons();
             icons.gameObject.SetActive(false);
             isAssignable = false;
-        }
-
-        protected IObservable<bool> RightClickOverStream()
-        {
-            // Stream of the current state of the right mouse button each frame update.
-            var rightMouseStream = Observable.EveryUpdate()
-                .Select(_ => Input.GetKey(KeyCode.Mouse1));
-
-            // Only be true on right mouse up after down.
-            var rightMouseUpStream = rightMouseStream.Pairwise((prev, current) => prev && !current);
-
-
-            // Streams a true value when the mouse enters the location.
-            var mouseEnterStream = this.OnMouseEnterAsObservable().Select(_ => true);
-
-            // Streams a false value when the mouse exists the location
-            var mouseExitStream = this.OnMouseExitAsObservable().Select(_ => false);
-
-            // Streams boolean values for whehter or not the mouse is over this location.
-            var mouseOverStream = mouseEnterStream.Merge(mouseExitStream);
-
-            return mouseOverStream.CombineLatest(rightMouseUpStream.DistinctUntilChanged(), (isMouseOver, isMouseUp) => isMouseOver && isMouseUp).DistinctUntilChanged();
         }
     }
 }

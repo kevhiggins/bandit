@@ -1,3 +1,13 @@
+--- Assign workers to jobs
+Remove ability to assign workers by clicking AbstractLocation
+Add ability to click a job to assign a worker. The selected Job should be stored on the location along with the worker, and removed when the worker is removed.
+Don't allow selecting job if the selected worker doesn't meet the requirements.
+Create events for JobIcon.OnAssignable etc., so that we can grey out a job that isn't selectable.
+Assigning worker should decrement the cost from the bandit/player accordingly
+Reclaiming the bandit should return the cost of the job to the player/bandit
+
+
+WishList:
 Add validation to template injectors so that it will throw an exception if an attribute isn't registered
 
 

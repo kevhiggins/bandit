@@ -16,6 +16,8 @@ namespace App.Installer
             Container.Bind<GlobalEventManager>().FromInstance(eventDirector.globalEvents);
             Container.Bind<EventDirector>().FromInstance(eventDirector);
             Container.Bind<AvailableWorkers>().FromInstance(availableWorkers);
+
+            Container.Bind<InputManager>().AsSingle();
         }
     }
 }

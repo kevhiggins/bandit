@@ -1,4 +1,5 @@
 ﻿using System;
+using App.Jobs;
 using UnityEngine;
 using App.Location;
 using UniRx;
@@ -42,7 +43,7 @@ namespace App.Worker
             isInitialized = true;
         }
 
-        public void PlaceWorker(AbstractLocation location)
+        public void PlaceWorker(AbstractLocation location, JobSettings job)
         {
             IsReclaimable = true;
 
@@ -54,7 +55,7 @@ namespace App.Worker
             });
 
             this.location.Value = location;
-            location.PlaceWorker(this);
+            location.PlaceWorker(this, job);
             onPlacement.Invoke();
         }
 

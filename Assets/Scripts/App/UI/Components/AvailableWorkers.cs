@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using App;
+using App.Jobs;
 using App.Location;
 using App.UI.Components;
 using App.Worker;
@@ -72,14 +73,14 @@ public class AvailableWorkers : MonoBehaviour
         }
     }
 
-    public void AssignWorker(AbstractLocation location)
+    public void AssignWorker(AbstractLocation location, JobSettings job)
     {
         if (currentSelected == null)
         {
             throw new Exception("No worker selected.");
         }
 
-        currentSelected.Worker.PlaceWorker(location);
+        currentSelected.Worker.PlaceWorker(location, job);
         Deselect();
     }
 

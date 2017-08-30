@@ -1,6 +1,7 @@
 ﻿using App.Jobs;
 using App.UI.Events;
 using App.UI.Text.Templates;
+using UniRx;
 using UnityEngine;
 using UnityEngine.Events;
 using Zenject;
@@ -8,14 +9,16 @@ using Zenject;
 namespace App.UI.Location
 {
     [RequireComponent(typeof(SpriteRenderer))]
-    public class JobIcon : MonoBehaviour
+    public class JobIcon : AppMonoBehavior
     {
         public UnityEvent onMouseEnter = new UnityEvent();
         public UnityEvent onMouseExit = new UnityEvent();
+        public LocationJobIcons locationJobIcons;
 
         private JobSettings job;
         private ObjectProvider highlightedJobProvider;
         private GlobalEventManager globalEventManager;
+        private bool isMouseOver = false;
 
         [Inject]
         public void Construct(
@@ -34,14 +37,34 @@ namespace App.UI.Location
             spriteRenderer.sprite = job.icon;
         }
 
+        void OnMouseUpAsButton()
+        {
+            locationJobIcons.location.AssignSelectedWorker(job);
+        }
+
         void OnMouseEnter()
         {
+            isMouseOver = true;
             highlightedJobProvider.Selected.Value = job;
             onMouseEnter.Invoke();
             globalEventManager.onJobIconMouseEnter.Invoke();
         }
 
         void OnMouseExit()
+        {
+            MouseExit();
+            isMouseOver = false;
+        }
+
+        void OnDisable()
+        {
+            if (isMouseOver)
+            {
+                MouseExit();
+            }
+        }
+
+        protected void MouseExit()
         {
             highlightedJobProvider.Selected.Value = null;
             onMouseExit.Invoke();
