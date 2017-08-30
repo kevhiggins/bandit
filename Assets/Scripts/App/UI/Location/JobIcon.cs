@@ -13,28 +13,35 @@ namespace App.UI.Location
     {
         public UnityEvent onMouseEnter = new UnityEvent();
         public UnityEvent onMouseExit = new UnityEvent();
+
+        public UnityEvent onSelectable = new UnityEvent();
+        public UnityEvent onUnselectable = new UnityEvent();
+
         public LocationJobIcons locationJobIcons;
 
-        private JobSettings job;
+        private Job job;
         private ObjectProvider highlightedJobProvider;
         private GlobalEventManager globalEventManager;
+        private AvailableWorkers availableWorkers;
         private bool isMouseOver = false;
 
         [Inject]
         public void Construct(
             [Inject(Id="HighlightedJobProvider")]
             ObjectProvider highlightedJobProvider,
-            GlobalEventManager globalEventManager)
+            GlobalEventManager globalEventManager,
+            AvailableWorkers availableWorkers)
         {
             this.highlightedJobProvider = highlightedJobProvider;
             this.globalEventManager = globalEventManager;
+            this.availableWorkers = availableWorkers;
         }
 
-        public void ConfigureJob(JobSettings job)
+        public void ConfigureJob(Job job)
         {
             this.job = job;
             var spriteRenderer = GetComponent<SpriteRenderer>();
-            spriteRenderer.sprite = job.icon;
+            spriteRenderer.sprite = job.Settings.icon;
         }
 
         void OnMouseUpAsButton()
@@ -45,7 +52,7 @@ namespace App.UI.Location
         void OnMouseEnter()
         {
             isMouseOver = true;
-            highlightedJobProvider.Selected.Value = job;
+            highlightedJobProvider.Selected.Value = job.Settings;
             onMouseEnter.Invoke();
             globalEventManager.onJobIconMouseEnter.Invoke();
         }
@@ -54,6 +61,14 @@ namespace App.UI.Location
         {
             MouseExit();
             isMouseOver = false;
+        }
+
+        void OnEnable()
+        {
+            //availableWorkers.worker
+            
+            // Add method to JobSettings that takes a worker and checks if it is valid;
+
         }
 
         void OnDisable()

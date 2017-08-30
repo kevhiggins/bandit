@@ -73,7 +73,7 @@ public class AvailableWorkers : MonoBehaviour
         }
     }
 
-    public void AssignWorker(AbstractLocation location, JobSettings job)
+    public void AssignWorker(AbstractLocation location, Job job)
     {
         if (currentSelected == null)
         {

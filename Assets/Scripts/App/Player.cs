@@ -1,14 +1,16 @@
-﻿namespace App
+﻿using App.ReactiveX;
+
+namespace App
 {
     public class Player
     {
-        public int Gold { get; private set; }
-        public int Infamy { get; private set; }
+        public ReactiveProperty<int> Gold { get; private set; }
+        public ReactiveProperty<int> Infamy { get; private set; }
 
         public Player()
         {
-            Gold = 0;
-            Infamy = 0;
+            Gold = new ReactiveProperty<int>(0);
+            Infamy = new ReactiveProperty<int>(0);
         }
     }
 }

@@ -2,14 +2,11 @@
 using UnityEngine;
 using System.Collections.Generic;
 using App.Jobs;
-using App.UI.Events;
 using App.UI.Location;
 using App.Worker;
 using UniRx;
-using UniRx.Triggers;
 using UnityEngine.Events;
 using Zenject;
-using Object = UnityEngine.Object;
 
 namespace App.Location
 {
@@ -23,6 +20,7 @@ namespace App.Location
         public UnityEvent onWorkerReclaimed = new UnityEvent();
 
         public List<JobSettings> jobs = new List<JobSettings>();
+        public List<Job> Jobs { get; private set; }
 
         public bool HasWorker { get { return worker != null;  } }
 
@@ -33,7 +31,7 @@ namespace App.Location
 
         private LocationJobIcons.Factory locationJobIconsFactory;
         private LocationJobIcons jobIcons;
-        private JobSettings job;
+        private Job job;
         
         [Inject]
         public void Construct(LocationJobIcons.Factory locationJobIconsFactory, AvailableWorkers availableWorkers)
@@ -54,9 +52,15 @@ namespace App.Location
                     worker.ReclaimWorker();
                 }
             });
+
+            Jobs = new List<Job>();
+            foreach (var jobSetting in jobs)
+            {
+                Jobs.Add(new Job(jobSetting));
+            }
         }
 
-        public void AssignSelectedWorker(JobSettings job)
+        public void AssignSelectedWorker(Job job)
         {
             if (!isAssignable || worker != null)
             {
@@ -66,7 +70,7 @@ namespace App.Location
             availableWorkers.AssignWorker(this, job);
         }
 
-        public void PlaceWorker(AbstractWorker worker, JobSettings job)
+        public void PlaceWorker(AbstractWorker worker, Job job)
         {
             worker.transform.parent = transform;
             worker.gameObject.SetActive(true);
@@ -110,16 +114,16 @@ namespace App.Location
             jobIcons = locationJobIconsFactory.Create(this);
 
             // For each configured job, assign a job settings to a job icon
-            if (jobs.Count > jobIcons.jobIcons.Count)
+            if (Jobs.Count > jobIcons.jobIcons.Count)
             {
                 throw new Exception(String.Format("Location with name {0} has {1} assigned jobs, when the max allowed Jobs anchors is {2}", name, jobs.Count, jobIcons.jobIcons.Count));
             }
 
             var count = 0;
-            foreach(var jobSetting in jobs)
+            foreach(var job in Jobs)
             {
                 var jobIcon = jobIcons.jobIcons[count];
-                jobIcon.ConfigureJob(jobSetting);
+                jobIcon.ConfigureJob(job);
                 count++;
             }
 

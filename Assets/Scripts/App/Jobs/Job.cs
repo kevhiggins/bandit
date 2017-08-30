@@ -1,17 +1,22 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using App.Worker;
 
 namespace App.Jobs
 {
-    [RequireComponent(typeof(Collider2D))]
-    public class Job : MonoBehaviour
+    public class Job
     {
-        public JobSettings jobSettings;
+        public JobSettings Settings { get; private set; }
 
-        // IsWorkerAssignable ???
-            // Worker, PlayerResources
-        //
-        
-        // Create Job manager class?
+        public Job(JobSettings settings)
+        {
+            Settings = settings;
+        }
+
+        public bool RequirementsMet(Player player, AbstractWorker worker)
+        {
+            var cost = Settings.cost;
+            return worker.Stamina.Value >= cost.stamina
+                   && player.Gold.Value >= cost.gold
+                   && player.Infamy.Value >= cost.infamy;
+        }
     }
 }

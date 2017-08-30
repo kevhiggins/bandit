@@ -43,7 +43,7 @@ namespace App.Worker
             isInitialized = true;
         }
 
-        public void PlaceWorker(AbstractLocation location, JobSettings job)
+        public void PlaceWorker(AbstractLocation location, Job job)
         {
             IsReclaimable = true;
 
