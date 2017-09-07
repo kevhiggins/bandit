@@ -34,7 +34,8 @@ Find out why jobs not working in second node
 Give visual feedback that the selected data is the correct type
 
 
-Update HighlightedJobProvider to be like PlayerProvider
+-Update HighlightedJobProvider to be like PlayerProvider
+-Fix the JobIcons/JobIcon prefabs to only have a one JobIcon prefab instead of three
 
 
 NEXT UP
