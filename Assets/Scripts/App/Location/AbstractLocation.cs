@@ -32,12 +32,14 @@ namespace App.Location
         private LocationJobIcons.Factory locationJobIconsFactory;
         private LocationJobIcons jobIcons;
         private Job job;
+        private Player player;
         
         [Inject]
-        public void Construct(LocationJobIcons.Factory locationJobIconsFactory, AvailableWorkers availableWorkers)
+        public void Construct(LocationJobIcons.Factory locationJobIconsFactory, AvailableWorkers availableWorkers, Player player)
         {
             this.locationJobIconsFactory = locationJobIconsFactory;
             this.availableWorkers = availableWorkers;
+            this.player = player;
         }
 
         void Awake()
@@ -77,14 +79,19 @@ namespace App.Location
             worker.transform.localPosition = Vector3.zero;
             this.worker = worker;
             this.job = job;
+            job.TakeCost(player, worker);
+
             onWorkerPlacement.Invoke();
         }
 
         public void ReclaimWorker()
         {
             worker.gameObject.SetActive(false);
+            job.GiveCost(player, worker);
+
             worker = null;
-            job = null;
+            job = null;            
+
             onWorkerReclaimed.Invoke();
             if (availableWorkers.HasSelected)
             {

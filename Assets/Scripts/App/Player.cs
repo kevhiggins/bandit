@@ -9,8 +9,8 @@ namespace App
 
         public Player()
         {
-            Gold = new ReactiveProperty<int>(0);
-            Infamy = new ReactiveProperty<int>(0);
+            Gold = new ReactiveProperty<int>(5);
+            Infamy = new ReactiveProperty<int>(2);
         }
     }
 }

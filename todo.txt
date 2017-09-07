@@ -1,13 +1,11 @@
 --- Assign workers to jobs
 X-Remove ability to assign workers by clicking AbstractLocation
 X-Add ability to click a job to assign a worker. The selected Job should be stored on the location along with the worker, and removed when the worker is removed.
-
-
-Don't allow selecting job if the selected worker doesn't meet the requirements.
-Create events for JobIcon.OnAssignable etc., so that we can grey out a job that isn't selectable.
-Assigning worker should decrement the cost from the bandit/player accordingly
-Reclaiming the bandit should return the cost of the job to the player/bandit
-
+X-Create events for JobIcon.OnAssignable etc., so that we can grey out a job that isn't selectable.
+X-Assigning worker should decrement the cost from the bandit/player accordingly
+X-Don't allow selecting job if the selected worker doesn't meet the requirements.
+X-Reclaiming the bandit should return the cost of the job to the player/bandit
+X-Add Gold/Infamy Counters, and start with a certain amount?
 
 WishList:
 Add validation to template injectors so that it will throw an exception if an attribute isn't registered
@@ -21,10 +19,10 @@ XAdd infamy to player
 XAlter bandit construction to reveal attributes that are initialized by the bandit settings
 XAlter template injector (Or data selector?!!) to watch for updates to the selected object and it's parents?
 
-Change bandit assignment to use job icons
-Don't allow assignment unless the bandit/player are qualified for the job cost.
-Clicking the job should decrement the cost from the bandit and player.
-Reclaiming the bandit should return the cost of the job to the player/bandit
+XChange bandit assignment to use job icons
+XDon't allow assignment unless the bandit/player are qualified for the job cost.
+XClicking the job should decrement the cost from the bandit and player.
+XReclaiming the bandit should return the cost of the job to the player/bandit
 
 SIMULATION/REWARD:
 
@@ -33,8 +31,17 @@ Implement Cost
 
 Thing about highlight node problem that Joe proposed.
 Find out why jobs not working in second node
-
 Give visual feedback that the selected data is the correct type
+
+
+
+
+
+NEXT UP
+
+IMPLEMENT SIMULATION/REWARD portion
+
+
 Add the types next to the members on the DataSelector dropdowns.
 
 

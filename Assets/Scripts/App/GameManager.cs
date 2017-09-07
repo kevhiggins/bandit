@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using App.Graph;
 using App.UI;
+using App.UI.Providers;
 using App.Unit;
 using App.Worker;
 using UnityEngine;
+using Zenject;
 using Object = UnityEngine.Object;
 
 namespace App
@@ -34,6 +36,12 @@ namespace App
                 score = value;
                 GameValueRegistry.Instance.SetRegistryValue("total_gold", score.ToString());
             }
+        }
+
+        [Inject]
+        public void Construct(Player player, PlayerProvider playerProvider)
+        {
+            playerProvider.Selected.Value = player;
         }
 
         public TownManager TownManager { get; private set; }

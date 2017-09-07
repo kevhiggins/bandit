@@ -19,40 +19,49 @@ namespace App.UI.Location
 
         public LocationJobIcons locationJobIcons;
 
-        private Job job;
+        public Job Job { get; private set; }
+
         private ObjectProvider highlightedJobProvider;
         private GlobalEventManager globalEventManager;
         private AvailableWorkers availableWorkers;
         private bool isMouseOver = false;
+        private Player player;
+
+        private bool isSelectable = false;
 
         [Inject]
         public void Construct(
             [Inject(Id="HighlightedJobProvider")]
             ObjectProvider highlightedJobProvider,
             GlobalEventManager globalEventManager,
-            AvailableWorkers availableWorkers)
+            AvailableWorkers availableWorkers,
+            Player player)
         {
             this.highlightedJobProvider = highlightedJobProvider;
             this.globalEventManager = globalEventManager;
             this.availableWorkers = availableWorkers;
+            this.player = player;
         }
 
         public void ConfigureJob(Job job)
         {
-            this.job = job;
+            Job = job;
             var spriteRenderer = GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = job.Settings.icon;
         }
 
         void OnMouseUpAsButton()
         {
-            locationJobIcons.location.AssignSelectedWorker(job);
+            if (!isSelectable)
+                return;
+
+            locationJobIcons.location.AssignSelectedWorker(Job);
         }
 
         void OnMouseEnter()
         {
             isMouseOver = true;
-            highlightedJobProvider.Selected.Value = job.Settings;
+            highlightedJobProvider.Selected.Value = Job.Settings;
             onMouseEnter.Invoke();
             globalEventManager.onJobIconMouseEnter.Invoke();
         }
@@ -65,10 +74,22 @@ namespace App.UI.Location
 
         void OnEnable()
         {
-            //availableWorkers.worker
-            
-            // Add method to JobSettings that takes a worker and checks if it is valid;
+            if (Job == null)
+            {
+                gameObject.SetActive(false);
+                return;
+            }
 
+            isSelectable = Job.RequirementsMet(player, availableWorkers.SelectedWorker);
+
+            if (isSelectable)
+            {
+                onSelectable.Invoke();
+            }
+            else
+            {
+                onUnselectable.Invoke();
+            }
         }
 
         void OnDisable()

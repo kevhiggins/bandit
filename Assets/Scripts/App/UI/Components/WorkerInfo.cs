@@ -42,14 +42,14 @@ namespace App.UI.Components
             }
         }
 
-        public void Configure(AbstractWorker worker, BanditWorkerSettings workerSetting, AvailableWorkers availableWorkers, EventDirector eventDirector)
+        public void Configure(AbstractWorker workerPrefab, BanditWorkerSettings workerSetting, AvailableWorkers availableWorkers, EventDirector eventDirector)
         {
             this.eventDirector = eventDirector;
-            worker.gameObject.SetActive(false);
-            Worker = Instantiate(worker);
+            workerPrefab.gameObject.SetActive(false);
+            Worker = Instantiate(workerPrefab);
 
             Worker.Init(workerSetting, eventDirector);
-            worker.gameObject.SetActive(true);
+            workerPrefab.gameObject.SetActive(true);
 
             Worker.onPlacement.AsObservable().Subscribe(_ =>
             {
@@ -66,7 +66,7 @@ namespace App.UI.Components
 
         public void SignalSelection()
         {
-            // Prevent selection if worker is already assigned to location.
+            // Prevent selection if workerPrefab is already assigned to location.
             if (Worker.Location.Value != null)
             {
                 return;

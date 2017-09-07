@@ -18,5 +18,21 @@ namespace App.Jobs
                    && player.Gold.Value >= cost.gold
                    && player.Infamy.Value >= cost.infamy;
         }
+
+        public void TakeCost(Player player, AbstractWorker worker)
+        {
+            var cost = Settings.cost;
+            worker.Stamina.Value -= cost.stamina;
+            player.Gold.Value -= cost.gold;
+            player.Infamy.Value -= cost.infamy;
+        }
+
+        public void GiveCost(Player player, AbstractWorker worker)
+        {
+            var cost = Settings.cost;
+            worker.Stamina.Value += cost.stamina;
+            player.Gold.Value += cost.gold;
+            player.Infamy.Value += cost.infamy;
+        }
     }
 }

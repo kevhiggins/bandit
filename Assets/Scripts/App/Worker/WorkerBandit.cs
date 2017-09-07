@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using App.Jobs;
+﻿using App.Jobs;
 
 namespace App.Worker
 {

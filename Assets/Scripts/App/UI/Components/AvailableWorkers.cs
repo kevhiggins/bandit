@@ -15,8 +15,17 @@ public class AvailableWorkers : MonoBehaviour
     public List<BanditWorkerSettings> startingWorkers;
     public WorkerInfo workerInfo;
     public AbstractWorker worker;
+
+
     public bool HasSelected {
         get { return currentSelected != null; }
+    }
+
+    public AbstractWorker SelectedWorker {
+        get
+        {
+            return currentSelected == null ? null : currentSelected.Worker;
+        }
     }
 
     private List<WorkerInfo> workerInfos = new List<WorkerInfo>();
@@ -36,7 +45,7 @@ public class AvailableWorkers : MonoBehaviour
 
         foreach (var workerSetting in startingWorkers)
         {
-            var instance = Object.Instantiate(infoGameObject, gameObject.transform);
+            var instance = Instantiate(infoGameObject, gameObject.transform);
             
             var info = instance.GetComponent<WorkerInfo>();
             workerInfos.Add(info);
@@ -118,8 +127,8 @@ public class AvailableWorkers : MonoBehaviour
 
     protected void Select(WorkerInfo workerInfo)
     {
-        InvokeAssignableLocations(workerInfo);
         currentSelected = workerInfo;
         currentSelected.Select();
+        InvokeAssignableLocations(workerInfo);
     }
 }
