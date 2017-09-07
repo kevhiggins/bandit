@@ -34,7 +34,7 @@ Find out why jobs not working in second node
 Give visual feedback that the selected data is the correct type
 
 
-
+Update HighlightedJobProvider to be like PlayerProvider
 
 
 NEXT UP
