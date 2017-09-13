@@ -16,6 +16,10 @@ namespace App.Installer
         {
             Container.Bind<LocationJobIcons>().FromInstance(prefabSettings.locationJobIcons);
             Container.Bind<LocationJobIcons.Factory>().AsSingle();
+
+            Container.Bind<JobIcon>().FromInstance(prefabSettings.jobIcon);
+            Container.Bind<JobIcon.Factory>().AsSingle();
+
             Container.Bind<ObjectProvider>().WithId("HighlightedJobProvider").FromInstance(prefabSettings.highlightedJobProvider);
         }
 
@@ -23,6 +27,7 @@ namespace App.Installer
         public class PrefabSettings
         {
             public LocationJobIcons locationJobIcons;
+            public JobIcon jobIcon;
             public ObjectProvider highlightedJobProvider;
         }
     }

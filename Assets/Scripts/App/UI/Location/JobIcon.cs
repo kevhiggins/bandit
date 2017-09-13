@@ -1,14 +1,13 @@
 ﻿using App.Jobs;
 using App.UI.Events;
 using App.UI.Text.Templates;
-using UniRx;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 using Zenject;
 
 namespace App.UI.Location
 {
-    [RequireComponent(typeof(SpriteRenderer))]
     public class JobIcon : AppMonoBehavior
     {
         public UnityEvent onMouseEnter = new UnityEvent();
@@ -17,7 +16,7 @@ namespace App.UI.Location
         public UnityEvent onSelectable = new UnityEvent();
         public UnityEvent onUnselectable = new UnityEvent();
 
-        public LocationJobIcons locationJobIcons;
+        private LocationJobIcons locationJobIcons;
 
         public Job Job { get; private set; }
 
@@ -43,11 +42,10 @@ namespace App.UI.Location
             this.player = player;
         }
 
-        public void ConfigureJob(Job job)
+        public void Configure(LocationJobIcons jobIcons, Job job)
         {
             Job = job;
-            var spriteRenderer = GetComponent<SpriteRenderer>();
-            spriteRenderer.sprite = job.Settings.icon;
+            locationJobIcons = jobIcons;
         }
 
         void OnMouseUpAsButton()
@@ -105,6 +103,28 @@ namespace App.UI.Location
             highlightedJobProvider.Selected.Value = null;
             onMouseExit.Invoke();
             globalEventManager.onJobIconMouseExit.Invoke();
+        }
+
+        public class Factory
+        {
+            private DiContainer container;
+            private JobIcon jobIconPrefab;
+
+            public Factory(DiContainer container, JobIcon jobIconPrefab)
+            {
+                this.container = container;
+                this.jobIconPrefab = jobIconPrefab;
+            }
+
+            public JobIcon Create(LocationJobIcons jobIcons, Job job)
+            {
+                jobIconPrefab.gameObject.SetActive(false);
+                var result = container.InstantiatePrefabForComponent<JobIcon>(jobIconPrefab, jobIcons.transform);
+                result.Configure(jobIcons, job);
+                result.gameObject.SetActive(true);
+                jobIconPrefab.gameObject.SetActive(true);
+                return result;
+            }
         }
     }
 }

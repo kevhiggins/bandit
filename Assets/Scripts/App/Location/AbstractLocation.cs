@@ -118,21 +118,7 @@ namespace App.Location
                 return jobIcons;
             }
 
-            jobIcons = locationJobIconsFactory.Create(this);
-
-            // For each configured job, assign a job settings to a job icon
-            if (Jobs.Count > jobIcons.jobIcons.Count)
-            {
-                throw new Exception(String.Format("Location with name {0} has {1} assigned jobs, when the max allowed Jobs anchors is {2}", name, jobs.Count, jobIcons.jobIcons.Count));
-            }
-
-            var count = 0;
-            foreach(var job in Jobs)
-            {
-                var jobIcon = jobIcons.jobIcons[count];
-                jobIcon.ConfigureJob(job);
-                count++;
-            }
+            jobIcons = locationJobIconsFactory.Create(this, Jobs);
 
             return jobIcons;
         }
