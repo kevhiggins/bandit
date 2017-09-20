@@ -1,4 +1,6 @@
-﻿using App.UI.Events;
+﻿using App.Jobs;
+using App.UI.Events;
+using App.Worker;
 using Zenject;
 
 namespace App.Installer
@@ -18,6 +20,8 @@ namespace App.Installer
             Container.Bind<AvailableWorkers>().FromInstance(availableWorkers);
 
             Container.Bind<InputManager>().AsSingle();
+
+            Container.BindFactory<Job, AbstractWorker, JobAssignment, JobAssignment.Factory>();
         }
     }
 }

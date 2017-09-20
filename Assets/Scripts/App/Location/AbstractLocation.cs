@@ -18,6 +18,8 @@ namespace App.Location
         public UnityEvent onWorkerPlacement = new UnityEvent();
         public UnityEvent onWorkerReclaimed = new UnityEvent();
 
+        public UnityEvent onWorkerJobComplete = new UnityEvent();
+
         public List<JobSettings> jobs = new List<JobSettings>();
         public List<Job> Jobs { get; private set; }
 
@@ -30,13 +32,15 @@ namespace App.Location
         private LocationJobIcons jobIcons;
         private Player player;
         private JobAssignment jobAssignment;
+        private JobAssignment.Factory jobAssignmentFactory;
         
         [Inject]
-        public void Construct(LocationJobIcons.Factory locationJobIconsFactory, AvailableWorkers availableWorkers, Player player)
+        public void Construct(LocationJobIcons.Factory locationJobIconsFactory, AvailableWorkers availableWorkers, Player player, JobAssignment.Factory jobAssignmentFactory)
         {
             this.locationJobIconsFactory = locationJobIconsFactory;
             this.availableWorkers = availableWorkers;
             this.player = player;
+            this.jobAssignmentFactory = jobAssignmentFactory;
         }
 
         void Awake()
@@ -75,7 +79,7 @@ namespace App.Location
             worker.gameObject.SetActive(true);
             worker.transform.localPosition = Vector3.zero;
 
-            jobAssignment = new JobAssignment(job, worker);
+            jobAssignment = jobAssignmentFactory.Create(job, worker);
 
             job.TakeCost(player, worker);
 
@@ -84,12 +88,23 @@ namespace App.Location
 
         public void ReclaimWorker()
         {
-            jobAssignment.Worker.gameObject.SetActive(false);
             jobAssignment.Job.GiveCost(player, jobAssignment.Worker);
+            RemoveWorker();
+            onWorkerReclaimed.Invoke();
+        }
 
+        public void CompleteJobAssignment()
+        {
+            RemoveWorker();
+            onWorkerJobComplete.Invoke();
+        }
+
+        private void RemoveWorker()
+        {
+            jobAssignment.Worker.gameObject.SetActive(false);
+            jobAssignment.Dispose();
             jobAssignment = null;
 
-            onWorkerReclaimed.Invoke();
             if (availableWorkers.HasSelected)
             {
                 EnableAssignment();

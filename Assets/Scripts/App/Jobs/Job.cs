@@ -34,5 +34,19 @@ namespace App.Jobs
             player.Gold.Value += cost.gold;
             player.Infamy.Value += cost.infamy;
         }
+
+        public void GiveReward(Player player, AbstractWorker worker)
+        {
+            var reward = Settings.reward;
+            worker.Stamina.Value += reward.stamina;
+            player.Gold.Value += reward.gold;
+            player.Infamy.Value += reward.infamy;
+        }
+
+        public void GivePerTurnReward(Player player, AbstractWorker worker)
+        {
+            var reward = Settings.reward;
+            player.Gold.Value += reward.goldPerTurn;
+        }
     }
 }

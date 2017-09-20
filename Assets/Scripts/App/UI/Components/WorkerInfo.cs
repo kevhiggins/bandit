@@ -10,14 +10,13 @@ namespace App.UI.Components
     {
         private AvailableWorkers availableWorkers;
         private bool isSelected = false;
-        private EventDirector eventDirector;
 
         public AbstractWorker Worker { get; private set; }
 
         public UnityEvent onSelected = new UnityEvent();
         public UnityEvent onDeselected = new UnityEvent();
         public UnityEvent onPlacement = new UnityEvent();
-        public UnityEvent onReclaimation = new UnityEvent();
+        public UnityEvent onReturn = new UnityEvent();
 
         public Button button;
         public GameObject portrait;
@@ -44,7 +43,6 @@ namespace App.UI.Components
 
         public void Configure(AbstractWorker workerPrefab, BanditWorkerSettings workerSetting, AvailableWorkers availableWorkers, EventDirector eventDirector)
         {
-            this.eventDirector = eventDirector;
             workerPrefab.gameObject.SetActive(false);
             Worker = Instantiate(workerPrefab);
 
@@ -56,9 +54,13 @@ namespace App.UI.Components
                 onPlacement.Invoke();
             });
 
-            Worker.onReclaimation.AsObservable().Subscribe(_ =>
+            var onReclamation = Worker.onReclaimation.AsObservable();
+            var onJobComplete = Worker.onJobAssignmentComplete.AsObservable();
+            var onBanditReturned = onReclamation.Merge(onJobComplete);
+
+            onBanditReturned.Subscribe(_ =>
             {
-                onReclaimation.Invoke();
+                onReturn.Invoke();
             });
 
             this.availableWorkers = availableWorkers;
@@ -88,11 +90,6 @@ namespace App.UI.Components
         public void DoPlacement()
         {
             onPlacement.Invoke();
-        }
-
-        public void DoReclaimation()
-        {
-            onReclaimation.Invoke();
         }
 
         void Start()

@@ -15,6 +15,8 @@ namespace App.Worker
         public UnityEvent onReclaimation = new UnityEvent();
         public UnityEvent onNotReclaimable = new UnityEvent();
 
+        public UnityEvent onJobAssignmentComplete = new UnityEvent();
+
         public ReactiveX.ReactiveProperty<int> Stamina { get; private set; }
 
         private ReactiveProperty<AbstractLocation> location;
@@ -64,14 +66,32 @@ namespace App.Worker
             if (!IsReclaimable)
                 throw new Exception("Cannot reclaim worker.");
 
+            location.Value.ReclaimWorker();
+            RemoveFromLocation();
+
+            onReclaimation.Invoke();
+        }
+
+        public void CompleteJobAssignment()
+        {
+            if (Location.Value == null)
+            {
+                throw new Exception("Cannot complete assignment when bandit is not assigned to a location.");
+            }
+
+            location.Value.CompleteJobAssignment();
+            RemoveFromLocation();
+
+            onJobAssignmentComplete.Invoke();
+        }
+
+        private void RemoveFromLocation()
+        {
             if (isSimulatingSubscription != null)
             {
                 isSimulatingSubscription.Dispose();
             }
-
-            location.Value.ReclaimWorker();
             location.Value = null;
-            onReclaimation.Invoke();
         }
     }
 }

@@ -1,8 +1,8 @@
-1. Game talks to eash Location and tells them a turn has passed
-2. Locations talk to their JobAssignments and increment the number of turns
-3. Locations as JobAssignments if they are complete.
-4. If the job assignment is complete, the locations tells it to award the player
-5. Afterwards, the worker is reclaimed if configured to do so (there is a setting to prevent reclaimation)
+X1. Game talks to eash Location and tells them a turn has passed
+X2. Locations talk to their JobAssignments and increment the number of turns
+X3. Locations as JobAssignments if they are complete.
+X4. If the job assignment is complete, the locations tells it to award the player
+X5. Afterwards, the worker is reclaimed if configured to do so (there is a setting to prevent reclaimation)
 
 Someday fix node editor to not be obtrusive while game is running.
 
