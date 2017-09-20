@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using App.Graph;
 using App.UI;
 using App.UI.Providers;
 using App.Unit;
-using App.Worker;
 using UnityEngine;
 using Zenject;
 using Object = UnityEngine.Object;

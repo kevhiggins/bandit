@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 using App.Jobs;
 using App.UI.Location;
@@ -22,17 +21,15 @@ namespace App.Location
         public List<JobSettings> jobs = new List<JobSettings>();
         public List<Job> Jobs { get; private set; }
 
-        public bool HasWorker { get { return worker != null;  } }
+        public bool HasWorker { get { return jobAssignment != null;  } }
 
         private bool isAssignable = false;
         private AvailableWorkers availableWorkers;
 
-        private AbstractWorker worker;
-
         private LocationJobIcons.Factory locationJobIconsFactory;
         private LocationJobIcons jobIcons;
-        private Job job;
         private Player player;
+        private JobAssignment jobAssignment;
         
         [Inject]
         public void Construct(LocationJobIcons.Factory locationJobIconsFactory, AvailableWorkers availableWorkers, Player player)
@@ -46,12 +43,12 @@ namespace App.Location
         {
             RightClickOverStream().Where(isClickOver => isClickOver).Subscribe(value =>
             {
-                if (worker == null)
+                if (jobAssignment == null)
                     return;
 
-                if (worker.IsReclaimable)
+                if (jobAssignment.Worker.IsReclaimable)
                 {
-                    worker.ReclaimWorker();
+                    jobAssignment.Worker.ReclaimWorker();
                 }
             });
 
@@ -64,7 +61,7 @@ namespace App.Location
 
         public void AssignSelectedWorker(Job job)
         {
-            if (!isAssignable || worker != null)
+            if (!isAssignable || jobAssignment != null)
             {
                 return;
             }
@@ -77,8 +74,9 @@ namespace App.Location
             worker.transform.parent = transform;
             worker.gameObject.SetActive(true);
             worker.transform.localPosition = Vector3.zero;
-            this.worker = worker;
-            this.job = job;
+
+            jobAssignment = new JobAssignment(job, worker);
+
             job.TakeCost(player, worker);
 
             onWorkerPlacement.Invoke();
@@ -86,11 +84,10 @@ namespace App.Location
 
         public void ReclaimWorker()
         {
-            worker.gameObject.SetActive(false);
-            job.GiveCost(player, worker);
+            jobAssignment.Worker.gameObject.SetActive(false);
+            jobAssignment.Job.GiveCost(player, jobAssignment.Worker);
 
-            worker = null;
-            job = null;            
+            jobAssignment = null;
 
             onWorkerReclaimed.Invoke();
             if (availableWorkers.HasSelected)

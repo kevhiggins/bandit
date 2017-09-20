@@ -1,21 +1,12 @@
+1. Game talks to eash Location and tells them a turn has passed
+2. Locations talk to their JobAssignments and increment the number of turns
+3. Locations as JobAssignments if they are complete.
+4. If the job assignment is complete, the locations tells it to award the player
+5. Afterwards, the worker is reclaimed if configured to do so (there is a setting to prevent reclaimation)
 
+Someday fix node editor to not be obtrusive while game is running.
 
-WishList:
-Add validation to template injectors so that it will throw an exception if an attribute isn't registered
-
-
-SIMULATION/REWARD:
-
-
-Implement Cost
-
--Update HighlightedJobProvider to be like PlayerProvider
--Fix the JobIcons/JobIcon prefabs to only have a one JobIcon prefab instead of three
-	-Move Job icons into layout group
--Clean up assets/ code in the near future
-
--Gold Chang script? Need to detect increment and decrement
-
+For locations with workers on them. At the end of the turn check to see if it's time for each job to end.
 
 NEXT UP
 
