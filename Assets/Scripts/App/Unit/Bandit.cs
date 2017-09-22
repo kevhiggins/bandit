@@ -70,7 +70,7 @@ namespace App.Unit
 
         protected void Rob(Traveler traveler)
         {
-            var goldReceieved = traveler.Robbed();
+            var goldReceieved = traveler.Robbed(true);
             totalGold += goldReceieved;
 
 

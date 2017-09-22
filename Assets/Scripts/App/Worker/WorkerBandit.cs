@@ -4,6 +4,5 @@ namespace App.Worker
 {
     public class WorkerBandit : AbstractWorker
     {
-        public BanditType type;
     }
 }

@@ -43,7 +43,7 @@ namespace App.Location
             this.jobAssignmentFactory = jobAssignmentFactory;
         }
 
-        void Awake()
+        protected override void Awake()
         {
             RightClickOverStream().Where(isClickOver => isClickOver).Subscribe(value =>
             {
@@ -61,6 +61,8 @@ namespace App.Location
             {
                 Jobs.Add(new Job(jobSetting));
             }
+
+            base.Awake();
         }
 
         public void AssignSelectedWorker(Job job)

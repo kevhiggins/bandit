@@ -33,10 +33,15 @@ namespace App.Unit
             }
         }
 
-        public int Robbed()
+        public int Robbed(bool despawn)
         {
             var gold = goldValue.ToString();
-            Despawn();
+
+            if (despawn)
+            {
+                Despawn();
+            }
+
             if (OnRobbed != null)
             {
                 OnRobbed.Invoke(gold);

@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using App.Unit;
 using App.Worker;
 using UniRx;
+using UniRx.Triggers;
+using UnityEngine;
 using Zenject;
 
 namespace App.Jobs
@@ -14,6 +18,7 @@ namespace App.Jobs
         private ReactiveX.ReactiveProperty<int> turnCount;
         private Player player;
         private readonly IDisposable simulateEndSubscription;
+        private List<IDisposable> subscriptions = new List<IDisposable>();
 
         public JobAssignment(Job job, AbstractWorker worker, EventDirector eventDirector, Player player)
         {
@@ -23,10 +28,30 @@ namespace App.Jobs
             turnCount = new ReactiveX.ReactiveProperty<int>(0);
             TurnCount = new ReactiveX.ReadOnlyReactiveProperty<int>(turnCount);
 
-            simulateEndSubscription = eventDirector.onSimulateEnd.AsObservable().Subscribe(_ =>
+            subscriptions.Add(eventDirector.onSimulateEnd.AsObservable().Subscribe(_ =>
             {
                 OnTurnEnd();
-            });
+            }));
+
+            subscriptions.Add(
+                worker.Location.Value.OnCollisionEnter2DAsObservable()
+                    .Subscribe(CheckTravelerCollision)
+            );
+        }
+
+        private void CheckTravelerCollision(Collision2D collision)
+        {
+            var traveler = collision.gameObject.GetComponent<Traveler>();
+            var collisionAction = Job.Settings.collisionAction;
+
+            if (traveler == null || !collisionAction.enabled)
+            {
+                return;
+            }
+
+            Job.GiveCollisionReward(player, Worker, traveler);
+
+            traveler.Robbed(collisionAction.killTraveler);
         }
 
         private void OnTurnEnd()
@@ -47,7 +72,10 @@ namespace App.Jobs
 
         public void Dispose()
         {
-            simulateEndSubscription.Dispose();
+            foreach (var subscription in subscriptions)
+            {
+                subscription.Dispose();
+            }
         }
 
         public class Factory : Factory<Job, AbstractWorker, JobAssignment>

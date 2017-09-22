@@ -43,6 +43,9 @@ namespace App
 
         protected IObservable<bool> MouseOverStream()
         {
+            if (mouseOverStream != null)
+                return mouseOverStream;
+
             // Streams a true value when the mouse enters the location.
             var mouseEnterStream = this.OnMouseEnterAsObservable().Select(_ => true);
 

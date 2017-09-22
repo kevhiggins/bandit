@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using App.Jobs;
+using UnityEngine;
 
 namespace App.Worker
 {
@@ -7,6 +8,7 @@ namespace App.Worker
     {
         public string workerName;
         public int stamina = 5;
+        public BanditType type;
         public BanditWorkerUISettings uiSettings;
     }
 }
